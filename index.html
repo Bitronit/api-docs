@@ -1,0 +1,2461 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta
+            name="description"
+            content="Documentation for the Bitronit API"
+        >
+    <title>API Reference</title>
+
+    <style media="screen">
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf, .highlight .fm {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv, .highlight .vm {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="stylesheets/screen-c9d8fa83.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-b12a2749.js"></script>
+
+  </head>
+
+  <body class="index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/Bitronit_Logo_210x70-81586373.png" class="logo" alt="" />
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#api-key-setup" class="toc-h2 toc-link" data-title="API Key Setup">API Key Setup</a>
+                  </li>
+                  <li>
+                    <a href="#api-key-restrictions" class="toc-h2 toc-link" data-title="API Key Restrictions">API Key Restrictions</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#general-info" class="toc-h1 toc-link" data-title="General Info">General Info</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#general-api-information" class="toc-h2 toc-link" data-title="General API Information">General API Information</a>
+                  </li>
+                  <li>
+                    <a href="#limits" class="toc-h2 toc-link" data-title="Limits">Limits</a>
+                  </li>
+                  <li>
+                    <a href="#authentication" class="toc-h2 toc-link" data-title="Authentication">Authentication</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#asset-endpoints" class="toc-h1 toc-link" data-title="Asset Endpoints">Asset Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-assets" class="toc-h2 toc-link" data-title="Get assets">Get assets</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-specific-asset" class="toc-h2 toc-link" data-title="Get a specific asset">Get a specific asset</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#candlestick-endpoints" class="toc-h1 toc-link" data-title="Candlestick Endpoints">Candlestick Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-candlesticks" class="toc-h2 toc-link" data-title="Get candlesticks">Get candlesticks</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#external-transaction-endpoints" class="toc-h1 toc-link" data-title="External Transaction Endpoints">External Transaction Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-users-deposit-history" class="toc-h2 toc-link" data-title="Get users deposit history">Get users deposit history</a>
+                  </li>
+                  <li>
+                    <a href="#get-users-deposit-history-count" class="toc-h2 toc-link" data-title="Get users deposit history count">Get users deposit history count</a>
+                  </li>
+                  <li>
+                    <a href="#get-users-withdraw-history" class="toc-h2 toc-link" data-title="Get users withdraw history">Get users withdraw history</a>
+                  </li>
+                  <li>
+                    <a href="#get-users-withdraw-history-count" class="toc-h2 toc-link" data-title="Get users withdraw history count">Get users withdraw history count</a>
+                  </li>
+                  <li>
+                    <a href="#initiate-withdraw" class="toc-h2 toc-link" data-title="Initiate withdraw">Initiate withdraw</a>
+                  </li>
+                  <li>
+                    <a href="#transfer-between-accounts" class="toc-h2 toc-link" data-title="Transfer between accounts">Transfer between accounts</a>
+                  </li>
+                  <li>
+                    <a href="#cancel-fiat-withdraw" class="toc-h2 toc-link" data-title="Cancel fiat withdraw">Cancel fiat withdraw</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#order-endpoints" class="toc-h1 toc-link" data-title="Order Endpoints">Order Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-users-orders" class="toc-h2 toc-link" data-title="Get users orders">Get users orders</a>
+                  </li>
+                  <li>
+                    <a href="#get-users-orders-count" class="toc-h2 toc-link" data-title="Get users orders count">Get users orders count</a>
+                  </li>
+                  <li>
+                    <a href="#create-order" class="toc-h2 toc-link" data-title="Create order">Create order</a>
+                  </li>
+                  <li>
+                    <a href="#get-order-detail-by-order-uuid" class="toc-h2 toc-link" data-title="Get order detail by order UUID">Get order detail by order UUID</a>
+                  </li>
+                  <li>
+                    <a href="#cancel-orders" class="toc-h2 toc-link" data-title="Cancel orders">Cancel orders</a>
+                  </li>
+                  <li>
+                    <a href="#cancel-order" class="toc-h2 toc-link" data-title="Cancel order">Cancel order</a>
+                  </li>
+                  <li>
+                    <a href="#get-scaled-order-data" class="toc-h2 toc-link" data-title="Get scaled order data">Get scaled order data</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#socket-endpoints" class="toc-h1 toc-link" data-title="Socket Endpoints">Socket Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-socket-key" class="toc-h2 toc-link" data-title="Create socket key">Create socket key</a>
+                  </li>
+                  <li>
+                    <a href="#delete-socket-key" class="toc-h2 toc-link" data-title="Delete socket key">Delete socket key</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#trading-pair-endpoints" class="toc-h1 toc-link" data-title="Trading Pair Endpoints">Trading Pair Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-trading-pairs" class="toc-h2 toc-link" data-title="Get trading pairs">Get trading pairs</a>
+                  </li>
+                  <li>
+                    <a href="#get-trading-pair-detail" class="toc-h2 toc-link" data-title="Get trading pair detail">Get trading pair detail</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#transaction-endpoints" class="toc-h1 toc-link" data-title="Transaction Endpoints">Transaction Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-transactions" class="toc-h2 toc-link" data-title="Get transactions">Get transactions</a>
+                  </li>
+                  <li>
+                    <a href="#get-users-transactions" class="toc-h2 toc-link" data-title="Get users transactions">Get users transactions</a>
+                  </li>
+                  <li>
+                    <a href="#get-users-transactions-count" class="toc-h2 toc-link" data-title="Get users transactions count">Get users transactions count</a>
+                  </li>
+                  <li>
+                    <a href="#get-users-daily-total-positions" class="toc-h2 toc-link" data-title="Get users daily total positions">Get users daily total positions</a>
+                  </li>
+                  <li>
+                    <a href="#get-users-daily-positions" class="toc-h2 toc-link" data-title="Get users daily positions">Get users daily positions</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#wallet-endpoints" class="toc-h1 toc-link" data-title="Wallet Endpoints">Wallet Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-address-for-wallet" class="toc-h2 toc-link" data-title="Create address for wallet">Create address for wallet</a>
+                  </li>
+                  <li>
+                    <a href="#get-wallet-by-asset-id" class="toc-h2 toc-link" data-title="Get wallet by asset id">Get wallet by asset id</a>
+                  </li>
+                  <li>
+                    <a href="#get-position-by-asset-id" class="toc-h2 toc-link" data-title="Get position by asset id">Get position by asset id</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='https://bitronit.com/tr/'>Bitronit Exchange</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1><h2 id='api-key-setup'>API Key Setup</h2>
+<ul>
+<li>Endpoints will require an API Key.</li>
+<li>Once API key is created, it is recommended to set IP restrictions on the key for security reasons.</li>
+<li><b> Never share your API key/secret key to ANYONE. </b></li>
+</ul>
+
+<aside class="warning">
+  If the API keys were accidentally shared, please delete them immediately and create a new key.
+</aside>
+<h2 id='api-key-restrictions'>API Key Restrictions</h2>
+<ul>
+<li>To enable withdrawals and trading via the API, the API key restriction needs to be modified through the Bitronit UI.</li>
+</ul>
+<h1 id='general-info'>General Info</h1><h2 id='general-api-information'>General API Information</h2>
+<ul>
+<li>The base endpoint is: <b> https://api.bitronit.com </b></li>
+<li>All endpoints successful requests returns either a JSON object or array.</li>
+<li>All time and timestamp related fields are in milliseconds.</li>
+</ul>
+<h3 id='error-codes-and-messages'>Error Codes and Messages</h3>
+<ul>
+<li>If there is an error, the API will return an error with a message of the reason.</li>
+</ul>
+<h3 id='general-information-on-endpoints'>General Information on Endpoints</h3>
+<ul>
+<li>For <code>GET</code> endpoints, parameters must be sent as a query string.</li>
+<li>For <code>POST</code>, <code>PUT</code>, and <code>DELETE</code> endpoints, the parameters may be sent as a query string or in the request body.</li>
+<li>Parameters may be sent in any order.</li>
+<li>You must send symbol parameter in <code>BTCTRY</code> format. </li>
+</ul>
+<h2 id='limits'>Limits</h2><h3 id='ip-limits'>IP Limits</h3>
+<ul>
+<li>Users can have at most 30 API-keys.</li>
+<li>An API-key can have at most 4 IP restrictions.</li>
+<li>IP&#39;s should be in public range. Private ranges are not allowed.</li>
+<li><b> The limits on the API are based on the IPs, not the API keys. </b></li>
+</ul>
+<h3 id='rate-limits'>Rate Limits</h3>
+<ul>
+<li>Hitting our rate limits will result in HTTP 429 errors.</li>
+</ul>
+<h2 id='authentication'>Authentication</h2>
+<ul>
+<li><p>For <code>SIGNED</code> requests, the following headers should be sent with the request:</p>
+
+<ul>
+<li><code>Authentication</code>: Your API key as bearer token</li>
+<li><code>Signature</code>: SHA256 HMAC of the query string concatenated with the request body, using your <code>API secret</code>, as a <code>Base64</code> string</li>
+</ul></li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Scope</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>PublicApi</td>
+<td>Basic scope</td>
+</tr>
+<tr>
+<td>Trade</td>
+<td>Authorized to give orders</td>
+</tr>
+<tr>
+<td>Withdraw</td>
+<td>Authorized to withdraw</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>All endpoints are <code>SIGNED</code> endpoints.</li>
+<li>The signature is not case-sensitive.</li>
+<li>API-keys and secret-keys <b> are case-sensitive. </b></li>
+</ul>
+<h3 id='signed-endpoint-examples'>Signed Endpoint Examples</h3>
+<p>Here are step-by-step examples of how to send a valid signed payload from the Linux command line using <code>echo</code>, <code>openssl</code>, and <code>curl</code>.</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>apiKey</td>
+<td>966304e1-9be0-4d79-a1b0-95d069a7bfaf</td>
+</tr>
+<tr>
+<td>secretKey</td>
+<td>c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p><strong>HMAC SHA256 signature:</strong></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"baseAssetId=5&amp;quoteAssetId=6&amp;scale=3"</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-hmac</span> <span class="s2">"c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d"</span>
+    <span class="o">(</span>stdin<span class="o">)=</span> yDyq8EkvBoOm+GKKxch4TwD6K0L0q5KaTNLVQv8F0rg<span class="o">=</span>
+</code></pre></div>
+<blockquote>
+<p><strong>curl command:</strong></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="o">(</span>HMAC SHA256<span class="o">)</span>
+<span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf"</span> <span class="nt">-H</span> <span class="s2">"Signature: yDyq8EkvBoOm+GKKxch4TwD6K0L0q5KaTNLVQv8F0rg="</span> <span class="nt">-X</span> GET <span class="s1">'https://api.bitronit.com/api/orders/group?baseAssetId=5&amp;quoteAssetId=6&amp;scale=3'</span>
+
+</code></pre></div>
+<p><strong>GET /orders/group</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>2</td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>7</td>
+</tr>
+<tr>
+<td>scale</td>
+<td>2</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>queryString:</li>
+</ul>
+
+<p>baseAssetId=5&amp;quoteAssetId=6&amp;scale=3</p>
+
+<p><strong>POST /users/{userId}/orders/cancel</strong></p>
+
+<blockquote>
+<p><strong>HMAC SHA256 signature:</strong></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s1">'{"priceBelow":12.5,"priceAbove":7.8,"operationDirection":"Buy","baseAssetId":3,"quoteAssetId":7}'</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-hmac</span> <span class="s2">"c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d"</span>
+    <span class="o">(</span>stdin<span class="o">)=</span> <span class="nv">xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ</span><span class="o">=</span>
+</code></pre></div>
+<blockquote>
+<p><strong>curl command:</strong></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="o">(</span>HMAC SHA256<span class="o">)</span>
+<span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf"</span> <span class="nt">-H</span> <span class="s2">"Signature: xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ="</span> <span class="nt">-X</span> POST <span class="s1">'https://api.bitronit.com/api/users/5/orders/cancel'</span> <span class="nt">-d</span> <span class="s1">'{"priceBelow":12.5,"priceAbove":7.8,"operationDirection":"Buy","baseAssetId":3,"quoteAssetId":7}'</span>
+
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>priceBelow</td>
+<td>12.5</td>
+</tr>
+<tr>
+<td>priceAbove</td>
+<td>7.8</td>
+</tr>
+<tr>
+<td>operationDirection</td>
+<td>Buy</td>
+</tr>
+<tr>
+<td>baseAssetId</td>
+<td>3</td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>7</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>requestBody:</li>
+</ul>
+
+<p>{&quot;priceBelow&quot;:12.5,&quot;priceAbove&quot;:7.8,&quot;operationDirection&quot;:&quot;Buy&quot;,&quot;baseAssetId&quot;:3,
+&quot;quoteAssetId&quot;:7}</p>
+<h1 id='asset-endpoints'>Asset Endpoints</h1><h2 id='get-assets'>Get assets</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /assets
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"fullName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"circulatingSupply"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"circulatingSupplyUpdateDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T12:54:04.030Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"displayOrder"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"fiat"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"precision"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Returns all assets.</p>
+<h3 id='required-scope'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-a-specific-asset'>Get a specific asset</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /assets/{ticker}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ticker"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fullName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"circulatingSupply"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"circulatingSupplyUpdateDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T12:54:04.030Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"displayOrder"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fiat"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"precision"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Returns the assets detail.</p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ticker</td>
+<td>Symbol of asset</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-2'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h1 id='candlestick-endpoints'>Candlestick Endpoints</h1><h2 id='get-candlesticks'>Get candlesticks</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">Limit, period calculation:
+  For 1 week candlestick data,
+  period = 240(4 hours),
+  limit = 42
+  42*4 = 168(1 week)
+
+GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;period={period}&amp;startTime={startTime}&amp;endTime={endTime}&amp;limit={limit}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="o">[</span>
+  <span class="o">[</span>baseAssetId, quoteAssetId, baseAsset, quoteAsset, opentime, open, high, low, close, volume, closetime],
+  <span class="o">[</span>Long, Long, String, String, Timestamp, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, TimeStamp],
+  <span class="o">[</span>1, 4, <span class="s2">"BTC"</span>, <span class="s2">"USDT"</span>, 1576669680000, 2, 2, 2, 2, 0, 1576669739999],
+  ...
+<span class="o">]</span>
+</code></pre></div>
+<p>Filter or limit the candlesticks with query parameters.</p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>true</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>true</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>period</td>
+<td>true</td>
+<td>Int</td>
+<td>Period of the candlestick in minutes.</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>limit</td>
+<td>false</td>
+<td>Int</td>
+<td>Maximum data number for candlestick.</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-3'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h1 id='external-transaction-endpoints'>External Transaction Endpoints</h1><h2 id='get-users-deposit-history'>Get users deposit history</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/deposits?assetId={assetId}&amp;fiat={fiat}&amp;page={page}&amp;size={size}&amp;sort={sort}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"externalTransactions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"transactionHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"transactionUUID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Waiting"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"confirmedBlockCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"statusUpdateDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:01:37.047Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"completeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:01:37.047Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"typicalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"fiat"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"senderIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"senderBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"receiverIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"receiverBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"statusMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Filter users deposit history with query parameters.</p>
+<h3 id='url-parameters-2'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>fiat</td>
+<td>false</td>
+<td>Boolean</td>
+<td></td>
+</tr>
+<tr>
+<td>page</td>
+<td>false</td>
+<td>Int</td>
+<td>Pagination</td>
+</tr>
+<tr>
+<td>size</td>
+<td>false</td>
+<td>Int</td>
+<td>Pagination</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>false</td>
+<td>String</td>
+<td>Pagination (e.g. <code>id,asc</code>)</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-4'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-users-deposit-history-count'>Get users deposit history count</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/deposits/count?assetId={assetId}&amp;fiat={fiat}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Count of filtered users deposit history with query parameters.</p>
+<h3 id='url-parameters-3'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-3'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>fiat</td>
+<td>false</td>
+<td>Boolean</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-5'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-users-withdraw-history'>Get users withdraw history</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/withdrawals?assetId={assetId}&amp;fiat={fiat}&amp;page={page}&amp;size={size}&amp;sort={sort}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"externalTransactions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"transactionHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"transactionUUID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Waiting"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"confirmedBlockCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"statusUpdateDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:09:53.609Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"completeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:09:53.609Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"typicalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"fiat"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"senderIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"senderBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"receiverIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"receiverBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"statusMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Filter users withdraw history with query parameters.</p>
+<h3 id='url-parameters-4'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-4'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>fiat</td>
+<td>false</td>
+<td>Boolean</td>
+<td></td>
+</tr>
+<tr>
+<td>page</td>
+<td>false</td>
+<td>Int</td>
+<td>Pagination</td>
+</tr>
+<tr>
+<td>size</td>
+<td>false</td>
+<td>Int</td>
+<td>Pagination</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>false</td>
+<td>String</td>
+<td>Pagination (e.g. id,asc)</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-6'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-users-withdraw-history-count'>Get users withdraw history count</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/withdrawals/count?assetId={assetId}&amp;fiat={fiat}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Count of filtered users withdraw history with query parameters.</p>
+<h3 id='url-parameters-5'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-5'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>fiat</td>
+<td>false</td>
+<td>Boolean</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-7'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='initiate-withdraw'>Initiate withdraw</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/withdrawals
+</span></code></pre></div><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"targetAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ibanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"transactionHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"transactionUUID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Waiting"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"confirmedBlockCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"statusUpdateDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:09:53.609Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"completeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:09:53.609Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"typicalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fiat"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"senderIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"senderBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"receiverIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"receiverBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"statusMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Initiate withdraw order from the given parameters. In crypto withdraws target address must be in whitelist.</p>
+<h3 id='url-parameters-6'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='body-parameters'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td>true</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>amount</td>
+<td>true</td>
+<td>BigDecimal</td>
+<td></td>
+</tr>
+<tr>
+<td>targetAddress</td>
+<td>false</td>
+<td>String</td>
+<td>Address you want to withdraw</td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>true</td>
+<td>UUID</td>
+<td>Created from client</td>
+</tr>
+<tr>
+<td>ibanId</td>
+<td>false</td>
+<td>Long</td>
+<td>IBAN you want to withdraw</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-8'>Required Scope</h3>
+<p><code>Withdraw</code></p>
+<h2 id='transfer-between-accounts'>Transfer between accounts</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/transfer
+</span></code></pre></div><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"targetUserId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DepositToTarget"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"withdrawRecord"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transactionHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transactionUUID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Waiting"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"confirmedBlockCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"statusUpdateDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:21:18.295Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"completeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:21:18.295Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"typicalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"fiat"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"senderIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"senderBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"receiverIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"receiverBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"statusMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"depositRecord"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transactionHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"transactionUUID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Waiting"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"confirmedBlockCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"statusUpdateDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:21:18.295Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"completeDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T14:21:18.295Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"typicalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"fiat"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"senderIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"senderBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"receiverIban"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"receiverBankName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"statusMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Transfer between sub-account and main accounts</p>
+<h3 id='url-parameters-7'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='body-parameters-2'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td>true</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>true</td>
+<td>UUID</td>
+<td>Created from client</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>true</td>
+<td>BigDecimal</td>
+<td></td>
+</tr>
+<tr>
+<td>targetUserId</td>
+<td>true</td>
+<td>Long</td>
+<td>User Id you want to transfer</td>
+</tr>
+<tr>
+<td>type</td>
+<td>true</td>
+<td><strong>TransferType</strong></td>
+<td><em>WithdrawFromTarget</em>, <em>DepositToTarget</em></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-9'>Required Scope</h3>
+<p><code>Withdraw</code></p>
+<h2 id='cancel-fiat-withdraw'>Cancel fiat withdraw</h2><div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/transactions/{transactionUuid}/cancel
+</span></code></pre></div>
+<p>Cancels withdraw order of the transaction uuid.</p>
+<h3 id='url-parameters-8'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+<tr>
+<td>transactionUuid</td>
+<td>UUID of the transaction</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-10'>Required Scope</h3>
+<p><code>Withdraw</code></p>
+<h1 id='order-endpoints'>Order Endpoints</h1><h2 id='get-users-orders'>Get users orders</h2>
+<blockquote>
+<p>Request: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/orders?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;orderType={orderType}&amp;orderStatus={orderStatus}&amp;after={after}&amp;before={before}&amp;page={page}&amp;size={size}&amp;sort={sort}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Market"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"operationDirection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sell"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"orderStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matchStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"None"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"executedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"averageMatchPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"baseAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quoteAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"orderTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T18:18:52.345Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Filter users orders with query parameters.</p>
+<h3 id='url-parameters-9'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-6'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>orderType</td>
+<td>false</td>
+<td><strong>OrderType</strong></td>
+<td><em>Market</em>, <em>Limit</em>, <em>StopLimit</em>, <em>FillOrKill</em>, <em>ImmediateOrCancel</em>, <em>Other</em></td>
+</tr>
+<tr>
+<td>orderStatus</td>
+<td>false</td>
+<td>[<strong>OrderStatus</strong>]</td>
+<td><em>Active</em>, <em>Canceled</em>, <em>WaitingValidation</em>, <em>Completed</em>, <em>Other</em></td>
+</tr>
+<tr>
+<td>after</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>before</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>page</td>
+<td>false</td>
+<td>Int</td>
+<td></td>
+</tr>
+<tr>
+<td>size</td>
+<td>false</td>
+<td>Int</td>
+<td></td>
+</tr>
+<tr>
+<td>sort</td>
+<td>false</td>
+<td>String</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-11'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-users-orders-count'>Get users orders count</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/orders/count?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;orderType={orderType}&amp;orderStatus={orderStatus}&amp;after={after}&amp;before={before}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Number of users filtered orders with query parameters.</p>
+<h3 id='url-parameters-10'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-7'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>orderType</td>
+<td>false</td>
+<td><strong>OrderType</strong></td>
+<td><em>Market</em>, <em>Limit</em>, <em>StopLimit</em>, <em>FillOrKill</em>, <em>ImmediateOrCancel</em>, <em>Other</em></td>
+</tr>
+<tr>
+<td>orderStatus</td>
+<td>false</td>
+<td>[<strong>OrderStatus</strong>]</td>
+<td><em>Active</em>, <em>Canceled</em>, <em>WaitingValidation</em>, <em>Completed</em>, <em>Other</em></td>
+</tr>
+<tr>
+<td>after</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>before</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-12'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='create-order'>Create order</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">PUT /users/{userId}/orders
+</span></code></pre></div><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"baseAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quoteAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Market"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"operationDirection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Buy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"stopLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"matchCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"executedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"averageMatchPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Creates a new order.</p>
+<h3 id='url-parameters-11'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='body-parameters-3'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>orderType</td>
+<td>false</td>
+<td><strong>OrderType</strong></td>
+<td><em>Market</em>, <em>Limit</em>, <em>StopLimit</em>, <em>FillOrKill</em>, <em>ImmediateOrCancel</em>, <em>Other</em></td>
+</tr>
+<tr>
+<td>operationDirection</td>
+<td>false</td>
+<td><strong>OperationDirection</strong></td>
+<td><em>Sell</em>, <em>Buy</em></td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>false</td>
+<td>BigDecimal</td>
+<td></td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>false</td>
+<td>UUID</td>
+<td></td>
+</tr>
+<tr>
+<td>limit</td>
+<td>false</td>
+<td>BigDecimal</td>
+<td></td>
+</tr>
+<tr>
+<td>stopLimit</td>
+<td>false</td>
+<td>BigDecimal</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-13'>Required Scope</h3>
+<p><code>Trade</code></p>
+<h2 id='get-order-detail-by-order-uuid'>Get order detail by order UUID</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/orders/{uuid}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Market"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"operationDirection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sell"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"matchStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"None"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"executedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"averageMatchPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"baseAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quoteAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orderTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T18:47:13.576Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Get users order detail by order UUID.</p>
+<h3 id='url-parameters-12'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>Order UUID</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-14'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='cancel-orders'>Cancel orders</h2>
+<blockquote>
+<p>Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/orders/cancel
+</span></code></pre></div><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"baseAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quoteAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"operationDirection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Buy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"priceBelow"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"priceAbove"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Cancel filtered orders with body parameters.</p>
+<h3 id='url-parameters-13'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='body-parameters-4'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>operationDirection</td>
+<td>false</td>
+<td><strong>OperationDirection</strong></td>
+<td><em>Sell</em>, <em>Buy</em></td>
+</tr>
+<tr>
+<td>priceBelow</td>
+<td>false</td>
+<td>BigDecimal</td>
+<td></td>
+</tr>
+<tr>
+<td>priceAbove</td>
+<td>false</td>
+<td>BigDecimal</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-15'>Required Scope</h3>
+<p><code>Trade</code></p>
+<h2 id='cancel-order'>Cancel order</h2>
+<blockquote>
+<p>Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/orders/{uuid}/cancel
+</span></code></pre></div>
+<p>Update order status as Canceled and delete it from orderbook</p>
+<h3 id='url-parameters-14'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+<tr>
+<td>uuid</td>
+<td>Order UUID</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-16'>Required Scope</h3>
+<p><code>Trade</code></p>
+<h2 id='get-scaled-order-data'>Get scaled order data</h2>
+<blockquote>
+<p>Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/orders/group?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;scale={scale}
+</span></code></pre></div>
+<blockquote>
+<p>Response: </p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T19:12:49.957Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"sell"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"additionalProp1"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"additionalProp2"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"additionalProp3"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"buy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"additionalProp1"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"additionalProp2"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"additionalProp3"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Filter scaled order data</p>
+<h3 id='query-parameters-8'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>true</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>true</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>scale</td>
+<td>true</td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-17'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h1 id='socket-endpoints'>Socket Endpoints</h1><h2 id='create-socket-key'>Create socket key</h2>
+<blockquote>
+<p>Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/socket/keys
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Creates a key for connecting to the socket. With this key, the user listens for specific data.</p>
+<h3 id='url-parameters-15'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-18'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='delete-socket-key'>Delete socket key</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">DELETE /users/{userId}/socket/keys
+</span></code></pre></div>
+<p>Deletes the socket key.</p>
+<h3 id='url-parameters-16'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-19'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h1 id='trading-pair-endpoints'>Trading Pair Endpoints</h1><h2 id='get-trading-pairs'>Get trading pairs</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /trading-pairs
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"baseAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quoteAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Trading"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"maxNumOrders"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"maxPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tickScale"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"productScale"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"multiplierUp"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"multiplierDown"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"averagePriceCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"maxQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"stepScale"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minNotional"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"applyToMarket"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketMinQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketMaxQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketStepSize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"makerFeePercentageValue"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"takerFeePercentageValue"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"marketEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"limitEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"stopEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Retrieve all trading pair details.</p>
+<h3 id='required-scope-20'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-trading-pair-detail'>Get trading pair detail</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /trading-pairs/base-asset/{baseAssetId}/quote-asset/{quoteAssetId}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"baseAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"quoteAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Trading"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"maxNumOrders"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"minPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"maxPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"tickScale"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"productScale"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"multiplierUp"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"multiplierDown"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"averagePriceCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"minQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"maxQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"stepScale"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"minNotional"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"applyToMarket"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"marketMinQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"marketMaxQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"marketStepSize"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"makerFeePercentageValue"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"takerFeePercentageValue"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"marketEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"limitEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"stopEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Retrieve trading pair detail by asset ids</p>
+<h3 id='url-parameters-17'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-21'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h1 id='transaction-endpoints'>Transaction Endpoints</h1><h2 id='get-transactions'>Get transactions</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /transactions?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;page={page}&amp;size={size}&amp;sort={sort}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"transactions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"transactionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T19:52:16.289Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"matchedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"matchedPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"buyerTaker"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Filter transactions with query parameters.</p>
+<h3 id='query-parameters-9'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>page</td>
+<td>false</td>
+<td>Int</td>
+<td>Pagination</td>
+</tr>
+<tr>
+<td>size</td>
+<td>false</td>
+<td>Int</td>
+<td>Pagination</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>false</td>
+<td>String</td>
+<td>Pagination (e.g. id,asc)</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-22'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-users-transactions'>Get users transactions</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/transactions?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;operationDirection={operationDirection}&amp;orderUUID={orderUUID}&amp;after={after}&amp;before={before}&amp;page={page}&amp;size={size}&amp;sort={sort}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"transactions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"baseAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"quoteAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"orderUUID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"transactionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-13T19:43:07.730Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"matchedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"matchedPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"feeAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"buyer"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Filter users transactions with query parameters.</p>
+<h3 id='url-parameters-18'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-10'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>operationDirection</td>
+<td>false</td>
+<td><strong>OperationDirection</strong></td>
+<td><em>Sell</em>, <em>Buy</em></td>
+</tr>
+<tr>
+<td>orderUUID</td>
+<td>false</td>
+<td>UUID</td>
+<td></td>
+</tr>
+<tr>
+<td>after</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>before</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>page</td>
+<td>false</td>
+<td>Int</td>
+<td>Pagination</td>
+</tr>
+<tr>
+<td>size</td>
+<td>false</td>
+<td>Int</td>
+<td>Pagination</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>false</td>
+<td>String</td>
+<td>Pagination (e.g. <code>id,asc</code>)</td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-23'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-users-transactions-count'>Get users transactions count</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/transactions/count?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;operationDirection={operationDirection}&amp;orderUUID={orderUUID}&amp;after={after}&amp;before={before}
+</span></code></pre></div>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Number of users filtered transactions with query parameters.</p>
+<h3 id='url-parameters-19'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-11'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>baseAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>operationDirection</td>
+<td>false</td>
+<td><strong>OperationDirection</strong></td>
+<td><em>Sell</em>, <em>Buy</em></td>
+</tr>
+<tr>
+<td>orderUUID</td>
+<td>false</td>
+<td>UUID</td>
+<td></td>
+</tr>
+<tr>
+<td>after</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>before</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-24'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-users-daily-total-positions'>Get users daily total positions</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/daily/total-balance?after={after}&amp;before={before}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"totalAmountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"totalAmountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Filter users daily total positions with query parameters. Returns the data showing the balance field on the dashboard.</p>
+<h3 id='url-parameters-20'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-12'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>after</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>before</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-25'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-users-daily-positions'>Get users daily positions</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/daily/balance?after={after}&amp;before={before}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"assets"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"additionalProp1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"additionalProp2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"additionalProp3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Filter users daily positions with query parameters. Returns data showing daily balance graph.</p>
+<h3 id='url-parameters-21'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-13'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>after</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>before</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-26'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h1 id='wallet-endpoints'>Wallet Endpoints</h1><h2 id='create-address-for-wallet'>Create address for wallet</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/wallets/{walletId}/network/{network}/address
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"walletId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Create cryptocurrency address for wallet with the selected network.</p>
+<h3 id='url-parameters-22'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+<tr>
+<td>walletId</td>
+<td></td>
+</tr>
+<tr>
+<td>network</td>
+<td><strong>Available Networks</strong></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>Available Networks</strong>: BTC, LTC, ETH, BCH, TRON, AVAX</li>
+</ul>
+<h3 id='required-scope-27'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-wallet-by-asset-id'>Get wallet by asset id</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/assets/{assetId}/wallet
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"positionId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Get wallet of user by asset id.</p>
+<h3 id='url-parameters-23'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+<tr>
+<td>assetId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-28'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h2 id='get-position-by-asset-id'>Get position by asset id</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/assets/{assetId}/wallet/position
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"currentReservedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"availableAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Get position of user by asset id.</p>
+<h3 id='url-parameters-24'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+<tr>
+<td>assetId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-29'>Required Scope</h3>
+<p><code>PublicApi</code></p>
+<h1 id='errors'>Errors</h1>
+<p>The Bitronit API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- Your request is invalid.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- Your API key or signature is wrong.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden -- The requested is hidden for administrators only.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- The specified request could not be found.</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+<tr>
+<td>504</td>
+<td>Gateway Timeout -- Server did not get a response in time from the upstream server that it needed in order to complete the request.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+      </div>
+    </div>
+  </body>
+</html>
