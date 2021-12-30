@@ -300,7 +300,7 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/Bitronit_Logo_210x70-81586373.png" class="logo" alt="" />
+      <img src="images/Bitronit_Logo_140x70-82ccc613.png" class="logo" alt="" />
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
@@ -485,11 +485,22 @@
 </ul>
 <h1 id='general-info'>General Info</h1><h2 id='general-api-information'>General API Information</h2>
 <ul>
-<li>The base endpoint is: <b> https://api.bitronit.com </b></li>
+<li>The base endpoint is: <b> https://bitronit.com/api </b></li>
 <li>All endpoints successful requests returns either a JSON object or array.</li>
-<li>All time and timestamp related fields are in milliseconds.</li>
 </ul>
-<h3 id='error-codes-and-messages'>Error Codes and Messages</h3>
+
+<blockquote>
+<p>Error response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Not Found"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USER_NOT_FOUND"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/users/11704/wallets/40440/network/LTC/adress"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"requestId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7ecc8c03-36054"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">404</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-12-15T15:35:20.603+03:00"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='error-codes-and-messages'>Error Codes and Messages</h3>
 <ul>
 <li>If there is an error, the API will return an error with a message of the reason.</li>
 </ul>
@@ -519,32 +530,9 @@
 <li><code>Authentication</code>: Your API key as bearer token</li>
 <li><code>Signature</code>: SHA256 HMAC of the query string concatenated with the request body, using your <code>API secret</code>, as a <code>Base64</code> string</li>
 </ul></li>
-</ul>
-
-<table><thead>
-<tr>
-<th>Scope</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>PublicApi</td>
-<td>Basic scope</td>
-</tr>
-<tr>
-<td>Trade</td>
-<td>Authorized to give orders</td>
-</tr>
-<tr>
-<td>Withdraw</td>
-<td>Authorized to withdraw</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li>All endpoints are <code>SIGNED</code> endpoints.</li>
-<li>The signature is not case-sensitive.</li>
-<li>API-keys and secret-keys <b> are case-sensitive. </b></li>
+<li><p>All endpoints are <code>SIGNED</code> endpoints.</p></li>
+<li><p>The signature is not case-sensitive.</p></li>
+<li><p>API-keys and secret-keys <b> are case-sensitive. </b></p></li>
 </ul>
 <h3 id='signed-endpoint-examples'>Signed Endpoint Examples</h3>
 <p>Here are step-by-step examples of how to send a valid signed payload from the Linux command line using <code>echo</code>, <code>openssl</code>, and <code>curl</code>.</p>
@@ -679,7 +667,7 @@
 </span></code></pre></div>
 <p>Returns all assets.</p>
 <h3 id='required-scope'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-a-specific-asset'>Get a specific asset</h2>
 <blockquote>
 <p>Request:</p>
@@ -714,7 +702,7 @@
 </tr>
 </tbody></table>
 <h3 id='required-scope-2'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='candlestick-endpoints'>Candlestick Endpoints</h1><h2 id='get-candlesticks'>Get candlesticks</h2>
 <blockquote>
 <p>Request:</p>
@@ -785,7 +773,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-3'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='external-transaction-endpoints'>External Transaction Endpoints</h1><h2 id='get-users-deposit-history'>Get users deposit history</h2>
 <blockquote>
 <p>Request:</p>
@@ -861,23 +849,23 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>page</td>
 <td>false</td>
 <td>Int</td>
-<td>Pagination</td>
+<td>Page number</td>
 </tr>
 <tr>
 <td>size</td>
 <td>false</td>
 <td>Int</td>
-<td>Pagination</td>
+<td>Number of data per page</td>
 </tr>
 <tr>
 <td>sort</td>
 <td>false</td>
 <td>String</td>
-<td>Pagination (e.g. <code>id,asc</code>)</td>
+<td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
 <h3 id='required-scope-4'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-deposit-history-count'>Get users deposit history count</h2>
 <blockquote>
 <p>Request:</p>
@@ -927,7 +915,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-5'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-withdraw-history'>Get users withdraw history</h2>
 <blockquote>
 <p>Request:</p>
@@ -1003,23 +991,23 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>page</td>
 <td>false</td>
 <td>Int</td>
-<td>Pagination</td>
+<td>Page number</td>
 </tr>
 <tr>
 <td>size</td>
 <td>false</td>
 <td>Int</td>
-<td>Pagination</td>
+<td>Number of data per page</td>
 </tr>
 <tr>
 <td>sort</td>
 <td>false</td>
 <td>String</td>
-<td>Pagination (e.g. id,asc)</td>
+<td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
 <h3 id='required-scope-6'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-withdraw-history-count'>Get users withdraw history count</h2>
 <blockquote>
 <p>Request:</p>
@@ -1069,7 +1057,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-7'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='initiate-withdraw'>Initiate withdraw</h2>
 <blockquote>
 <p>Request:</p>
@@ -1164,7 +1152,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-8'>Required Scope</h3>
-<p><code>Withdraw</code></p>
+<p><code>Withdraw</code>: Authorized to withdraw</p>
 <h2 id='transfer-between-accounts'>Transfer between accounts</h2>
 <blockquote>
 <p>Request:</p>
@@ -1284,7 +1272,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-9'>Required Scope</h3>
-<p><code>Withdraw</code></p>
+<p><code>Withdraw</code>: Authorized to withdraw</p>
 <h2 id='cancel-fiat-withdraw'>Cancel fiat withdraw</h2><div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/transactions/{transactionUuid}/cancel
 </span></code></pre></div>
 <p>Cancels withdraw order of the transaction uuid.</p>
@@ -1305,7 +1293,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-10'>Required Scope</h3>
-<p><code>Withdraw</code></p>
+<p><code>Withdraw</code>: Authorized to withdraw</p>
 <h1 id='order-endpoints'>Order Endpoints</h1><h2 id='get-users-orders'>Get users orders</h2>
 <blockquote>
 <p>Request: </p>
@@ -1416,7 +1404,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-11'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-orders-count'>Get users orders count</h2>
 <blockquote>
 <p>Request:</p>
@@ -1490,7 +1478,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-12'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='create-order'>Create order</h2>
 <blockquote>
 <p>Request:</p>
@@ -1589,7 +1577,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-13'>Required Scope</h3>
-<p><code>Trade</code></p>
+<p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='get-order-detail-by-order-uuid'>Get order detail by order UUID</h2>
 <blockquote>
 <p>Request:</p>
@@ -1638,7 +1626,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-14'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='cancel-orders'>Cancel orders</h2>
 <blockquote>
 <p>Request</p>
@@ -1706,7 +1694,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-15'>Required Scope</h3>
-<p><code>Trade</code></p>
+<p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='cancel-order'>Cancel order</h2>
 <blockquote>
 <p>Request</p>
@@ -1731,7 +1719,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-16'>Required Scope</h3>
-<p><code>Trade</code></p>
+<p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='get-scaled-order-data'>Get scaled order data</h2>
 <blockquote>
 <p>Request</p>
@@ -1786,7 +1774,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-17'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='socket-endpoints'>Socket Endpoints</h1><h2 id='create-socket-key'>Create socket key</h2>
 <blockquote>
 <p>Request</p>
@@ -1814,7 +1802,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-18'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='delete-socket-key'>Delete socket key</h2>
 <blockquote>
 <p>Request:</p>
@@ -1835,7 +1823,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-19'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='trading-pair-endpoints'>Trading Pair Endpoints</h1><h2 id='get-trading-pairs'>Get trading pairs</h2>
 <blockquote>
 <p>Request:</p>
@@ -1878,7 +1866,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </span></code></pre></div>
 <p>Retrieve all trading pair details.</p>
 <h3 id='required-scope-20'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-trading-pair-detail'>Get trading pair detail</h2>
 <blockquote>
 <p>Request:</p>
@@ -1935,7 +1923,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-21'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='transaction-endpoints'>Transaction Endpoints</h1><h2 id='get-transactions'>Get transactions</h2>
 <blockquote>
 <p>Request:</p>
@@ -1982,23 +1970,23 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>page</td>
 <td>false</td>
 <td>Int</td>
-<td>Pagination</td>
+<td>Page number</td>
 </tr>
 <tr>
 <td>size</td>
 <td>false</td>
 <td>Int</td>
-<td>Pagination</td>
+<td>Number of data per page</td>
 </tr>
 <tr>
 <td>sort</td>
 <td>false</td>
 <td>String</td>
-<td>Pagination (e.g. id,asc)</td>
+<td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
 <h3 id='required-scope-22'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-transactions'>Get users transactions</h2>
 <blockquote>
 <p>Request:</p>
@@ -2087,23 +2075,23 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>page</td>
 <td>false</td>
 <td>Int</td>
-<td>Pagination</td>
+<td>Page number</td>
 </tr>
 <tr>
 <td>size</td>
 <td>false</td>
 <td>Int</td>
-<td>Pagination</td>
+<td>Number of data per page</td>
 </tr>
 <tr>
 <td>sort</td>
 <td>false</td>
 <td>String</td>
-<td>Pagination (e.g. <code>id,asc</code>)</td>
+<td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
 <h3 id='required-scope-23'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-transactions-count'>Get users transactions count</h2>
 <blockquote>
 <p>Request:</p>
@@ -2177,7 +2165,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-24'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-daily-total-positions'>Get users daily total positions</h2>
 <blockquote>
 <p>Request:</p>
@@ -2231,7 +2219,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-25'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-daily-positions'>Get users daily positions</h2>
 <blockquote>
 <p>Request:</p>
@@ -2300,7 +2288,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-26'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='wallet-endpoints'>Wallet Endpoints</h1><h2 id='create-address-for-wallet'>Create address for wallet</h2>
 <blockquote>
 <p>Request:</p>
@@ -2343,7 +2331,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <li><strong>Available Networks</strong>: BTC, LTC, ETH, BCH, TRON, AVAX</li>
 </ul>
 <h3 id='required-scope-27'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-wallet-by-asset-id'>Get wallet by asset id</h2>
 <blockquote>
 <p>Request:</p>
@@ -2379,7 +2367,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-28'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-position-by-asset-id'>Get position by asset id</h2>
 <blockquote>
 <p>Request:</p>
@@ -2413,45 +2401,9 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tr>
 </tbody></table>
 <h3 id='required-scope-29'>Required Scope</h3>
-<p><code>PublicApi</code></p>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='errors'>Errors</h1>
-<p>The Bitronit API uses the following error codes:</p>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key or signature is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified request could not be found.</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-<tr>
-<td>504</td>
-<td>Gateway Timeout -- Server did not get a response in time from the upstream server that it needed in order to complete the request.</td>
-</tr>
-</tbody></table>
+<p><a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">Error codes</a></p>
 
       </div>
       <div class="dark-box">
