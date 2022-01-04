@@ -300,7 +300,7 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/Bitronit_Logo_140x70-82ccc613.png" class="logo" alt="" />
+      <img src="images/Bitronit_Logo_210x70-81586373.png" class="logo" alt="" />
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
@@ -410,6 +410,9 @@
                   </li>
                   <li>
                     <a href="#delete-socket-key" class="toc-h2 toc-link" data-title="Delete socket key">Delete socket key</a>
+                  </li>
+                  <li>
+                    <a href="#socket-usage" class="toc-h2 toc-link" data-title="Socket Usage">Socket Usage</a>
                   </li>
               </ul>
           </li>
@@ -1824,6 +1827,100 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tbody></table>
 <h3 id='required-scope-19'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
+<h2 id='socket-usage'>Socket Usage</h2>
+<p>There are 11 topics available in Bitronit Socket. </p>
+
+<p><strong>Keyed</strong> socket topics provides user specific data through channel. </p>
+<div class="highlight"><pre class="highlight markdown tab-markdown"><code>${key}-position-update
+</code></pre></div>
+<blockquote>
+<p>Current candlesticks for all periods:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight markdown tab-markdown"><code>${TICKER}-candlestick-1
+${TICKER}-candlestick-5
+${TICKER}-candlestick-15
+${TICKER}-candlestick-30
+${TICKER}-candlestick-60
+${TICKER}-candlestick-240
+${TICKER}-candlestick-1440
+${TICKER}-candlestick-10080
+${TICKER}-candlestick-43200
+</code></pre></div>
+<blockquote>
+<p>Orderbook for every group(based on decimal precision):</p>
+</blockquote>
+<div class="highlight"><pre class="highlight markdown tab-markdown"><code>${TICKER}-orderbook-0
+${TICKER}-orderbook-1
+${TICKER}-orderbook-2
+${TICKER}-orderbook-3
+${TICKER}-orderbook-4
+${TICKER}-orderbook-5
+${TICKER}-orderbook-6
+${TICKER}-orderbook-7
+${TICKER}-orderbook-8
+</code></pre></div><h3 id='socket-url'>Socket URL:</h3>
+<p>https://socket.bitronit.com</p>
+
+<table><thead>
+<tr>
+<th>Topic</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>keyed-position-update</td>
+<td>Keyed</td>
+<td>Changes in users wallet</td>
+</tr>
+<tr>
+<td>keyed-user-transaction-execute</td>
+<td>Keyed</td>
+<td>Transaction history for user</td>
+</tr>
+<tr>
+<td>keyed-external-transaction-update</td>
+<td>Keyed</td>
+<td>Deposit/withdraw changes for user</td>
+</tr>
+<tr>
+<td>keyed-order-create</td>
+<td>Keyed</td>
+<td>Order creation for user</td>
+</tr>
+<tr>
+<td>keyed-order-update</td>
+<td>Keyed</td>
+<td>Order updates for user</td>
+</tr>
+<tr>
+<td>candlestick</td>
+<td>General</td>
+<td>Candlestick data for graph</td>
+</tr>
+<tr>
+<td>orderbook</td>
+<td>General</td>
+<td>Retrieving orderbook</td>
+</tr>
+<tr>
+<td>trade</td>
+<td>General</td>
+<td>Recent trades</td>
+</tr>
+<tr>
+<td>all-ticker</td>
+<td>General</td>
+<td>Retrieving ticker data for all tickers</td>
+</tr>
+<tr>
+<td>device-qr-event</td>
+<td>General</td>
+<td>QR events from device</td>
+</tr>
+</tbody></table>
+
+<p><strong>Keyed</strong> topics are used with the key that is retrieved from POST /users/{userId}/socket/keys endpoint.</p>
 <h1 id='trading-pair-endpoints'>Trading Pair Endpoints</h1><h2 id='get-trading-pairs'>Get trading pairs</h2>
 <blockquote>
 <p>Request:</p>
