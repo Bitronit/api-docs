@@ -411,9 +411,6 @@
                   <li>
                     <a href="#delete-socket-key" class="toc-h2 toc-link" data-title="Delete socket key">Delete socket key</a>
                   </li>
-                  <li>
-                    <a href="#socket-usage" class="toc-h2 toc-link" data-title="Socket Usage">Socket Usage</a>
-                  </li>
               </ul>
           </li>
           <li>
@@ -460,6 +457,9 @@
                     <a href="#get-position-by-asset-id" class="toc-h2 toc-link" data-title="Get position by asset id">Get position by asset id</a>
                   </li>
               </ul>
+          </li>
+          <li>
+            <a href="#socket-usage" class="toc-h1 toc-link" data-title="Socket Usage">Socket Usage</a>
           </li>
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
@@ -1827,100 +1827,6 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </tbody></table>
 <h3 id='required-scope-19'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='socket-usage'>Socket Usage</h2>
-<p>There are 10 topics available in Bitronit Socket. </p>
-
-<p><strong>Keyed</strong> socket topics provides user specific data through channel. </p>
-<div class="highlight"><pre class="highlight markdown tab-markdown"><code>${key}-position-update
-</code></pre></div>
-<blockquote>
-<p>Current candlesticks for all periods:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight markdown tab-markdown"><code>${TICKER}-candlestick-1
-${TICKER}-candlestick-5
-${TICKER}-candlestick-15
-${TICKER}-candlestick-30
-${TICKER}-candlestick-60
-${TICKER}-candlestick-240
-${TICKER}-candlestick-1440
-${TICKER}-candlestick-10080
-${TICKER}-candlestick-43200
-</code></pre></div>
-<blockquote>
-<p>Orderbook for every group(based on decimal precision):</p>
-</blockquote>
-<div class="highlight"><pre class="highlight markdown tab-markdown"><code>${TICKER}-orderbook-0
-${TICKER}-orderbook-1
-${TICKER}-orderbook-2
-${TICKER}-orderbook-3
-${TICKER}-orderbook-4
-${TICKER}-orderbook-5
-${TICKER}-orderbook-6
-${TICKER}-orderbook-7
-${TICKER}-orderbook-8
-</code></pre></div><h3 id='socket-url'>Socket URL:</h3>
-<p>https://socket.bitronit.com</p>
-
-<table><thead>
-<tr>
-<th>Topic</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>keyed-position-update</td>
-<td>Keyed</td>
-<td>Changes in users wallet</td>
-</tr>
-<tr>
-<td>keyed-user-transaction-execute</td>
-<td>Keyed</td>
-<td>Transaction history for user</td>
-</tr>
-<tr>
-<td>keyed-external-transaction-update</td>
-<td>Keyed</td>
-<td>Deposit/withdraw changes for user</td>
-</tr>
-<tr>
-<td>keyed-order-create</td>
-<td>Keyed</td>
-<td>Order creation for user</td>
-</tr>
-<tr>
-<td>keyed-order-update</td>
-<td>Keyed</td>
-<td>Order updates for user</td>
-</tr>
-<tr>
-<td>candlestick</td>
-<td>General</td>
-<td>Candlestick data for graph</td>
-</tr>
-<tr>
-<td>orderbook</td>
-<td>General</td>
-<td>Retrieving orderbook</td>
-</tr>
-<tr>
-<td>trade</td>
-<td>General</td>
-<td>Recent trades</td>
-</tr>
-<tr>
-<td>all-ticker</td>
-<td>General</td>
-<td>Retrieving ticker data for all tickers</td>
-</tr>
-<tr>
-<td>device-qr-event</td>
-<td>General</td>
-<td>QR events from device</td>
-</tr>
-</tbody></table>
-
-<p><strong>Keyed</strong> topics are used with the key that is retrieved from POST /users/{userId}/socket/keys endpoint.</p>
 <h1 id='trading-pair-endpoints'>Trading Pair Endpoints</h1><h2 id='get-trading-pairs'>Get trading pairs</h2>
 <blockquote>
 <p>Request:</p>
@@ -2499,7 +2405,207 @@ ${TICKER}-orderbook-8
 </tbody></table>
 <h3 id='required-scope-29'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
-<h1 id='errors'>Errors</h1>
+<h1 id='socket-usage'>Socket Usage</h1>
+<blockquote>
+<p>Socket Connection:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">socket.io-client</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">socket</span> <span class="o">=</span> <span class="nx">io</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">https://socket.bitronit.com</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="na">transports</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">websocket</span><span class="dl">'</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">connect</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">join</span><span class="dl">'</span><span class="p">,</span> <span class="nx">$</span><span class="p">{</span><span class="nx">CHANNEL_NAME</span><span class="p">})</span>
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="nx">$</span><span class="p">{</span><span class="nx">CHANNEL_NAME</span><span class="p">},</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// Data is retrieved</span>
+    <span class="p">})</span>
+<span class="p">});</span>
+</code></pre></div>
+<blockquote>
+<p>Connection to specific room:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">socket.io-client</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">socket</span> <span class="o">=</span> <span class="nx">io</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">https://socket.bitronit.com</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="na">transports</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">websocket</span><span class="dl">'</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">connect</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">connected</span><span class="dl">'</span><span class="p">)</span>
+
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="dl">'</span><span class="s1">join</span><span class="dl">'</span><span class="p">,</span> <span class="dl">"</span><span class="s2">ETHTRY-orderbook-3</span><span class="dl">"</span><span class="p">)</span>
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">orderbook</span><span class="dl">"</span><span class="p">,</span> <span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// Data is retrieved</span>
+    <span class="p">})</span>
+
+<span class="p">})</span>
+</code></pre></div>
+<blockquote>
+<p>Orderbook for every group(based on decimal precision):</p>
+</blockquote>
+<div class="highlight"><pre class="highlight markdown tab-markdown"><code>${TICKER}-orderbook-0
+${TICKER}-orderbook-1
+${TICKER}-orderbook-2
+${TICKER}-orderbook-3
+${TICKER}-orderbook-4
+${TICKER}-orderbook-5
+${TICKER}-orderbook-6
+${TICKER}-orderbook-7
+${TICKER}-orderbook-8
+</code></pre></div>
+<blockquote>
+<p>Current candlesticks for all periods:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight markdown tab-markdown"><code>${TICKER}-candlestick-1
+${TICKER}-candlestick-5
+${TICKER}-candlestick-15
+${TICKER}-candlestick-30
+${TICKER}-candlestick-60
+${TICKER}-candlestick-240
+${TICKER}-candlestick-1440
+${TICKER}-candlestick-10080
+${TICKER}-candlestick-43200
+</code></pre></div>
+<p><strong>Socket URL:</strong> <strong>https://socket.bitronit.com</strong></p>
+
+<p>There are 10 channels available in Bitronit Socket.</p>
+
+<p><strong>Keyed</strong> socket channels provides user specific data through channel.</p>
+
+<aside class="info">
+Socket library versions should be "2.4.0" in order to connect to Bitronit Socket.
+</aside>
+
+<table><thead>
+<tr>
+<th>Channel</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>keyed-position-update</td>
+<td>Keyed</td>
+<td>Changes in users wallet</td>
+</tr>
+<tr>
+<td>keyed-user-transaction-execute</td>
+<td>Keyed</td>
+<td>Transaction history for user</td>
+</tr>
+<tr>
+<td>keyed-external-transaction-update</td>
+<td>Keyed</td>
+<td>Deposit/withdraw changes for user</td>
+</tr>
+<tr>
+<td>keyed-order-create</td>
+<td>Keyed</td>
+<td>Order creation for user</td>
+</tr>
+<tr>
+<td>keyed-order-update</td>
+<td>Keyed</td>
+<td>Order updates for user</td>
+</tr>
+<tr>
+<td>candlestick</td>
+<td>General</td>
+<td>Candlestick data for graph</td>
+</tr>
+<tr>
+<td>orderbook</td>
+<td>General</td>
+<td>Retrieving orderbook</td>
+</tr>
+<tr>
+<td>trade</td>
+<td>General</td>
+<td>Recent trades</td>
+</tr>
+<tr>
+<td>all-ticker</td>
+<td>General</td>
+<td>Retrieving ticker data for all tickers</td>
+</tr>
+<tr>
+<td>device-qr-event</td>
+<td>General</td>
+<td>QR events from device</td>
+</tr>
+</tbody></table>
+
+<p><strong>Keyed</strong> channels are used with the key that is retrieved from POST /users/{userId}/socket/keys endpoint.</p>
+
+<p><strong>Keyed channel:</strong></p>
+
+<p><em>${key}-position-update</em></p>
+
+<blockquote>
+<p>&quot;keyed-position-update&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="mi">60948</span><span class="p">,</span> <span class="mi">14183</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="dl">'</span><span class="s1">TRY</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span><span class="na">positionId</span><span class="p">:</span> <span class="mi">61195</span><span class="p">,</span> <span class="na">totalAmount</span><span class="p">:</span> <span class="mf">2209.98959511</span><span class="p">,</span> <span class="na">reservedAmount</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">availableAmount</span><span class="p">:</span> <span class="mf">2209.98959511</span><span class="p">},</span> <span class="p">[</span><span class="mi">14183</span><span class="p">]]</span>
+<span class="p">[</span><span class="nx">walletId</span><span class="p">,</span> <span class="nx">userId</span><span class="p">,</span> <span class="nx">assetId</span><span class="p">,</span> <span class="nx">asset</span><span class="p">,</span> <span class="nx">positionDetail</span><span class="p">,</span> <span class="nx">userIds</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;keyed-user-transaction-execute&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mf">0.05209903</span><span class="p">,</span> <span class="mf">51329.093</span><span class="p">,</span> <span class="mf">0.00203</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Limit</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">4955ca43-7…</span><span class="dl">'</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>  <span class="dl">'</span><span class="s1">2022-01-05T11:10:58.114469Z</span><span class="dl">'</span><span class="p">,</span> <span class="mi">11704</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">baseAssetId</span><span class="p">,</span> <span class="nx">buyer</span><span class="p">,</span> <span class="nx">feeAmount</span><span class="p">,</span> <span class="nx">matchedPrice</span><span class="p">,</span> <span class="nx">matchedQuantity</span><span class="p">,</span> <span class="nx">orderType</span><span class="p">,</span> <span class="nx">orderUUID</span><span class="p">,</span> <span class="nx">quoteAssetId</span><span class="p">,</span> <span class="nx">transactionDate</span><span class="p">,</span> <span class="nx">userId</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;keyed-external-transaction-update&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">0x9e8…</span><span class="dl">'</span><span class="p">,</span> <span class="mf">0.0004</span><span class="p">,</span> <span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">2021-11-24T17:49:58.084900Z</span><span class="dl">'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">11893460</span><span class="p">,</span> <span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Success</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">2021-11-24T17:49:58.084899Z</span><span class="dl">'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="dl">'</span><span class="s1">6b3c9a80-7…</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Withdraw</span><span class="dl">'</span><span class="p">,</span>  <span class="mf">1.6858248</span><span class="p">,</span> <span class="mi">11704</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">address</span><span class="p">,</span> <span class="nx">amount</span><span class="p">,</span> <span class="nx">asset</span><span class="p">,</span> <span class="nx">assetId</span><span class="p">,</span> <span class="nx">completeDate</span><span class="p">,</span> <span class="nx">confirmedBlockCount</span><span class="p">,</span> <span class="nx">fee</span><span class="p">,</span> <span class="nx">fiat</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">network</span><span class="p">,</span> <span class="nx">receiverBankName</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">receiverIban</span><span class="p">,</span> <span class="nx">senderBankName</span><span class="p">,</span> <span class="nx">senderIban</span><span class="p">,</span> <span class="nx">statusUpdateDate</span> <span class="p">,</span><span class="nx">transactionHash</span><span class="p">,</span> <span class="nx">transactionUUID</span><span class="p">,</span> <span class="nx">type</span><span class="p">,</span> <span class="nx">typicalPrice</span><span class="p">,</span> <span class="nx">userId</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;keyed-order-create&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">59191684</span><span class="p">,</span> <span class="mf">1988.84447184</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Buy</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Market</span><span class="dl">'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mf">0.00405</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">14183</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="dl">'</span><span class="s1">dbfded9c-d...</span><span class="dl">'</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">activated</span><span class="p">,</span> <span class="nx">baseAssetId</span><span class="p">,</span> <span class="nx">executedQuantity</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">maxVolume</span><span class="p">,</span> <span class="nx">operationDirection</span><span class="p">,</span> <span class="nx">orderType</span><span class="p">,</span> <span class="nx">price</span><span class="p">,</span> <span class="nx">quantity</span><span class="p">,</span> <span class="nx">quoteAssetId</span><span class="p">,</span> <span class="nx">stopPrice</span><span class="p">,</span> <span class="nx">userId</span><span class="p">,</span> <span class="nx">userType</span><span class="p">,</span> <span class="nx">uuid</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;keyed-order-update&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">Market</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">a85c0a90-1...</span><span class="dl">'</span><span class="p">,</span> <span class="mi">14183</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Completed</span><span class="dl">'</span><span class="p">,</span> <span class="mf">0.00501</span><span class="p">,</span> <span class="mf">44140.74316766</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">orderType</span><span class="p">,</span> <span class="nx">uuid</span><span class="p">,</span> <span class="nx">userId</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">executedQuantity</span><span class="p">,</span> <span class="nx">averageMatchPrice</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;candlestick&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">2022-01-10T08:55:00Z</span><span class="dl">'</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">opentime</span><span class="p">,</span> <span class="nx">open</span><span class="p">,</span> <span class="nx">high</span><span class="p">,</span> <span class="nx">low</span><span class="p">,</span> <span class="nx">close</span><span class="p">,</span> <span class="nx">volume</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;orderbook&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">TRY</span><span class="dl">'</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="dl">'</span><span class="s1">2022-01-10T08:04:14.604999Z</span><span class="dl">'</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">44295.246</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.00216</span><span class="p">,</span> <span class="dl">'</span><span class="s1">44292.945</span><span class="dl">'</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">44382.780</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.00341</span><span class="p">,</span> <span class="dl">'</span><span class="s1">44395.089</span><span class="dl">'</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span> <span class="mi">4033464037</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">baseAsset</span><span class="p">,</span> <span class="nx">baseAssetId</span><span class="p">,</span> <span class="nx">quoteAsset</span><span class="p">,</span> <span class="nx">quoteAssetId</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">scale</span><span class="p">,</span> <span class="nx">buy</span><span class="p">,</span> <span class="nx">sell</span><span class="p">,</span> <span class="nx">checksum</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;trade&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="dl">'</span><span class="s1">e9f3b404-6</span><span class="dl">'</span><span class="p">,</span> <span class="mf">44145.291</span><span class="p">,</span> <span class="mf">0.00211</span><span class="p">,</span> <span class="dl">'</span><span class="s1">TRY</span><span class="dl">'</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="dl">"</span><span class="s2">2022-01-09T11:30:25.896044Z</span><span class="dl">"</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">baseAsset</span><span class="p">,</span> <span class="nx">baseAssetId</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">isBuyerTaker</span><span class="p">,</span> <span class="nx">matchId</span><span class="p">,</span> <span class="nx">matchedPrice</span><span class="p">,</span> <span class="nx">matchedQuantity</span><span class="p">,</span> <span class="nx">quoteAsset</span><span class="p">,</span> <span class="nx">quoteAssetId</span><span class="p">,</span> <span class="nx">time</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;all-ticker&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span> <span class="dl">'</span><span class="s1">LINK</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">TRY</span><span class="dl">'</span><span class="p">,</span> <span class="mf">357.94</span><span class="p">,</span> <span class="mf">363.54</span><span class="p">,</span> <span class="mf">323.39</span><span class="p">,</span> <span class="mf">103109.12208</span><span class="p">,</span> <span class="mf">5.91</span><span class="p">,</span> <span class="mf">19.96</span> <span class="p">]</span>
+<span class="p">[</span><span class="nx">baseAsset</span><span class="p">,</span> <span class="nx">quoteAsset</span><span class="p">,</span> <span class="nx">currentPrice</span><span class="p">,</span> <span class="nx">highestPrice</span><span class="p">,</span> <span class="nx">lowestPrice</span><span class="p">,</span> <span class="nx">dailyVolume</span><span class="p">,</span> <span class="nx">dailyChange</span><span class="p">,</span> <span class="nx">dailyNominalChange</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
+<p>&quot;device-qr-event&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">eyJvd2...</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">2475220b-2...</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Login</span><span class="dl">"</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">code</span><span class="p">,</span> <span class="nx">deviceId</span><span class="p">,</span> <span class="nx">verificationType</span><span class="p">]</span>
+</code></pre></div><h1 id='errors'>Errors</h1>
 <p><a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">Error codes</a></p>
 
       </div>
