@@ -2459,6 +2459,12 @@ ${TICKER}-orderbook-7
 ${TICKER}-orderbook-8
 </code></pre></div>
 <blockquote>
+<p>&quot;orderbook&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">TRY</span><span class="dl">'</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="dl">'</span><span class="s1">2022-01-10T08:04:14.604999Z</span><span class="dl">'</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">44295.246</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.00216</span><span class="p">,</span> <span class="dl">'</span><span class="s1">44292.945</span><span class="dl">'</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">44382.780</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.00341</span><span class="p">,</span> <span class="dl">'</span><span class="s1">44395.089</span><span class="dl">'</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span> <span class="mi">4033464037</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">baseAsset</span><span class="p">,</span> <span class="nx">baseAssetId</span><span class="p">,</span> <span class="nx">quoteAsset</span><span class="p">,</span> <span class="nx">quoteAssetId</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">scale</span><span class="p">,</span> <span class="nx">buy</span><span class="p">,</span> <span class="nx">sell</span><span class="p">,</span> <span class="nx">checksum</span><span class="p">]</span>
+</code></pre></div>
+<blockquote>
 <p>Current candlesticks for all periods:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight markdown tab-markdown"><code>${TICKER}-candlestick-1
@@ -2470,6 +2476,12 @@ ${TICKER}-candlestick-240
 ${TICKER}-candlestick-1440
 ${TICKER}-candlestick-10080
 ${TICKER}-candlestick-43200
+</code></pre></div>
+<blockquote>
+<p>&quot;candlestick&quot; Channel Data Model:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">2022-01-10T08:55:00Z</span><span class="dl">'</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="nx">opentime</span><span class="p">,</span> <span class="nx">open</span><span class="p">,</span> <span class="nx">high</span><span class="p">,</span> <span class="nx">low</span><span class="p">,</span> <span class="nx">close</span><span class="p">,</span> <span class="nx">volume</span><span class="p">]</span>
 </code></pre></div>
 <p><strong>Socket URL:</strong> <strong>https://socket.bitronit.com</strong></p>
 
@@ -2533,11 +2545,6 @@ Socket library versions should be "2.4.0" in order to connect to Bitronit Socket
 <td>General</td>
 <td>Retrieving ticker data for all tickers</td>
 </tr>
-<tr>
-<td>device-qr-event</td>
-<td>General</td>
-<td>QR events from device</td>
-</tr>
 </tbody></table>
 
 <p><strong>Keyed</strong> channels are used with the key that is retrieved from POST /users/{userId}/socket/keys endpoint.</p>
@@ -2577,18 +2584,6 @@ Socket library versions should be "2.4.0" in order to connect to Bitronit Socket
 <span class="p">[</span><span class="nx">orderType</span><span class="p">,</span> <span class="nx">uuid</span><span class="p">,</span> <span class="nx">userId</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">executedQuantity</span><span class="p">,</span> <span class="nx">averageMatchPrice</span><span class="p">]</span>
 </code></pre></div>
 <blockquote>
-<p>&quot;candlestick&quot; Channel Data Model:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">2022-01-10T08:55:00Z</span><span class="dl">'</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mf">44090.032</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="p">[</span><span class="nx">opentime</span><span class="p">,</span> <span class="nx">open</span><span class="p">,</span> <span class="nx">high</span><span class="p">,</span> <span class="nx">low</span><span class="p">,</span> <span class="nx">close</span><span class="p">,</span> <span class="nx">volume</span><span class="p">]</span>
-</code></pre></div>
-<blockquote>
-<p>&quot;orderbook&quot; Channel Data Model:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="dl">'</span><span class="s1">TRY</span><span class="dl">'</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="dl">'</span><span class="s1">2022-01-10T08:04:14.604999Z</span><span class="dl">'</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">44295.246</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.00216</span><span class="p">,</span> <span class="dl">'</span><span class="s1">44292.945</span><span class="dl">'</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">44382.780</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.00341</span><span class="p">,</span> <span class="dl">'</span><span class="s1">44395.089</span><span class="dl">'</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span> <span class="mi">4033464037</span><span class="p">]</span>
-<span class="p">[</span><span class="nx">baseAsset</span><span class="p">,</span> <span class="nx">baseAssetId</span><span class="p">,</span> <span class="nx">quoteAsset</span><span class="p">,</span> <span class="nx">quoteAssetId</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">scale</span><span class="p">,</span> <span class="nx">buy</span><span class="p">,</span> <span class="nx">sell</span><span class="p">,</span> <span class="nx">checksum</span><span class="p">]</span>
-</code></pre></div>
-<blockquote>
 <p>&quot;trade&quot; Channel Data Model:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="dl">'</span><span class="s1">e9f3b404-6</span><span class="dl">'</span><span class="p">,</span> <span class="mf">44145.291</span><span class="p">,</span> <span class="mf">0.00211</span><span class="p">,</span> <span class="dl">'</span><span class="s1">TRY</span><span class="dl">'</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="dl">"</span><span class="s2">2022-01-09T11:30:25.896044Z</span><span class="dl">"</span><span class="p">]</span>
@@ -2599,12 +2594,6 @@ Socket library versions should be "2.4.0" in order to connect to Bitronit Socket
 </blockquote>
 <div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span> <span class="dl">'</span><span class="s1">LINK</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">TRY</span><span class="dl">'</span><span class="p">,</span> <span class="mf">357.94</span><span class="p">,</span> <span class="mf">363.54</span><span class="p">,</span> <span class="mf">323.39</span><span class="p">,</span> <span class="mf">103109.12208</span><span class="p">,</span> <span class="mf">5.91</span><span class="p">,</span> <span class="mf">19.96</span> <span class="p">]</span>
 <span class="p">[</span><span class="nx">baseAsset</span><span class="p">,</span> <span class="nx">quoteAsset</span><span class="p">,</span> <span class="nx">currentPrice</span><span class="p">,</span> <span class="nx">highestPrice</span><span class="p">,</span> <span class="nx">lowestPrice</span><span class="p">,</span> <span class="nx">dailyVolume</span><span class="p">,</span> <span class="nx">dailyChange</span><span class="p">,</span> <span class="nx">dailyNominalChange</span><span class="p">]</span>
-</code></pre></div>
-<blockquote>
-<p>&quot;device-qr-event&quot; Channel Data Model:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ex</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">eyJvd2...</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">2475220b-2...</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Login</span><span class="dl">"</span><span class="p">]</span>
-<span class="p">[</span><span class="nx">code</span><span class="p">,</span> <span class="nx">deviceId</span><span class="p">,</span> <span class="nx">verificationType</span><span class="p">]</span>
 </code></pre></div><h1 id='errors'>Errors</h1>
 <p><a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">Error codes</a></p>
 
