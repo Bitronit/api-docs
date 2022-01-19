@@ -332,6 +332,14 @@
               </ul>
           </li>
           <li>
+            <a href="#api-key-endpoint" class="toc-h1 toc-link" data-title="API Key Endpoint">API Key Endpoint</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-api-key-info" class="toc-h2 toc-link" data-title="Get API Key Info">Get API Key Info</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#asset-endpoints" class="toc-h1 toc-link" data-title="Asset Endpoints">Asset Endpoints</a>
               <ul class="toc-list-h2">
                   <li>
@@ -602,7 +610,7 @@
 <blockquote>
 <p><strong>HMAC SHA256 signature:</strong></p>
 </blockquote>
-<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s1">'{"priceBelow":12.5,"priceAbove":7.8,"operationDirection":"Buy","baseAssetId":3,"quoteAssetId":7}'</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-hmac</span> <span class="s2">"c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d"</span>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s1">'{"priceBelow": 12.5, "priceAbove": 7.8, "operationDirection": "Buy", "baseAssetId": 3, "quoteAssetId": 7}'</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-hmac</span> <span class="s2">"c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d"</span>
     <span class="o">(</span>stdin<span class="o">)=</span> <span class="nv">xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ</span><span class="o">=</span>
 </code></pre></div>
 <blockquote>
@@ -644,8 +652,31 @@
 <li>requestBody:</li>
 </ul>
 
-<p>{&quot;priceBelow&quot;:12.5,&quot;priceAbove&quot;:7.8,&quot;operationDirection&quot;:&quot;Buy&quot;,&quot;baseAssetId&quot;:3,
-&quot;quoteAssetId&quot;:7}</p>
+<p>{&quot;priceBelow&quot;: 12.5, &quot;priceAbove&quot;: 7.8, &quot;operationDirection&quot;: &quot;Buy&quot;, &quot;baseAssetId&quot;: 3, 
+&quot;quoteAssetId&quot;: 7}</p>
+<h1 id='api-key-endpoint'>API Key Endpoint</h1><h2 id='get-api-key-info'>Get API Key Info</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /api-key/info
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">13863</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"permissions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"PublicAPI"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Withdraw"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Trade"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Returns userId and permissions info for API Key</p>
+<h3 id='required-scope'>Required Scope</h3>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='asset-endpoints'>Asset Endpoints</h1><h2 id='get-assets'>Get assets</h2>
 <blockquote>
 <p>Request:</p>
@@ -669,7 +700,7 @@
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
 <p>Returns all assets.</p>
-<h3 id='required-scope'>Required Scope</h3>
+<h3 id='required-scope-2'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-a-specific-asset'>Get a specific asset</h2>
 <blockquote>
@@ -704,7 +735,7 @@
 <td>Symbol of asset</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-2'>Required Scope</h3>
+<h3 id='required-scope-3'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='candlestick-endpoints'>Candlestick Endpoints</h1><h2 id='get-candlesticks'>Get candlesticks</h2>
 <blockquote>
@@ -775,7 +806,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Maximum data number for candlestick.</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-3'>Required Scope</h3>
+<h3 id='required-scope-4'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='external-transaction-endpoints'>External Transaction Endpoints</h1><h2 id='get-users-deposit-history'>Get users deposit history</h2>
 <blockquote>
@@ -867,7 +898,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-4'>Required Scope</h3>
+<h3 id='required-scope-5'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-deposit-history-count'>Get users deposit history count</h2>
 <blockquote>
@@ -917,7 +948,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-5'>Required Scope</h3>
+<h3 id='required-scope-6'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-withdraw-history'>Get users withdraw history</h2>
 <blockquote>
@@ -1009,7 +1040,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-6'>Required Scope</h3>
+<h3 id='required-scope-7'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-withdraw-history-count'>Get users withdraw history count</h2>
 <blockquote>
@@ -1059,7 +1090,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-7'>Required Scope</h3>
+<h3 id='required-scope-8'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='initiate-withdraw'>Initiate withdraw</h2>
 <blockquote>
@@ -1154,7 +1185,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>IBAN you want to withdraw</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-8'>Required Scope</h3>
+<h3 id='required-scope-9'>Required Scope</h3>
 <p><code>Withdraw</code>: Authorized to withdraw</p>
 <h2 id='transfer-between-accounts'>Transfer between accounts</h2>
 <blockquote>
@@ -1274,7 +1305,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td><em>WithdrawFromTarget</em>, <em>DepositToTarget</em></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-9'>Required Scope</h3>
+<h3 id='required-scope-10'>Required Scope</h3>
 <p><code>Withdraw</code>: Authorized to withdraw</p>
 <h2 id='cancel-fiat-withdraw'>Cancel fiat withdraw</h2><div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/transactions/{transactionUuid}/cancel
 </span></code></pre></div>
@@ -1295,7 +1326,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>UUID of the transaction</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-10'>Required Scope</h3>
+<h3 id='required-scope-11'>Required Scope</h3>
 <p><code>Withdraw</code>: Authorized to withdraw</p>
 <h1 id='order-endpoints'>Order Endpoints</h1><h2 id='get-users-orders'>Get users orders</h2>
 <blockquote>
@@ -1406,7 +1437,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-11'>Required Scope</h3>
+<h3 id='required-scope-12'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-orders-count'>Get users orders count</h2>
 <blockquote>
@@ -1480,7 +1511,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-12'>Required Scope</h3>
+<h3 id='required-scope-13'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='create-order'>Create order</h2>
 <blockquote>
@@ -1579,7 +1610,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-13'>Required Scope</h3>
+<h3 id='required-scope-14'>Required Scope</h3>
 <p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='get-order-detail-by-order-uuid'>Get order detail by order UUID</h2>
 <blockquote>
@@ -1628,7 +1659,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Order UUID</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-14'>Required Scope</h3>
+<h3 id='required-scope-15'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='cancel-orders'>Cancel orders</h2>
 <blockquote>
@@ -1696,7 +1727,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-15'>Required Scope</h3>
+<h3 id='required-scope-16'>Required Scope</h3>
 <p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='cancel-order'>Cancel order</h2>
 <blockquote>
@@ -1721,7 +1752,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Order UUID</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-16'>Required Scope</h3>
+<h3 id='required-scope-17'>Required Scope</h3>
 <p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='get-scaled-order-data'>Get scaled order data</h2>
 <blockquote>
@@ -1776,7 +1807,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-17'>Required Scope</h3>
+<h3 id='required-scope-18'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='socket-endpoints'>Socket Endpoints</h1><h2 id='create-socket-key'>Create socket key</h2>
 <blockquote>
@@ -1804,7 +1835,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-18'>Required Scope</h3>
+<h3 id='required-scope-19'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='delete-socket-key'>Delete socket key</h2>
 <blockquote>
@@ -1825,7 +1856,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-19'>Required Scope</h3>
+<h3 id='required-scope-20'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='trading-pair-endpoints'>Trading Pair Endpoints</h1><h2 id='get-trading-pairs'>Get trading pairs</h2>
 <blockquote>
@@ -1868,7 +1899,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
 <p>Retrieve all trading pair details.</p>
-<h3 id='required-scope-20'>Required Scope</h3>
+<h3 id='required-scope-21'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-trading-pair-detail'>Get trading pair detail</h2>
 <blockquote>
@@ -1925,7 +1956,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-21'>Required Scope</h3>
+<h3 id='required-scope-22'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='transaction-endpoints'>Transaction Endpoints</h1><h2 id='get-transactions'>Get transactions</h2>
 <blockquote>
@@ -1988,7 +2019,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-22'>Required Scope</h3>
+<h3 id='required-scope-23'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-transactions'>Get users transactions</h2>
 <blockquote>
@@ -2093,7 +2124,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-23'>Required Scope</h3>
+<h3 id='required-scope-24'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-transactions-count'>Get users transactions count</h2>
 <blockquote>
@@ -2167,7 +2198,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-24'>Required Scope</h3>
+<h3 id='required-scope-25'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-daily-total-positions'>Get users daily total positions</h2>
 <blockquote>
@@ -2221,7 +2252,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-25'>Required Scope</h3>
+<h3 id='required-scope-26'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-daily-positions'>Get users daily positions</h2>
 <blockquote>
@@ -2290,7 +2321,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-26'>Required Scope</h3>
+<h3 id='required-scope-27'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='wallet-endpoints'>Wallet Endpoints</h1><h2 id='create-address-for-wallet'>Create address for wallet</h2>
 <blockquote>
@@ -2333,7 +2364,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <ul>
 <li><strong>Available Networks</strong>: BTC, LTC, ETH, BCH, TRON, AVAX</li>
 </ul>
-<h3 id='required-scope-27'>Required Scope</h3>
+<h3 id='required-scope-28'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-wallet-by-asset-id'>Get wallet by asset id</h2>
 <blockquote>
@@ -2369,7 +2400,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-28'>Required Scope</h3>
+<h3 id='required-scope-29'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-position-by-asset-id'>Get position by asset id</h2>
 <blockquote>
@@ -2403,7 +2434,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-29'>Required Scope</h3>
+<h3 id='required-scope-30'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='socket-usage'>Socket Usage</h1>
 <blockquote>
