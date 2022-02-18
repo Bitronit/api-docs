@@ -548,6 +548,8 @@
 <h3 id='signed-endpoint-examples'>Signed Endpoint Examples</h3>
 <p>Here are step-by-step examples of how to send a valid signed payload from the Linux command line using <code>echo</code>, <code>openssl</code>, and <code>curl</code>.</p>
 
+<p>Query parametered requests&#39; signatures should be calculated in parameters order.</p>
+
 <table><thead>
 <tr>
 <th>Key</th>
@@ -567,14 +569,14 @@
 <blockquote>
 <p><strong>HMAC SHA256 signature:</strong></p>
 </blockquote>
-<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"baseAssetId=5&amp;quoteAssetId=6&amp;scale=3"</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-hmac</span> <span class="s2">"c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d"</span>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"baseAssetId=5&amp;quoteAssetId=6&amp;scale=3"</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-hmac</span> <span class="s2">"c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d"</span> <span class="nt">-binary</span> | <span class="nb">base64</span>
     <span class="o">(</span>stdin<span class="o">)=</span> yDyq8EkvBoOm+GKKxch4TwD6K0L0q5KaTNLVQv8F0rg<span class="o">=</span>
 </code></pre></div>
 <blockquote>
 <p><strong>curl command:</strong></p>
 </blockquote>
 <div class="highlight"><pre class="highlight shell tab-shell"><code><span class="o">(</span>HMAC SHA256<span class="o">)</span>
-<span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf"</span> <span class="nt">-H</span> <span class="s2">"Signature: yDyq8EkvBoOm+GKKxch4TwD6K0L0q5KaTNLVQv8F0rg="</span> <span class="nt">-X</span> GET <span class="s1">'https://api.bitronit.com/api/orders/group?baseAssetId=5&amp;quoteAssetId=6&amp;scale=3'</span>
+<span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf"</span> <span class="nt">-H</span> <span class="s2">"Signature: yDyq8EkvBoOm+GKKxch4TwD6K0L0q5KaTNLVQv8F0rg="</span> <span class="nt">-X</span> GET <span class="s1">'https://bitronit.com/api/orders/group?baseAssetId=5&amp;quoteAssetId=6&amp;scale=3'</span>
 
 </code></pre></div>
 <p><strong>GET /orders/group</strong></p>
@@ -610,14 +612,14 @@
 <blockquote>
 <p><strong>HMAC SHA256 signature:</strong></p>
 </blockquote>
-<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s1">'{"priceBelow": 12.5, "priceAbove": 7.8, "operationDirection": "Buy", "baseAssetId": 3, "quoteAssetId": 7}'</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-hmac</span> <span class="s2">"c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d"</span>
+<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s1">'{"priceBelow": 12.5, "priceAbove": 7.8, "operationDirection": "Buy", "baseAssetId": 3, "quoteAssetId": 7}'</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-hmac</span> <span class="s2">"c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d"</span> <span class="nt">-binary</span> | <span class="nb">base64</span>
     <span class="o">(</span>stdin<span class="o">)=</span> <span class="nv">xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ</span><span class="o">=</span>
 </code></pre></div>
 <blockquote>
 <p><strong>curl command:</strong></p>
 </blockquote>
 <div class="highlight"><pre class="highlight shell tab-shell"><code><span class="o">(</span>HMAC SHA256<span class="o">)</span>
-<span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf"</span> <span class="nt">-H</span> <span class="s2">"Signature: xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ="</span> <span class="nt">-X</span> POST <span class="s1">'https://api.bitronit.com/api/users/5/orders/cancel'</span> <span class="nt">-d</span> <span class="s1">'{"priceBelow":12.5,"priceAbove":7.8,"operationDirection":"Buy","baseAssetId":3,"quoteAssetId":7}'</span>
+<span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf"</span> <span class="nt">-H</span> <span class="s2">"Signature: xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ="</span> <span class="nt">-X</span> POST <span class="s1">'https://bitronit.com/api/users/5/orders/cancel'</span> <span class="nt">-d</span> <span class="s1">'{"priceBelow":12.5,"priceAbove":7.8,"operationDirection":"Buy","baseAssetId":3,"quoteAssetId":7}'</span>
 
 </code></pre></div>
 <table><thead>
@@ -1132,7 +1134,64 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
   </span><span class="nl">"statusMessage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Initiate withdraw order from the given parameters. In crypto withdraws target address must be in whitelist.</p>
+<p>Initiate withdraw order from the given parameters. In crypto withdraws target address must be in whitelist.
+Withdraw amounts scale after stripping trailing zeros should not exceed allowed precision for the asset.</p>
+
+<table><thead>
+<tr>
+<th>Asset</th>
+<th>Precision</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>BTC</td>
+<td>8</td>
+</tr>
+<tr>
+<td>ETH</td>
+<td>8</td>
+</tr>
+<tr>
+<td>LTC</td>
+<td>8</td>
+</tr>
+<tr>
+<td>USDT</td>
+<td>8</td>
+</tr>
+<tr>
+<td>BCH</td>
+<td>8</td>
+</tr>
+<tr>
+<td>LINK</td>
+<td>8</td>
+</tr>
+<tr>
+<td>TRY</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TRYB</td>
+<td>6</td>
+</tr>
+<tr>
+<td>GLDB</td>
+<td>8</td>
+</tr>
+<tr>
+<td>TRX</td>
+<td>8</td>
+</tr>
+<tr>
+<td>AVAX</td>
+<td>8</td>
+</tr>
+<tr>
+<td>JST</td>
+<td>8</td>
+</tr>
+</tbody></table>
 <h3 id='url-parameters-6'>URL Parameters</h3>
 <table><thead>
 <tr>
