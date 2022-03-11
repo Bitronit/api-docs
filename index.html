@@ -471,6 +471,11 @@
           </li>
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#client-errors" class="toc-h2 toc-link" data-title="Client Errors">Client Errors</a>
+                  </li>
+              </ul>
           </li>
       </ul>
         <ul class="toc-footer">
@@ -1498,7 +1503,7 @@ Withdraw amounts scale after stripping trailing zeros should not exceed allowed 
 </tbody></table>
 <h3 id='required-scope-12'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='get-users-orders-count'>Get users orders count</h2>
+<h3 id='order-types'><a href="https://en.wikipedia.org/wiki/Order_(exchange)#Conditional_orders">Order Types</a></h3><h2 id='get-users-orders-count'>Get users orders count</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
@@ -2686,6 +2691,136 @@ Socket library versions should be "2.4.0" in order to connect to Bitronit Socket
 <span class="p">[</span><span class="nx">baseAsset</span><span class="p">,</span> <span class="nx">quoteAsset</span><span class="p">,</span> <span class="nx">currentPrice</span><span class="p">,</span> <span class="nx">highestPrice</span><span class="p">,</span> <span class="nx">lowestPrice</span><span class="p">,</span> <span class="nx">dailyVolume</span><span class="p">,</span> <span class="nx">dailyChange</span><span class="p">,</span> <span class="nx">dailyNominalChange</span><span class="p">]</span>
 </code></pre></div><h1 id='errors'>Errors</h1>
 <p><a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">Error codes</a></p>
+<h2 id='client-errors'>Client Errors</h2>
+<table><thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Error Code</th>
+<th>Error Message</th>
+<th>Reason and Actions to fix</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td></td>
+<td>Not valid limit size: {$limit}, it should be in [1, 500]</td>
+<td>This error message is thrown when limit is bigger than 500 while getting candlesticks. In order to fix, limit should be in 1, 500 range. Please check your limits for a valid request.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>SIGNATURE_UNAUTHORIZED</td>
+<td>Signature: {$signature} is not valid.</td>
+<td>This error message is thrown when the signature that is retrieved from the “Signature” header is not true. Please take a look at the <a href="https://docs.bitronit.com/#authentication">authentication section</a> of the api documentation for the correct way to utilize Bitronit public api.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>SIGNATURE_NOT_FOUND</td>
+<td>Signature not found in the request headers</td>
+<td>This error message is thrown when the signature is not found in the request headers. Please take a look at the <a href="https://docs.bitronit.com/#authentication">authentication section</a> of the api documentation for the correct way to utilize Bitronit public api.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>API_KEY_NOT_FOUND</td>
+<td>Api-key not found.</td>
+<td>This error message is thrown when the API Key is not found in the request headers. Please take a look at the section <a href="https://docs.bitronit.com/#authentication">authentication section</a> of the api documentation for the correct way to utilize Bitronit public api.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>IP_ADDRESS_NOT_ALLOWED</td>
+<td>IP address $ipAddress is restricted.</td>
+<td>This error message is thrown when the request is sent from an IP address that is not added to IP whitelist. Please take a look at the <a href="https://docs.bitronit.com/#limits">limits section</a> of the api documentation for the correct way to utilize Bitronit public api.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>API_KEY_NOT_ENABLED</td>
+<td>Api-key with id: $id is not enabled.</td>
+<td>This error message is thrown when API Keys status is disabled or expired. Please check the validity of your API Key.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>ADDRESS_NOT_FOUND</td>
+<td>Address: {$address} not found in whitelist.</td>
+<td>This error message is thrown while initiating crypto withdraw. If target address is not in whitelist, exception is thrown. Please add address to your whitelist in order to withdraw to the target account.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>USER_NOT_FOUND</td>
+<td>User with userId = ${userId} not found</td>
+<td>This error message is thrown if a user with userId is not found. Check your userId in order to proceed with your request.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>ASSET_NOT_FOUND</td>
+<td>Asset not found.</td>
+<td>This error message is thrown when getting an asset with the wrong ticker. Please check the tickers name in your request.</td>
+</tr>
+<tr>
+<td>400</td>
+<td>WITHDRAW_IS_NOT_ALLOWED_FOR_ASSET</td>
+<td>Withdraw is not allowed for asset: $assetId</td>
+<td>This error message is thrown while initiating withdraw with a network that is not supported in Bitronit. Please check asset and network in order to proceed with your request.</td>
+</tr>
+<tr>
+<td>400</td>
+<td>WITHDRAW_AMOUNT_PRECISION_ERROR</td>
+<td>Amount scale: $amountPrecision exceeded allowed precision: ${assetModel.precision} for the asset: ${assetModel.ticker}</td>
+<td>This error message is thrown while initiating withdraw, amount scale exceeds allowed precision. Please check amount and precision to proceed with your transaction.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>NETWORK_CONFIG_NOT_FOUND</td>
+<td>Network $network for asset $asset not found. Fiat: $fiat</td>
+<td>This error message is thrown while initiating withdraw. assetId is not supported with the network config. Please check assets network support in Bitronit to find available networks for your withdraw transaction.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>WITHDRAW_IS_NOT_ALLOWED_FOR_USER</td>
+<td>Withdraw is not allowed for userId: $userId.</td>
+<td>This error message is thrown while initiating withdraw with a sub user. Please try again with parent account.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>TRANSFER_IS_NOT_ALLOWED_FOR_USER</td>
+<td>Transfer is not allowed for userId: $userId</td>
+<td>This error message is thrown while trying to transfer between main user and sub user, if the target account is not configured as a sub user. Please enable sub-user type for the target user.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>TRANSFER_NOT_ALLOWED</td>
+<td>Transfer only allowed between main user and its sub users</td>
+<td>This error message is thrown while trying to transfer with an account not marked as sub user. Transfers are only allowed between main user and its sub users.</td>
+</tr>
+<tr>
+<td>400</td>
+<td>ALREADY_CANCELED</td>
+<td>Order was already canceled</td>
+<td>This error message is thrown while trying to cancel an order that was already cancelled.</td>
+</tr>
+<tr>
+<td>400</td>
+<td>ALREADY_COMPLETED</td>
+<td>Order was already matched</td>
+<td>This error message is thrown while trying to cancel an order that was already matched.</td>
+</tr>
+<tr>
+<td>404</td>
+<td></td>
+<td>Version not found (baseAssetId=$baseAssetId,quoteAssetId=$quoteAssetId,scale=$scale)</td>
+<td>This error message is thrown while trying to retrieve order group data with wrong parameters. Please control baseAssetId, quoteAssetId and scale parameters.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>PAIR_NOT_FOUND</td>
+<td>Trading pair not found.</td>
+<td>This error is thrown while trying to retrieve trading pair by wrong assetId. Please check assetIds in your request.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>WALLET_NOT_FOUND</td>
+<td>Wallet not found</td>
+<td>This error is thrown when wallet is not found. Please check walletId in your request.</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
