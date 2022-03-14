@@ -2708,13 +2708,13 @@ Socket library versions should be "2.4.0" in order to connect to Bitronit Socket
 </tr>
 <tr>
 <td>401</td>
-<td>SIGNATURE_UNAUTHORIZED</td>
+<td>SIGNATURE UNAUTHORIZED</td>
 <td>Signature: {$signature} is not valid.</td>
 <td>This error message is thrown when the signature that is retrieved from the “Signature” header is not true. Please take a look at the <a href="https://docs.bitronit.com/#authentication">authentication section</a> of the api documentation for the correct way to utilize Bitronit public api.</td>
 </tr>
 <tr>
 <td>401</td>
-<td>SIGNATURE_NOT_FOUND</td>
+<td>SIGNATURE NOT_FOUND</td>
 <td>Signature not found in the request headers</td>
 <td>This error message is thrown when the signature is not found in the request headers. Please take a look at the <a href="https://docs.bitronit.com/#authentication">authentication section</a> of the api documentation for the correct way to utilize Bitronit public api.</td>
 </tr>
@@ -2726,19 +2726,19 @@ Socket library versions should be "2.4.0" in order to connect to Bitronit Socket
 </tr>
 <tr>
 <td>401</td>
-<td>IP_ADDRESS_NOT_ALLOWED</td>
+<td>IP_ADDRESS NOT_ALLOWED</td>
 <td>IP address $ipAddress is restricted.</td>
 <td>This error message is thrown when the request is sent from an IP address that is not added to IP whitelist. Please take a look at the <a href="https://docs.bitronit.com/#limits">limits section</a> of the api documentation for the correct way to utilize Bitronit public api.</td>
 </tr>
 <tr>
 <td>401</td>
-<td>API_KEY_NOT_ENABLED</td>
+<td>API_KEY NOT_ENABLED</td>
 <td>Api-key with id: $id is not enabled.</td>
 <td>This error message is thrown when API Keys status is disabled or expired. Please check the validity of your API Key.</td>
 </tr>
 <tr>
 <td>404</td>
-<td>ADDRESS_NOT_FOUND</td>
+<td>ADDRESS NOT_FOUND</td>
 <td>Address: {$address} not found in whitelist.</td>
 <td>This error message is thrown while initiating crypto withdraw. If target address is not in whitelist, exception is thrown. Please add address to your whitelist in order to withdraw to the target account.</td>
 </tr>
@@ -2756,56 +2756,56 @@ Socket library versions should be "2.4.0" in order to connect to Bitronit Socket
 </tr>
 <tr>
 <td>400</td>
-<td>WITHDRAW_IS_NOT_ALLOWED_FOR_ASSET</td>
+<td>WITHDRAW_IS NOT_ALLOWED FOR_ASSET</td>
 <td>Withdraw is not allowed for asset: $assetId</td>
 <td>This error message is thrown while initiating withdraw with a network that is not supported in Bitronit. Please check asset and network in order to proceed with your request.</td>
 </tr>
 <tr>
 <td>400</td>
-<td>WITHDRAW_AMOUNT_PRECISION_ERROR</td>
-<td>Amount scale: $amountPrecision exceeded allowed precision: ${assetModel.precision} for the asset: ${assetModel.ticker}</td>
+<td>WITHDRAW_AMOUNT PRECISION_ERROR</td>
+<td>Amount scale: $scale exceeded allowed ${precision} for the ${ticker}</td>
 <td>This error message is thrown while initiating withdraw, amount scale exceeds allowed precision. Please check amount and precision to proceed with your transaction.</td>
 </tr>
 <tr>
 <td>404</td>
-<td>NETWORK_CONFIG_NOT_FOUND</td>
+<td>NETWORK_CONFIG NOT_FOUND</td>
 <td>Network $network for asset $asset not found. Fiat: $fiat</td>
 <td>This error message is thrown while initiating withdraw. assetId is not supported with the network config. Please check assets network support in Bitronit to find available networks for your withdraw transaction.</td>
 </tr>
 <tr>
 <td>403</td>
-<td>WITHDRAW_IS_NOT_ALLOWED_FOR_USER</td>
+<td>WITHDRAW_IS NOT_ALLOWED FOR_USER</td>
 <td>Withdraw is not allowed for userId: $userId.</td>
 <td>This error message is thrown while initiating withdraw with a sub user. Please try again with parent account.</td>
 </tr>
 <tr>
 <td>403</td>
-<td>TRANSFER_IS_NOT_ALLOWED_FOR_USER</td>
-<td>Transfer is not allowed for userId: $userId</td>
+<td>TRANSFER_IS NOT_ALLOWED FOR_USER</td>
+<td>Transfer is not allowed for userId: $userI</td>
 <td>This error message is thrown while trying to transfer between main user and sub user, if the target account is not configured as a sub user. Please enable sub-user type for the target user.</td>
 </tr>
 <tr>
 <td>403</td>
-<td>TRANSFER_NOT_ALLOWED</td>
+<td>TRANSFER_NOT ALLOWED</td>
 <td>Transfer only allowed between main user and its sub users</td>
 <td>This error message is thrown while trying to transfer with an account not marked as sub user. Transfers are only allowed between main user and its sub users.</td>
 </tr>
 <tr>
 <td>400</td>
-<td>ALREADY_CANCELED</td>
+<td>ALREADY CANCELED</td>
 <td>Order was already canceled</td>
 <td>This error message is thrown while trying to cancel an order that was already cancelled.</td>
 </tr>
 <tr>
 <td>400</td>
-<td>ALREADY_COMPLETED</td>
+<td>ALREADY COMPLETED</td>
 <td>Order was already matched</td>
 <td>This error message is thrown while trying to cancel an order that was already matched.</td>
 </tr>
 <tr>
 <td>404</td>
 <td></td>
-<td>Version not found (baseAssetId=$baseAssetId,quoteAssetId=$quoteAssetId,scale=$scale)</td>
+<td>Version not found (baseAssetId,quoteAssetId,scale)</td>
 <td>This error message is thrown while trying to retrieve order group data with wrong parameters. Please control baseAssetId, quoteAssetId and scale parameters.</td>
 </tr>
 <tr>
