@@ -348,6 +348,15 @@
                   <li>
                     <a href="#get-a-specific-asset" class="toc-h2 toc-link" data-title="Get a specific asset">Get a specific asset</a>
                   </li>
+                  <li>
+                    <a href="#get-network-configuration" class="toc-h2 toc-link" data-title="Get network configuration">Get network configuration</a>
+                  </li>
+                  <li>
+                    <a href="#get-crypto-withdraw-config" class="toc-h2 toc-link" data-title="Get crypto withdraw config">Get crypto withdraw config</a>
+                  </li>
+                  <li>
+                    <a href="#get-fiat-withdraw-config" class="toc-h2 toc-link" data-title="Get fiat withdraw config">Get fiat withdraw config</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -381,6 +390,14 @@
                   </li>
                   <li>
                     <a href="#cancel-fiat-withdraw" class="toc-h2 toc-link" data-title="Cancel fiat withdraw">Cancel fiat withdraw</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#market-endpoints" class="toc-h1 toc-link" data-title="Market Endpoints">Market Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-market-info" class="toc-h2 toc-link" data-title="Get market info">Get market info</a>
                   </li>
               </ul>
           </li>
@@ -456,13 +473,13 @@
             <a href="#wallet-endpoints" class="toc-h1 toc-link" data-title="Wallet Endpoints">Wallet Endpoints</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#create-address-for-wallet" class="toc-h2 toc-link" data-title="Create address for wallet">Create address for wallet</a>
-                  </li>
-                  <li>
-                    <a href="#get-wallet-by-asset-id" class="toc-h2 toc-link" data-title="Get wallet by asset id">Get wallet by asset id</a>
+                    <a href="#get-or-create-address-for-wallet" class="toc-h2 toc-link" data-title="Get or Create address for wallet">Get or Create address for wallet</a>
                   </li>
                   <li>
                     <a href="#get-position-by-asset-id" class="toc-h2 toc-link" data-title="Get position by asset id">Get position by asset id</a>
+                  </li>
+                  <li>
+                    <a href="#get-wallets" class="toc-h2 toc-link" data-title="Get wallets">Get wallets</a>
                   </li>
               </ul>
           </li>
@@ -503,6 +520,9 @@
 <ul>
 <li>The base endpoint is: <b> https://bitronit.com/api </b></li>
 <li>All endpoints successful requests returns either a JSON object or array.</li>
+<li>There are <code>PUBLIC</code> and <code>SIGNED</code> endpoints. </li>
+<li><code>PUBLIC</code> endpoints don&#39;t require Authentication and Signature Headers. </li>
+<li><code>SIGNED</code> endpoints require Authentication and Signature Headers.</li>
 </ul>
 
 <blockquote>
@@ -707,9 +727,7 @@
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
 <p>Returns all assets.</p>
-<h3 id='required-scope-2'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='get-a-specific-asset'>Get a specific asset</h2>
+<h3 id='public-request'>Public Request</h3><h2 id='get-a-specific-asset'>Get a specific asset</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
@@ -742,9 +760,115 @@
 <td>Symbol of asset</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-3'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h1 id='candlestick-endpoints'>Candlestick Endpoints</h1><h2 id='get-candlesticks'>Get candlesticks</h2>
+<h3 id='public-request-2'>Public Request</h3><h2 id='get-network-configuration'>Get network configuration</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /crypto-network
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minConfirmations"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"depositEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"withdrawEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minAddressLength"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"maxAddressLength"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"addressValidationRegex"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"explorerAddressUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"explorerTransactionUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"displayOrder"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"withdrawFee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"minWithdrawMultiplier"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Returns the crypto network detail(s).</p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='public-request-3'>Public Request</h3><h2 id='get-crypto-withdraw-config'>Get crypto withdraw config</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /assets/{assetId}/network/{network}/crypto-withdraw-config
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"withdrawEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"withdrawFee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"minWithdrawMultiplier"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Returns the crypto withdraw config for the asset with given network.</p>
+<h3 id='url-parameters-2'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td></td>
+</tr>
+<tr>
+<td>network</td>
+<td>Crypto Network</td>
+</tr>
+</tbody></table>
+
+<p>Available networks can be retrieved from <a href="https://docs.bitronit.com/#get-network-configuration">Get network configuration endpoint</a></p>
+<h3 id='public-request-4'>Public Request</h3><h2 id='get-fiat-withdraw-config'>Get fiat withdraw config</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /assets/{assetId}/network/{network}/fiat-withdraw-config
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"withdrawEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"withdrawFee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"minWithdrawMultiplier"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Returns the fiat withdraw config for the asset.</p>
+<h3 id='url-parameters-3'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>assetId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='public-request-5'>Public Request</h3><h1 id='candlestick-endpoints'>Candlestick Endpoints</h1><h2 id='get-candlesticks'>Get candlesticks</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
@@ -767,7 +891,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <span class="o">]</span>
 </code></pre></div>
 <p>Filter or limit the candlesticks with query parameters.</p>
-<h3 id='query-parameters'>Query Parameters</h3>
+<h3 id='query-parameters-2'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -813,9 +937,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Maximum data number for candlestick.</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-4'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h1 id='external-transaction-endpoints'>External Transaction Endpoints</h1><h2 id='get-users-deposit-history'>Get users deposit history</h2>
+<h3 id='public-request-6'>Public Request</h3><h1 id='external-transaction-endpoints'>External Transaction Endpoints</h1><h2 id='get-users-deposit-history'>Get users deposit history</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
@@ -853,7 +975,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Filter users deposit history with query parameters.</p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<h3 id='url-parameters-4'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -865,7 +987,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-2'>Query Parameters</h3>
+<h3 id='query-parameters-3'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -905,7 +1027,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-5'>Required Scope</h3>
+<h3 id='required-scope-2'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-deposit-history-count'>Get users deposit history count</h2>
 <blockquote>
@@ -921,7 +1043,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Count of filtered users deposit history with query parameters.</p>
-<h3 id='url-parameters-3'>URL Parameters</h3>
+<h3 id='url-parameters-5'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -933,7 +1055,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-3'>Query Parameters</h3>
+<h3 id='query-parameters-4'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -955,7 +1077,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-6'>Required Scope</h3>
+<h3 id='required-scope-3'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-withdraw-history'>Get users withdraw history</h2>
 <blockquote>
@@ -995,7 +1117,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Filter users withdraw history with query parameters.</p>
-<h3 id='url-parameters-4'>URL Parameters</h3>
+<h3 id='url-parameters-6'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1007,7 +1129,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-4'>Query Parameters</h3>
+<h3 id='query-parameters-5'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1047,7 +1169,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-7'>Required Scope</h3>
+<h3 id='required-scope-4'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-withdraw-history-count'>Get users withdraw history count</h2>
 <blockquote>
@@ -1063,7 +1185,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Count of filtered users withdraw history with query parameters.</p>
-<h3 id='url-parameters-5'>URL Parameters</h3>
+<h3 id='url-parameters-7'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1075,7 +1197,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-5'>Query Parameters</h3>
+<h3 id='query-parameters-6'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1097,7 +1219,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-8'>Required Scope</h3>
+<h3 id='required-scope-5'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='initiate-withdraw'>Initiate withdraw</h2>
 <blockquote>
@@ -1110,7 +1232,8 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
   </span><span class="nl">"targetAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"ibanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+  </span><span class="nl">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"withdrawCryptoFee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <blockquote>
@@ -1143,7 +1266,7 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 <p>Initiate withdraw order from the given parameters. In crypto withdraws target address must be in whitelist.
 Withdraw amounts scale after stripping trailing zeros should not exceed allowed precision for the asset.
 Precision of an asset can be reached from <a href="https://docs.bitronit.com/#get-a-specific-asset">Get a specific asset endpoint</a></p>
-<h3 id='url-parameters-6'>URL Parameters</h3>
+<h3 id='url-parameters-8'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1197,11 +1320,19 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <tr>
 <td>network</td>
 <td>false</td>
-<td>Long</td>
-<td>Crypto network we</td>
+<td>String</td>
+<td>Crypto network you want to use</td>
+</tr>
+<tr>
+<td>withdrawCryptoFee</td>
+<td>false</td>
+<td>BigDecimal</td>
+<td>Required for crypto withdraws. Dynamic withdraw crypto fee retrieved from <a href="https://docs.bitronit.com/#get-network-configuration">Get network configuration endpoint</a></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-9'>Required Scope</h3>
+
+<p>Available networks can be retrieved from <a href="https://docs.bitronit.com/#get-network-configuration">Get network configuration endpoint</a></p>
+<h3 id='required-scope-6'>Required Scope</h3>
 <p><code>Withdraw</code>: Authorized to withdraw</p>
 <h2 id='transfer-between-accounts'>Transfer between accounts</h2>
 <blockquote>
@@ -1269,7 +1400,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Transfer between sub-account and main accounts</p>
-<h3 id='url-parameters-7'>URL Parameters</h3>
+<h3 id='url-parameters-9'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1321,12 +1452,12 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td><em>WithdrawFromTarget</em>, <em>DepositToTarget</em></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-10'>Required Scope</h3>
+<h3 id='required-scope-7'>Required Scope</h3>
 <p><code>Withdraw</code>: Authorized to withdraw</p>
 <h2 id='cancel-fiat-withdraw'>Cancel fiat withdraw</h2><div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/transactions/{transactionUuid}/cancel
 </span></code></pre></div>
 <p>Cancels withdraw order of the transaction uuid.</p>
-<h3 id='url-parameters-8'>URL Parameters</h3>
+<h3 id='url-parameters-10'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1342,9 +1473,32 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td>UUID of the transaction</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-11'>Required Scope</h3>
+<h3 id='required-scope-8'>Required Scope</h3>
 <p><code>Withdraw</code>: Authorized to withdraw</p>
-<h1 id='order-endpoints'>Order Endpoints</h1><h2 id='get-users-orders'>Get users orders</h2>
+<h1 id='market-endpoints'>Market Endpoints</h1><h2 id='get-market-info'>Get market info</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /markets
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"currentPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"dailyVolume"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"dailyChange"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"baseAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"quoteAssetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"highestPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lowestPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"dailyNominalChange"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Returns market info for all pairs.</p>
+<h3 id='public-request-7'>Public Request</h3><h1 id='order-endpoints'>Order Endpoints</h1><h2 id='get-users-orders'>Get users orders</h2>
 <blockquote>
 <p>Request: </p>
 </blockquote>
@@ -1377,7 +1531,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
 <p>Filter users orders with query parameters.</p>
-<h3 id='url-parameters-9'>URL Parameters</h3>
+<h3 id='url-parameters-11'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1389,7 +1543,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-6'>Query Parameters</h3>
+<h3 id='query-parameters-7'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1453,7 +1607,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-12'>Required Scope</h3>
+<h3 id='required-scope-9'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h3 id='order-types'><a href="https://en.wikipedia.org/wiki/Order_(exchange)#Conditional_orders">Order Types</a></h3><h2 id='get-users-orders-count'>Get users orders count</h2>
 <blockquote>
@@ -1469,7 +1623,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Number of users filtered orders with query parameters.</p>
-<h3 id='url-parameters-10'>URL Parameters</h3>
+<h3 id='url-parameters-12'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1481,7 +1635,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-7'>Query Parameters</h3>
+<h3 id='query-parameters-8'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1527,7 +1681,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-13'>Required Scope</h3>
+<h3 id='required-scope-10'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='create-order'>Create order</h2>
 <blockquote>
@@ -1556,7 +1710,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Creates a new order.</p>
-<h3 id='url-parameters-11'>URL Parameters</h3>
+<h3 id='url-parameters-13'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1626,7 +1780,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-14'>Required Scope</h3>
+<h3 id='required-scope-11'>Required Scope</h3>
 <p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='get-order-detail-by-order-uuid'>Get order detail by order UUID</h2>
 <blockquote>
@@ -1659,7 +1813,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Get users order detail by order UUID.</p>
-<h3 id='url-parameters-12'>URL Parameters</h3>
+<h3 id='url-parameters-14'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1675,7 +1829,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td>Order UUID</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-15'>Required Scope</h3>
+<h3 id='required-scope-12'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='cancel-orders'>Cancel orders</h2>
 <blockquote>
@@ -1691,7 +1845,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Cancel filtered orders with body parameters.</p>
-<h3 id='url-parameters-13'>URL Parameters</h3>
+<h3 id='url-parameters-15'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1743,7 +1897,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-16'>Required Scope</h3>
+<h3 id='required-scope-13'>Required Scope</h3>
 <p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='cancel-order'>Cancel order</h2>
 <blockquote>
@@ -1752,7 +1906,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/orders/{uuid}/cancel
 </span></code></pre></div>
 <p>Update order status as Canceled and delete it from orderbook</p>
-<h3 id='url-parameters-14'>URL Parameters</h3>
+<h3 id='url-parameters-16'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1768,13 +1922,13 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td>Order UUID</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-17'>Required Scope</h3>
+<h3 id='required-scope-14'>Required Scope</h3>
 <p><code>Trade</code>: Authorized to give orders</p>
 <h2 id='get-scaled-order-data'>Get scaled order data</h2>
 <blockquote>
 <p>Request</p>
 </blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/orders/group?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;scale={scale}
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /orders/group?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;scale={scale}
 </span></code></pre></div>
 <blockquote>
 <p>Response: </p>
@@ -1795,7 +1949,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Filter scaled order data</p>
-<h3 id='query-parameters-8'>Query Parameters</h3>
+<h3 id='query-parameters-9'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1823,9 +1977,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-18'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h1 id='socket-endpoints'>Socket Endpoints</h1><h2 id='create-socket-key'>Create socket key</h2>
+<h3 id='public-request-8'>Public Request</h3><h1 id='socket-endpoints'>Socket Endpoints</h1><h2 id='create-socket-key'>Create socket key</h2>
 <blockquote>
 <p>Request</p>
 </blockquote>
@@ -1839,7 +1991,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Creates a key for connecting to the socket. With this key, the user listens for specific data.</p>
-<h3 id='url-parameters-15'>URL Parameters</h3>
+<h3 id='url-parameters-17'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1851,7 +2003,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-19'>Required Scope</h3>
+<h3 id='required-scope-15'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='delete-socket-key'>Delete socket key</h2>
 <blockquote>
@@ -1860,7 +2012,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <div class="highlight"><pre class="highlight http tab-http"><code><span class="err">DELETE /users/{userId}/socket/keys
 </span></code></pre></div>
 <p>Deletes the socket key.</p>
-<h3 id='url-parameters-16'>URL Parameters</h3>
+<h3 id='url-parameters-18'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1872,7 +2024,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-20'>Required Scope</h3>
+<h3 id='required-scope-16'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='trading-pair-endpoints'>Trading Pair Endpoints</h1><h2 id='get-trading-pairs'>Get trading pairs</h2>
 <blockquote>
@@ -1915,9 +2067,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
 <p>Retrieve all trading pair details.</p>
-<h3 id='required-scope-21'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='get-trading-pair-detail'>Get trading pair detail</h2>
+<h3 id='public-request-9'>Public Request</h3><h2 id='get-trading-pair-detail'>Get trading pair detail</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
@@ -1956,7 +2106,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Retrieve trading pair detail by asset ids</p>
-<h3 id='url-parameters-17'>URL Parameters</h3>
+<h3 id='url-parameters-19'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1972,9 +2122,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-22'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h1 id='transaction-endpoints'>Transaction Endpoints</h1><h2 id='get-transactions'>Get transactions</h2>
+<h3 id='public-request-10'>Public Request</h3><h1 id='transaction-endpoints'>Transaction Endpoints</h1><h2 id='get-transactions'>Get transactions</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
@@ -1995,7 +2143,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Filter transactions with query parameters.</p>
-<h3 id='query-parameters-9'>Query Parameters</h3>
+<h3 id='query-parameters-10'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2035,9 +2183,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-23'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='get-users-transactions'>Get users transactions</h2>
+<h3 id='public-request-11'>Public Request</h3><h2 id='get-users-transactions'>Get users transactions</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
@@ -2064,99 +2210,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Filter users transactions with query parameters.</p>
-<h3 id='url-parameters-18'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>userId</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id='query-parameters-10'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Required</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>baseAssetId</td>
-<td>false</td>
-<td>Long</td>
-<td></td>
-</tr>
-<tr>
-<td>quoteAssetId</td>
-<td>false</td>
-<td>Long</td>
-<td></td>
-</tr>
-<tr>
-<td>operationDirection</td>
-<td>false</td>
-<td><strong>OperationDirection</strong></td>
-<td><em>Sell</em>, <em>Buy</em></td>
-</tr>
-<tr>
-<td>orderUUID</td>
-<td>false</td>
-<td>UUID</td>
-<td></td>
-</tr>
-<tr>
-<td>after</td>
-<td>false</td>
-<td>Instant</td>
-<td></td>
-</tr>
-<tr>
-<td>before</td>
-<td>false</td>
-<td>Instant</td>
-<td></td>
-</tr>
-<tr>
-<td>page</td>
-<td>false</td>
-<td>Int</td>
-<td>Page number</td>
-</tr>
-<tr>
-<td>size</td>
-<td>false</td>
-<td>Int</td>
-<td>Number of data per page</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>false</td>
-<td>String</td>
-<td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
-</tr>
-</tbody></table>
-<h3 id='required-scope-24'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='get-users-transactions-count'>Get users transactions count</h2>
-<blockquote>
-<p>Request:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/transactions/count?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;operationDirection={operationDirection}&amp;orderUUID={orderUUID}&amp;after={after}&amp;before={before}
-</span></code></pre></div>
-<blockquote>
-<p>Response</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Number of users filtered transactions with query parameters.</p>
-<h3 id='url-parameters-19'>URL Parameters</h3>
+<h3 id='url-parameters-20'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2213,28 +2267,42 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td>Instant</td>
 <td></td>
 </tr>
+<tr>
+<td>page</td>
+<td>false</td>
+<td>Int</td>
+<td>Page number</td>
+</tr>
+<tr>
+<td>size</td>
+<td>false</td>
+<td>Int</td>
+<td>Number of data per page</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>false</td>
+<td>String</td>
+<td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
+</tr>
 </tbody></table>
-<h3 id='required-scope-25'>Required Scope</h3>
+<h3 id='required-scope-17'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='get-users-daily-total-positions'>Get users daily total positions</h2>
+<h2 id='get-users-transactions-count'>Get users transactions count</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/daily/total-balance?after={after}&amp;before={before}
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/transactions/count?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;operationDirection={operationDirection}&amp;orderUUID={orderUUID}&amp;after={after}&amp;before={before}
 </span></code></pre></div>
 <blockquote>
-<p>Response:</p>
+<p>Response</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"totalAmountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"totalAmountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Filter users daily total positions with query parameters. Returns the data showing the balance field on the dashboard.</p>
-<h3 id='url-parameters-20'>URL Parameters</h3>
+<p>Number of users filtered transactions with query parameters.</p>
+<h3 id='url-parameters-21'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2256,6 +2324,30 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </tr>
 </thead><tbody>
 <tr>
+<td>baseAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>quoteAssetId</td>
+<td>false</td>
+<td>Long</td>
+<td></td>
+</tr>
+<tr>
+<td>operationDirection</td>
+<td>false</td>
+<td><strong>OperationDirection</strong></td>
+<td><em>Sell</em>, <em>Buy</em></td>
+</tr>
+<tr>
+<td>orderUUID</td>
+<td>false</td>
+<td>UUID</td>
+<td></td>
+</tr>
+<tr>
 <td>after</td>
 <td>false</td>
 <td>Instant</td>
@@ -2268,7 +2360,61 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-26'>Required Scope</h3>
+<h3 id='required-scope-18'>Required Scope</h3>
+<p><code>PublicApi</code>: Basic Scope</p>
+<h2 id='get-users-daily-total-positions'>Get users daily total positions</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/daily/total-balance?after={after}&amp;before={before}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"totalAmountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"totalAmountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Filter users daily total positions with query parameters. Returns the data showing the balance field on the dashboard.</p>
+<h3 id='url-parameters-22'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-13'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>after</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>before</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-19'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-daily-positions'>Get users daily positions</h2>
 <blockquote>
@@ -2303,7 +2449,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
 <p>Filter users daily positions with query parameters. Returns data showing daily balance graph.</p>
-<h3 id='url-parameters-21'>URL Parameters</h3>
+<h3 id='url-parameters-23'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2315,7 +2461,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-13'>Query Parameters</h3>
+<h3 id='query-parameters-14'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2337,13 +2483,13 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-27'>Required Scope</h3>
+<h3 id='required-scope-20'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
-<h1 id='wallet-endpoints'>Wallet Endpoints</h1><h2 id='create-address-for-wallet'>Create address for wallet</h2>
+<h1 id='wallet-endpoints'>Wallet Endpoints</h1><h2 id='get-or-create-address-for-wallet'>Get or Create address for wallet</h2>
 <blockquote>
 <p>Request:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">POST /users/{userId}/wallets/{walletId}/network/{network}/address
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/wallets/{walletId}/network/{network}/address
 </span></code></pre></div>
 <blockquote>
 <p>Response:</p>
@@ -2355,8 +2501,8 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
   </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Create cryptocurrency address for wallet with the selected network.</p>
-<h3 id='url-parameters-22'>URL Parameters</h3>
+<p>Get cryptocurrency address for wallet with the selected network. If not exists, create address for wallet with the selected network.</p>
+<h3 id='url-parameters-24'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2378,45 +2524,9 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </tbody></table>
 
 <ul>
-<li><strong>Available Networks</strong>: BTC, LTC, ETH, BCH, TRON, AVAX</li>
+<li><strong>Available Networks</strong>: Available networks can be retrieved from <a href="https://docs.bitronit.com/#get-network-configuration">Get network configuration endpoint</a></li>
 </ul>
-<h3 id='required-scope-28'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='get-wallet-by-asset-id'>Get wallet by asset id</h2>
-<blockquote>
-<p>Request:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/assets/{assetId}/wallet
-</span></code></pre></div>
-<blockquote>
-<p>Response:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"positionId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Get wallet of user by asset id.</p>
-<h3 id='url-parameters-23'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>userId</td>
-<td></td>
-</tr>
-<tr>
-<td>assetId</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id='required-scope-29'>Required Scope</h3>
+<h3 id='required-scope-21'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-position-by-asset-id'>Get position by asset id</h2>
 <blockquote>
@@ -2434,7 +2544,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Get position of user by asset id.</p>
-<h3 id='url-parameters-24'>URL Parameters</h3>
+<h3 id='url-parameters-25'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2450,7 +2560,48 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-30'>Required Scope</h3>
+<h3 id='required-scope-22'>Required Scope</h3>
+<p><code>PublicApi</code>: Basic Scope</p>
+<h2 id='get-wallets'>Get wallets</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/wallets
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"wallets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"walletId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"assetId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"asset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"positionDetail"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"positionId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"totalAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"reservedAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"availableAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Get wallets of user.</p>
+<h3 id='url-parameters-26'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-23'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='socket-usage'>Socket Usage</h1>
 <blockquote>
