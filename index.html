@@ -1109,7 +1109,8 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
   </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
   </span><span class="nl">"targetAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3fa85f64-5717-4562-b3fc-2c963f66afa6"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"ibanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+  </span><span class="nl">"ibanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <blockquote>
@@ -1140,63 +1141,8 @@ GET /candlesticks?baseAssetId={baseAssetId}&amp;quoteAssetId={quoteAssetId}&amp;
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Initiate withdraw order from the given parameters. In crypto withdraws target address must be in whitelist.
-Withdraw amounts scale after stripping trailing zeros should not exceed allowed precision for the asset.</p>
-
-<table><thead>
-<tr>
-<th>Asset</th>
-<th>Precision</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>BTC</td>
-<td>8</td>
-</tr>
-<tr>
-<td>ETH</td>
-<td>8</td>
-</tr>
-<tr>
-<td>LTC</td>
-<td>8</td>
-</tr>
-<tr>
-<td>USDT</td>
-<td>8</td>
-</tr>
-<tr>
-<td>BCH</td>
-<td>8</td>
-</tr>
-<tr>
-<td>LINK</td>
-<td>8</td>
-</tr>
-<tr>
-<td>TRY</td>
-<td>2</td>
-</tr>
-<tr>
-<td>TRYB</td>
-<td>6</td>
-</tr>
-<tr>
-<td>GLDB</td>
-<td>8</td>
-</tr>
-<tr>
-<td>TRX</td>
-<td>8</td>
-</tr>
-<tr>
-<td>AVAX</td>
-<td>8</td>
-</tr>
-<tr>
-<td>JST</td>
-<td>8</td>
-</tr>
-</tbody></table>
+Withdraw amounts scale after stripping trailing zeros should not exceed allowed precision for the asset.
+Precision of an asset can be reached from <a href="https://docs.bitronit.com/#get-a-specific-asset">Get a specific asset endpoint</a></p>
 <h3 id='url-parameters-6'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -1247,6 +1193,12 @@ Withdraw amounts scale after stripping trailing zeros should not exceed allowed 
 <td>false</td>
 <td>Long</td>
 <td>IBAN you want to withdraw</td>
+</tr>
+<tr>
+<td>network</td>
+<td>false</td>
+<td>Long</td>
+<td>Crypto network we</td>
 </tr>
 </tbody></table>
 <h3 id='required-scope-9'>Required Scope</h3>
