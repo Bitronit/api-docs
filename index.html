@@ -428,6 +428,14 @@
               </ul>
           </li>
           <li>
+            <a href="#restriction-endpoints" class="toc-h1 toc-link" data-title="Restriction Endpoints">Restriction Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-user-restriction" class="toc-h2 toc-link" data-title="Get user restriction">Get user restriction</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#socket-endpoints" class="toc-h1 toc-link" data-title="Socket Endpoints">Socket Endpoints</a>
               <ul class="toc-list-h2">
                   <li>
@@ -1977,7 +1985,54 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='public-request-8'>Public Request</h3><h1 id='socket-endpoints'>Socket Endpoints</h1><h2 id='create-socket-key'>Create socket key</h2>
+<h3 id='public-request-8'>Public Request</h3><h1 id='restriction-endpoints'>Restriction Endpoints</h1><h2 id='get-user-restriction'>Get user restriction</h2>
+<blockquote>
+<p>Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/restrictions
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"dailyTotal"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"dailyRemaining"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"monthlyTotal"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"monthlyRemaining"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Get users daily, monthly restrictions.</p>
+<h3 id='url-parameters-17'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-10'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>Withdraw or Deposit</td>
+</tr>
+<tr>
+<td>assetId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-15'>Required Scope</h3>
+<p><code>PublicApi</code>: Basic Scope</p>
+<h1 id='socket-endpoints'>Socket Endpoints</h1><h2 id='create-socket-key'>Create socket key</h2>
 <blockquote>
 <p>Request</p>
 </blockquote>
@@ -1991,27 +2046,6 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Creates a key for connecting to the socket. With this key, the user listens for specific data.</p>
-<h3 id='url-parameters-17'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>userId</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id='required-scope-15'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='delete-socket-key'>Delete socket key</h2>
-<blockquote>
-<p>Request:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">DELETE /users/{userId}/socket/keys
-</span></code></pre></div>
-<p>Deletes the socket key.</p>
 <h3 id='url-parameters-18'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -2025,6 +2059,27 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </tr>
 </tbody></table>
 <h3 id='required-scope-16'>Required Scope</h3>
+<p><code>PublicApi</code>: Basic Scope</p>
+<h2 id='delete-socket-key'>Delete socket key</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">DELETE /users/{userId}/socket/keys
+</span></code></pre></div>
+<p>Deletes the socket key.</p>
+<h3 id='url-parameters-19'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-17'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='trading-pair-endpoints'>Trading Pair Endpoints</h1><h2 id='get-trading-pairs'>Get trading pairs</h2>
 <blockquote>
@@ -2106,7 +2161,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Retrieve trading pair detail by asset ids</p>
-<h3 id='url-parameters-19'>URL Parameters</h3>
+<h3 id='url-parameters-20'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2143,7 +2198,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Filter transactions with query parameters.</p>
-<h3 id='query-parameters-10'>Query Parameters</h3>
+<h3 id='query-parameters-11'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2210,7 +2265,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Filter users transactions with query parameters.</p>
-<h3 id='url-parameters-20'>URL Parameters</h3>
+<h3 id='url-parameters-21'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2222,7 +2277,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-11'>Query Parameters</h3>
+<h3 id='query-parameters-12'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2286,7 +2341,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td>Variable to sort,sorting type(e.g. <code>id,asc</code>)</td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-17'>Required Scope</h3>
+<h3 id='required-scope-18'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-transactions-count'>Get users transactions count</h2>
 <blockquote>
@@ -2302,7 +2357,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Number of users filtered transactions with query parameters.</p>
-<h3 id='url-parameters-21'>URL Parameters</h3>
+<h3 id='url-parameters-22'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2314,7 +2369,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-12'>Query Parameters</h3>
+<h3 id='query-parameters-13'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2360,7 +2415,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-18'>Required Scope</h3>
+<h3 id='required-scope-19'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-users-daily-total-positions'>Get users daily total positions</h2>
 <blockquote>
@@ -2380,75 +2435,6 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
 <p>Filter users daily total positions with query parameters. Returns the data showing the balance field on the dashboard.</p>
-<h3 id='url-parameters-22'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>userId</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id='query-parameters-13'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Required</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>after</td>
-<td>false</td>
-<td>Instant</td>
-<td></td>
-</tr>
-<tr>
-<td>before</td>
-<td>false</td>
-<td>Instant</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id='required-scope-19'>Required Scope</h3>
-<p><code>PublicApi</code>: Basic Scope</p>
-<h2 id='get-users-daily-positions'>Get users daily positions</h2>
-<blockquote>
-<p>Request:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/daily/balance?after={after}&amp;before={before}
-</span></code></pre></div>
-<blockquote>
-<p>Response:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"assets"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"additionalProp1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nl">"additionalProp2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nl">"additionalProp3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div>
-<p>Filter users daily positions with query parameters. Returns data showing daily balance graph.</p>
 <h3 id='url-parameters-23'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -2485,6 +2471,75 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </tbody></table>
 <h3 id='required-scope-20'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
+<h2 id='get-users-daily-positions'>Get users daily positions</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="err">GET /users/{userId}/daily/balance?after={after}&amp;before={before}
+</span></code></pre></div>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"assets"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"additionalProp1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"additionalProp2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"additionalProp3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountTry"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"amountUsd"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Filter users daily positions with query parameters. Returns data showing daily balance graph.</p>
+<h3 id='url-parameters-24'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-15'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>after</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+<tr>
+<td>before</td>
+<td>false</td>
+<td>Instant</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='required-scope-21'>Required Scope</h3>
+<p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='wallet-endpoints'>Wallet Endpoints</h1><h2 id='get-or-create-address-for-wallet'>Get or Create address for wallet</h2>
 <blockquote>
 <p>Request:</p>
@@ -2502,7 +2557,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Get cryptocurrency address for wallet with the selected network. If not exists, create address for wallet with the selected network.</p>
-<h3 id='url-parameters-24'>URL Parameters</h3>
+<h3 id='url-parameters-25'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2526,7 +2581,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <ul>
 <li><strong>Available Networks</strong>: Available networks can be retrieved from <a href="https://docs.bitronit.com/#get-network-configuration">Get network configuration endpoint</a></li>
 </ul>
-<h3 id='required-scope-21'>Required Scope</h3>
+<h3 id='required-scope-22'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-position-by-asset-id'>Get position by asset id</h2>
 <blockquote>
@@ -2544,7 +2599,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Get position of user by asset id.</p>
-<h3 id='url-parameters-25'>URL Parameters</h3>
+<h3 id='url-parameters-26'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2560,7 +2615,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-22'>Required Scope</h3>
+<h3 id='required-scope-23'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h2 id='get-wallets'>Get wallets</h2>
 <blockquote>
@@ -2589,7 +2644,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Get wallets of user.</p>
-<h3 id='url-parameters-26'>URL Parameters</h3>
+<h3 id='url-parameters-27'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2601,7 +2656,7 @@ Precision of an asset can be reached from <a href="https://docs.bitronit.com/#ge
 <td></td>
 </tr>
 </tbody></table>
-<h3 id='required-scope-23'>Required Scope</h3>
+<h3 id='required-scope-24'>Required Scope</h3>
 <p><code>PublicApi</code>: Basic Scope</p>
 <h1 id='socket-usage'>Socket Usage</h1>
 <blockquote>
