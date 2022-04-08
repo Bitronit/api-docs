@@ -38,6 +38,9 @@ meta:
 
 - The base endpoint is: <b> https://bitronit.com/api </b>
 - All endpoints successful requests returns either a JSON object or array.
+- There are `PUBLIC` and `SIGNED` endpoints. 
+- `PUBLIC` endpoints don't require Authentication and Signature Headers. 
+- `SIGNED` endpoints require Authentication and Signature Headers.
 
 > Error response:
 
@@ -216,9 +219,7 @@ GET /assets
 
 Returns all assets.
 
-### Required Scope
-
-`PublicApi`: Basic Scope
+### Public Request
 
 ## Get a specific asset 
 
@@ -251,9 +252,114 @@ Parameter | Description
 --------- | -----------
 ticker    | Symbol of asset
 
-### Required Scope
+### Public Request
 
-`PublicApi`: Basic Scope
+
+## Get network configuration
+
+> Request:
+
+```http
+GET /crypto-network
+```
+
+> Response:
+
+```json
+[
+  {
+    "id": 0,
+    "network": "BTC",
+    "assetId": 0,
+    "minConfirmations": 0,
+    "depositEnabled": true,
+    "withdrawEnabled": true,
+    "minAddressLength": 0,
+    "maxAddressLength": 0,
+    "addressValidationRegex": "string",
+    "explorerAddressUrl": "string",
+    "explorerTransactionUrl": "string",
+    "displayOrder": 0,
+    "withdrawFee": 0,
+    "minWithdrawMultiplier": 0,
+    "name": "BTC"
+  }
+]
+```
+
+Returns the crypto network detail(s).
+
+### Query Parameters
+
+Parameter | Required | Type   | Description
+--------- | -------- | ------ | ------
+assetId | false | Long |
+
+### Public Request
+
+
+## Get crypto withdraw config
+
+> Request:
+
+```http
+GET /assets/{assetId}/network/{network}/crypto-withdraw-config
+```
+
+> Response:
+
+```json
+{
+  "withdrawEnabled": true,
+  "withdrawFee": 0,
+  "minWithdrawMultiplier": 0
+}
+```
+
+Returns the crypto withdraw config for the asset with given network.
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+assetId    | 
+network    | Crypto Network
+
+Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+
+
+### Public Request
+
+
+## Get fiat withdraw config
+
+> Request:
+
+```http
+GET /assets/{assetId}/network/{network}/fiat-withdraw-config
+```
+
+> Response:
+
+```json
+{
+  "withdrawEnabled": true,
+  "withdrawFee": 0,
+  "minWithdrawMultiplier": 0
+}
+```
+
+Returns the fiat withdraw config for the asset.
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+assetId    |
+
+
+### Public Request
+
 
 # Candlestick Endpoints
 
@@ -295,9 +401,7 @@ startTime    | false | Long   |
 endTime    | false | Long     | 
 limit    | false | Int        | Maximum data number for candlestick.
 
-### Required Scope
-
-`PublicApi`: Basic Scope
+### Public Request
 
 # External Transaction Endpoints
 
@@ -495,18 +599,92 @@ fiat    | false | Boolean |
 
 `PublicApi`: Basic Scope
 
-## Initiate withdraw
+## Initiate crypto withdraw
 
 > Request:
 
 ```http
-POST /users/{userId}/withdrawals
+POST /users/{userId}/withdrawals/crypto
 ```
 ```json
 {
   "assetId": 0,
   "amount": 0,
   "targetAddress": "string",
+  "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "network": "string",
+  "withdrawCryptoFee": 0
+}
+```
+
+> Response:
+
+```json
+{
+  "id": 0,
+  "type": "string",
+  "transactionHash": "string",
+  "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "address": "string",
+  "asset": "string",
+  "assetId": 0,
+  "amount": 0,
+  "fee": 0,
+  "userId": 0,
+  "status": "Waiting",
+  "confirmedBlockCount": 0,
+  "statusUpdateDate": "2021-12-13T14:09:53.609Z",
+  "completeDate": "2021-12-13T14:09:53.609Z",
+  "typicalPrice": 0,
+  "fiat": true,
+  "senderIban": "string",
+  "senderBankName": "string",
+  "receiverIban": "string",
+  "receiverBankName": "string",
+  "statusMessage": "string"
+}
+```
+
+Initiate crypto withdraw order from the given parameters. In crypto withdraws target address must be in whitelist.
+Withdraw amounts scale after stripping trailing zeros should not exceed allowed precision for the asset.
+Precision of an asset can be reached from [Get a specific asset endpoint](https://docs.bitronit.com/#get-a-specific-asset)
+
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userId    |
+
+### Body Parameters
+
+Parameter | Required | Type   | Description
+--------- | -------- | ------ | ------
+assetId | true | Long |
+amount    | true | BigDecimal |
+targetAddress    | true | String | Address you want to withdraw
+uuid    | true | UUID | Created from client
+network    | true | String | Crypto network you want to use
+withdrawCryptoFee    | true | BigDecimal | Required for crypto withdraws. Dynamic withdraw crypto fee retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+
+Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+
+### Required Scope
+
+`Withdraw`: Authorized to withdraw
+
+
+## Initiate fiat withdraw
+
+> Request:
+
+```http
+POST /users/{userId}/withdrawals/fiat
+```
+```json
+{
+  "assetId": 0,
+  "amount": 0,
   "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "ibanId": "string"
 }
@@ -540,23 +718,9 @@ POST /users/{userId}/withdrawals
 }
 ```
 
-Initiate withdraw order from the given parameters. In crypto withdraws target address must be in whitelist.
+Initiate fiat withdraw order from the given parameters.
 Withdraw amounts scale after stripping trailing zeros should not exceed allowed precision for the asset.
-
-Asset | Precision
---------- | --------
-BTC | 8
-ETH | 8
-LTC | 8
-USDT | 8
-BCH | 8
-LINK | 8 
-TRY | 2
-TRYB |6
-GLDB | 8
-TRX | 8
-AVAX | 8
-JST | 8
+Precision of an asset can be reached from [Get a specific asset endpoint](https://docs.bitronit.com/#get-a-specific-asset)
 
 
 ### URL Parameters
@@ -571,9 +735,10 @@ Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
 assetId | true | Long |
 amount    | true | BigDecimal |
-targetAddress    | false | String | Address you want to withdraw
 uuid    | true | UUID | Created from client
-ibanId    | false | Long | IBAN you want to withdraw
+ibanId    | true | Long | IBAN you want to withdraw
+
+Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
 
 ### Required Scope
 
@@ -690,6 +855,68 @@ transactionUuid    | UUID of the transaction
 ### Required Scope
 
 `Withdraw`: Authorized to withdraw
+
+# Iban Endpoint
+
+## Get users ibans
+
+> Request:
+
+```http
+GET /users/{userId}/ibans
+```
+
+> Response:
+
+```json
+[
+  {
+    "id": 0,
+    "iban": "string",
+    "bankName": "string",
+    "userId": 0,
+    "accountName": "string"
+  }
+]
+```
+
+Returns users ibans.
+
+### Required Scope
+
+`PublicApi`: Basic Scope
+
+
+# Market Endpoints
+
+## Get market info
+
+> Request:
+
+```http
+GET /markets
+```
+
+> Response:
+
+```json
+[
+  {
+    "currentPrice": 0,
+    "dailyVolume": 0,
+    "dailyChange": 0,
+    "baseAssetId": 0,
+    "quoteAssetId": 0,
+    "highestPrice": 0,
+    "lowestPrice": 0,
+    "dailyNominalChange": 0
+  }
+]
+```
+
+Returns market info for all pairs.
+
+### Public Request
 
 # Order Endpoints
 
@@ -968,7 +1195,7 @@ uuid    | Order UUID
 > Request
 
 ```http
-GET /users/{userId}/orders/group?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&scale={scale}
+GET /orders/group?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&scale={scale}
 ```
 
 > Response: 
@@ -999,6 +1226,44 @@ Parameter | Required | Type   | Description
 baseAssetId | true | Long
 quoteAssetId | true | Long
 scale | true | int
+
+### Public Request
+
+# Restriction Endpoints
+
+##Get user restriction
+
+> Request
+
+```http
+GET /users/{userId}/restrictions
+```
+
+> Response:
+
+```json
+{
+  "dailyTotal": 0,
+  "dailyRemaining": 0,
+  "monthlyTotal": 0,
+  "monthlyRemaining": 0
+}
+```
+
+Get users daily, monthly restrictions.
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userId    |
+
+### Query Parameters
+
+Parameter | Description
+--------- | -----------
+type      | Withdraw or Deposit
+assetId   |
 
 ### Required Scope
 
@@ -1101,9 +1366,7 @@ GET /trading-pairs
 
 Retrieve all trading pair details.
 
-### Required Scope
-
-`PublicApi`: Basic Scope
+### Public Request
 
 ## Get trading pair detail
 
@@ -1153,11 +1416,9 @@ Retrieve trading pair detail by asset ids
 Parameter | Description
 --------- | -----------
 baseAssetId    | 
-quoteAssetId   | 
+quoteAssetId   |
 
-### Required Scope
-
-`PublicApi`: Basic Scope
+### Public Request
 
 # Transaction Endpoints
 
@@ -1196,9 +1457,7 @@ page | false | Int            | Page number
 size    | false | Int         | Number of data per page
 sort    | false | String      | Variable to sort,sorting type(e.g. `id,asc`)
 
-### Required Scope
-
-`PublicApi`: Basic Scope
+### Public Request
 
 ## Get users transactions
 
@@ -1390,12 +1649,12 @@ before    | false | Instant
 
 # Wallet Endpoints
 
-## Create address for wallet
+## Get or Create address for wallet
 
 > Request:
 
 ```http
-POST /users/{userId}/wallets/{walletId}/network/{network}/address
+GET /users/{userId}/wallets/{walletId}/network/{network}/address
 ```
 
 > Response:
@@ -1409,7 +1668,7 @@ POST /users/{userId}/wallets/{walletId}/network/{network}/address
 }
 ```
 
-Create cryptocurrency address for wallet with the selected network.
+Get cryptocurrency address for wallet with the selected network. If not exists, create address for wallet with the selected network.
 
 ### URL Parameters
 
@@ -1419,40 +1678,7 @@ userId    |
 walletId  |
 network   | **Available Networks**
 
-- **Available Networks**: BTC, LTC, ETH, BCH, TRON, AVAX
-
-### Required Scope
-
-`PublicApi`: Basic Scope
-
-## Get wallet by asset id
-
-> Request:
-
-```http
-GET /users/{userId}/assets/{assetId}/wallet
-```
-
-> Response:
-
-```json
-{
-  "id": 0,
-  "userId": 0,
-  "asset": "string",
-  "positionId": 0,
-  "assetId": 0
-}
-```
-
-Get wallet of user by asset id.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
-assetId   |
+- **Available Networks**: Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
 
 ### Required Scope
 
@@ -1488,6 +1714,49 @@ assetId   |
 ### Required Scope
 
 `PublicApi`: Basic Scope
+
+
+## Get wallets
+
+> Request:
+
+```http
+GET /users/{userId}/wallets
+```
+
+> Response:
+
+```json
+{
+  "wallets": [
+    {
+      "walletId": 0,
+      "userId": 0,
+      "assetId": 0,
+      "asset": "string",
+      "positionDetail": {
+        "positionId": 0,
+        "totalAmount": 0,
+        "reservedAmount": 0,
+        "availableAmount": 0
+      }
+    }
+  ]
+}
+```
+
+Get wallets of user.
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userId    |
+
+### Required Scope
+
+`PublicApi`: Basic Scope
+
 
 # Socket Usage
 
@@ -1579,10 +1848,6 @@ ex: ['2022-01-10T08:55:00Z', 44090.032, 44090.032, 44090.032, 44090.032, 0]
 There are 10 channels available in Bitronit Socket.
 
 **Keyed** socket channels provides user specific data through channel.
-
-<aside class="info">
-Socket library versions should be "2.4.0" in order to connect to Bitronit Socket.
-</aside>
 
 Channel     | Type        | Description
 --------  | ----------- | -----------
