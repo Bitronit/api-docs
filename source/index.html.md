@@ -160,38 +160,8 @@ quoteAssetId        | 7
 {"priceBelow": 12.5, "priceAbove": 7.8, "operationDirection": "Buy", "baseAssetId": 3, 
 "quoteAssetId": 7}
 
-# API Key Endpoint
 
-## Get API Key Info
-
-> Request:
-
-```http
-GET /api-key/info
-```
-> Response:
-
-```json
-[
-  {
-    "userId": 13863,
-    "permissions": [
-      "PublicAPI",
-      "Withdraw",
-      "Trade"
-    ]
-  }
-]
-```
-
-Returns userId and permissions info for API Key
-
-### Required Scope
-
-`PublicApi`: Basic Scope
-
-
-# Asset Endpoints
+# Public HTTP API
 
 ## Get assets
 
@@ -218,8 +188,6 @@ GET /assets
 ```
 
 Returns all assets.
-
-### Public Request
 
 ## Get a specific asset 
 
@@ -252,7 +220,7 @@ Parameter | Description
 --------- | -----------
 ticker    | Symbol of asset
 
-### Public Request
+
 
 
 ## Get network configuration
@@ -293,9 +261,9 @@ Returns the crypto network detail(s).
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | false | Long |
+assetId | no | Long |
 
-### Public Request
+
 
 
 ## Get crypto withdraw config
@@ -328,8 +296,6 @@ network    | Crypto Network
 Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
 
 
-### Public Request
-
 
 ## Get fiat withdraw config
 
@@ -358,11 +324,6 @@ Parameter | Description
 assetId    |
 
 
-### Public Request
-
-
-# Candlestick Endpoints
-
 ## Get candlesticks
 
 > Request:
@@ -381,9 +342,9 @@ GET /candlesticks?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&period={
 
 ```shell
 [
-  [baseAssetId, quoteAssetId, baseAsset, quoteAsset, opentime, open, high, low, close, volume, closetime],
-  [Long, Long, String, String, Timestamp, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, TimeStamp],
-  [1, 4, "BTC", "USDT", 1576669680000, 2, 2, 2, 2, 0, 1576669739999],
+  [opentime, open, high, low, close, volume],
+  [Timestamp, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal],
+  [1659529500000, 1671.780000000000000, 1671.780000000000000, 1671.780000000000000, 1671.780000000000000, 10.114269000000000],
   ...
 ]
 ```
@@ -394,16 +355,146 @@ Filter or limit the candlesticks with query parameters.
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | true | Long     | 
-quoteAssetId | true | Long    | 
-period    | true | Int        | Period of the candlestick in minutes.
-startTime    | false | Long   | 
-endTime    | false | Long     | 
-limit    | false | Int        | Maximum data number for candlestick.
+baseAssetId | yes | Long     | 
+quoteAssetId | yes | Long    | 
+period    | yes | Int        | Period of the candlestick in minutes.
+startTime    | no | Timestamp   | Epoch milliseconds
+endTime    | no | Timestamp     | Epoch milliseconds
+limit    | no | Int        | Maximum data number for candlestick.
 
-### Public Request
 
-# External Transaction Endpoints
+## Get market info
+
+> Request:
+
+```http
+GET /markets
+```
+
+> Response:
+
+```json
+[
+  {
+    "currentPrice": 0,
+    "dailyVolume": 0,
+    "dailyChange": 0,
+    "baseAssetId": 0,
+    "quoteAssetId": 0,
+    "highestPrice": 0,
+    "lowestPrice": 0,
+    "dailyNominalChange": 0
+  }
+]
+```
+
+Returns market info for all pairs.
+
+## Get scaled order data
+
+> Request
+
+```http
+GET /orders/group?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&scale={scale}
+```
+
+> Response: 
+
+```json
+{
+  "timestamp": "2021-12-13T19:12:49.957Z",
+  "version": 0,
+  "sell": {
+    "additionalProp1": 0,
+    "additionalProp2": 0,
+    "additionalProp3": 0
+  },
+  "buy": {
+    "additionalProp1": 0,
+    "additionalProp2": 0,
+    "additionalProp3": 0
+  }
+}
+```
+
+Filter scaled order data
+
+### Query Parameters
+
+Parameter | Required | Type   | Description
+--------- | -------- | ------ | ------
+baseAssetId | yes | Long
+quoteAssetId | yes | Long
+scale | yes | int
+
+## Get transactions
+
+> Request:
+
+```http
+GET /transactions?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&page={page}&size={size}&sort={sort}
+```
+
+> Response:
+
+```json
+{
+  "transactions": [
+    {
+      "transactionDate": "2021-12-13T19:52:16.289Z",
+      "matchedQuantity": 0,
+      "matchedPrice": 0,
+      "buyerTaker": true
+    }
+  ]
+}
+```
+
+Filter transactions with query parameters.
+
+### Query Parameters
+
+Parameter | Required | Type   | Description
+--------- | -------- | ------ | ------
+baseAssetId | no | Long
+quoteAssetId | no | Long
+page | no | Int            | Page number
+size    | no | Int         | Number of data per page
+sort    | no | String      | Variable to sort,sorting type(e.g. `id,asc`)
+
+
+# Private HTTP API
+
+## API Key Endpoint
+
+### Get API Key Info
+
+> Request:
+
+```http
+GET /api-key/info
+```
+> Response:
+
+```json
+[
+  {
+    "userId": 13863,
+    "permissions": [
+      "PublicAPI",
+      "Withdraw",
+      "Trade"
+    ]
+  }
+]
+```
+
+Returns userId and permissions info for API Key
+
+### Required Scope
+
+`PublicApi`: Basic Scope
+
 
 ## Get users deposit history
 
@@ -457,11 +548,11 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | false | Long        |
-fiat    | false | Boolean     |
-page | false | Int            | Page number
-size    | false | Int         | Number of data per page
-sort    | false | String      | Variable to sort,sorting type(e.g. `id,asc`)
+assetId | no | Long        |
+fiat    | no | Boolean     |
+page | no | Int            | Page number
+size    | no | Int         | Number of data per page
+sort    | no | String      | Variable to sort,sorting type(e.g. `id,asc`)
 
 ### Required Scope
 
@@ -495,8 +586,8 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | false | Long |
-fiat    | false | Boolean |
+assetId | no | Long |
+fiat    | no | Boolean |
 
 ### Required Scope
 
@@ -554,11 +645,11 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | false | Long |
-fiat    | false | Boolean |
-page | false | Int            | Page number
-size    | false | Int         | Number of data per page
-sort    | false | String      | Variable to sort,sorting type(e.g. `id,asc`)
+assetId | no | Long |
+fiat    | no | Boolean |
+page | no | Int            | Page number
+size    | no | Int         | Number of data per page
+sort    | no | String      | Variable to sort,sorting type(e.g. `id,asc`)
 
 ### Required Scope
 
@@ -592,8 +683,8 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | false | Long |
-fiat    | false | Boolean |
+assetId | no | Long |
+fiat    | no | Boolean |
 
 ### Required Scope
 
@@ -660,12 +751,12 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | true | Long |
-amount    | true | BigDecimal |
-targetAddress    | true | String | Address you want to withdraw
-uuid    | true | UUID | Created from client
-network    | true | String | Crypto network you want to use
-withdrawCryptoFee    | true | BigDecimal | Required for crypto withdraws. Dynamic withdraw crypto fee retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+assetId | yes | Long |
+amount    | yes | BigDecimal |
+targetAddress    | yes | String | Address you want to withdraw
+uuid    | yes | UUID | Created from client
+network    | yes | String | Crypto network you want to use
+withdrawCryptoFee    | yes | BigDecimal | Required for crypto withdraws. Dynamic withdraw crypto fee retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
 
 Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
 
@@ -686,7 +777,7 @@ POST /users/{userId}/withdrawals/fiat
   "assetId": 0,
   "amount": 0,
   "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "ibanId": "string"
+  "ibanId": 1
 }
 ```
 
@@ -733,10 +824,10 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | true | Long |
-amount    | true | BigDecimal |
-uuid    | true | UUID | Created from client
-ibanId    | true | Long | IBAN you want to withdraw
+assetId | yes | Long |
+amount    | yes | BigDecimal |
+uuid    | yes | UUID | Created from client
+ibanId    | yes | Long | IBAN you want to withdraw
 
 Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
 
@@ -786,7 +877,7 @@ POST /users/{userId}/transfer
     "senderBankName": "string",
     "receiverIban": "string",
     "receiverBankName": "string",
-    "statusMessage": "string"
+    "network": "string"
   },
   "depositRecord": {
     "id": 0,
@@ -809,7 +900,7 @@ POST /users/{userId}/transfer
     "senderBankName": "string",
     "receiverIban": "string",
     "receiverBankName": "string",
-    "statusMessage": "string"
+    "network": "string"
   }
 }
 ```
@@ -826,11 +917,11 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | true | Long
-uuid    | true | UUID | Created from client
-amount    | true | BigDecimal
-targetUserId    | true | Long | User Id you want to transfer
-type    | true | **TransferType** | _WithdrawFromTarget_, _DepositToTarget_
+assetId | yes | Long
+uuid    | yes | UUID | Created from client
+amount    | yes | BigDecimal
+targetUserId    | yes | Long | User Id you want to transfer
+type    | yes | **TransferType** | _WithdrawFromTarget_, _DepositToTarget_
 
 
 ### Required Scope
@@ -855,8 +946,6 @@ transactionUuid    | UUID of the transaction
 ### Required Scope
 
 `Withdraw`: Authorized to withdraw
-
-# Iban Endpoint
 
 ## Get users ibans
 
@@ -887,38 +976,6 @@ Returns users ibans.
 `PublicApi`: Basic Scope
 
 
-# Market Endpoints
-
-## Get market info
-
-> Request:
-
-```http
-GET /markets
-```
-
-> Response:
-
-```json
-[
-  {
-    "currentPrice": 0,
-    "dailyVolume": 0,
-    "dailyChange": 0,
-    "baseAssetId": 0,
-    "quoteAssetId": 0,
-    "highestPrice": 0,
-    "lowestPrice": 0,
-    "dailyNominalChange": 0
-  }
-]
-```
-
-Returns market info for all pairs.
-
-### Public Request
-
-# Order Endpoints
 
 ## Get users orders
 
@@ -968,15 +1025,15 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | false | Long |
-quoteAssetId | false | Long |
-orderType    | false | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
-orderStatus    | false | [**OrderStatus**] | _Active_, _Canceled_, _WaitingValidation_, _Completed_, _Other_
-after    | false | Instant
-before    | false | Instant
-page    | false | Int
-size    | false | Int
-sort    | false | String
+baseAssetId | no | Long |
+quoteAssetId | no | Long |
+orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
+orderStatus    | no | [**OrderStatus**] | _Active_, _Canceled_, _WaitingValidation_, _Completed_, _Other_
+after    | no | Instant
+before    | no | Instant
+page    | no | Int
+size    | no | Int
+sort    | no | String
 
 
 ### Required Scope
@@ -1015,12 +1072,12 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | false | Long |
-quoteAssetId | false | Long |
-orderType    | false | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
-orderStatus    | false | [**OrderStatus**] | _Active_, _Canceled_, _WaitingValidation_, _Completed_, _Other_
-after    | false | Instant
-before    | false | Instant
+baseAssetId | no | Long |
+quoteAssetId | no | Long |
+orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
+orderStatus    | no | [**OrderStatus**] | _Active_, _Canceled_, _WaitingValidation_, _Completed_, _Other_
+after    | no | Instant
+before    | no | Instant
 
 ### Required Scope
 
@@ -1070,14 +1127,14 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | false | Long | 
-quoteAssetId | false | Long | 
-orderType    | false | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
-operationDirection    | false | **OperationDirection** | _Sell_, _Buy_
-quantity    | false | BigDecimal
-uuid    | false | UUID
-limit    | false | BigDecimal
-stopLimit    | false | BigDecimal
+baseAssetId | no | Long | 
+quoteAssetId | no | Long | 
+orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
+operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
+quantity    | no | BigDecimal
+uuid    | no | UUID
+limit    | no | BigDecimal
+stopLimit    | no | BigDecimal
 
 ### Required Scope
 
@@ -1159,11 +1216,11 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | false | Long |
-quoteAssetId | false | Long |
-operationDirection    | false | **OperationDirection** | _Sell_, _Buy_
-priceBelow    | false | BigDecimal
-priceAbove | false | BigDecimal
+baseAssetId | no | Long |
+quoteAssetId | no | Long |
+operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
+priceBelow    | no | BigDecimal
+priceAbove | no | BigDecimal
 
 ### Required Scope
 
@@ -1190,46 +1247,7 @@ uuid    | Order UUID
 
 `Trade`: Authorized to give orders
 
-## Get scaled order data
 
-> Request
-
-```http
-GET /orders/group?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&scale={scale}
-```
-
-> Response: 
-
-```json
-{
-  "timestamp": "2021-12-13T19:12:49.957Z",
-  "version": 0,
-  "sell": {
-    "additionalProp1": 0,
-    "additionalProp2": 0,
-    "additionalProp3": 0
-  },
-  "buy": {
-    "additionalProp1": 0,
-    "additionalProp2": 0,
-    "additionalProp3": 0
-  }
-}
-```
-
-Filter scaled order data
-
-### Query Parameters
-
-Parameter | Required | Type   | Description
---------- | -------- | ------ | ------
-baseAssetId | true | Long
-quoteAssetId | true | Long
-scale | true | int
-
-### Public Request
-
-# Restriction Endpoints
 
 ##Get user restriction
 
@@ -1269,7 +1287,6 @@ assetId   |
 
 `PublicApi`: Basic Scope
 
-# Socket Endpoints
 
 ## Create socket key
 
@@ -1319,7 +1336,6 @@ userId    |
 
 `PublicApi`: Basic Scope
 
-# Trading Pair Endpoints
 
 ## Get trading pairs
 
@@ -1366,7 +1382,7 @@ GET /trading-pairs
 
 Retrieve all trading pair details.
 
-### Public Request
+
 
 ## Get trading pair detail
 
@@ -1418,46 +1434,6 @@ Parameter | Description
 baseAssetId    | 
 quoteAssetId   |
 
-### Public Request
-
-# Transaction Endpoints
-
-## Get transactions
-
-> Request:
-
-```http
-GET /transactions?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&page={page}&size={size}&sort={sort}
-```
-
-> Response:
-
-```json
-{
-  "transactions": [
-    {
-      "transactionDate": "2021-12-13T19:52:16.289Z",
-      "matchedQuantity": 0,
-      "matchedPrice": 0,
-      "buyerTaker": true
-    }
-  ]
-}
-```
-
-Filter transactions with query parameters.
-
-### Query Parameters
-
-Parameter | Required | Type   | Description
---------- | -------- | ------ | ------
-baseAssetId | false | Long
-quoteAssetId | false | Long
-page | false | Int            | Page number
-size    | false | Int         | Number of data per page
-sort    | false | String      | Variable to sort,sorting type(e.g. `id,asc`)
-
-### Public Request
 
 ## Get users transactions
 
@@ -1500,15 +1476,15 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | false | Long
-quoteAssetId | false | Long
-operationDirection    | false | **OperationDirection** | _Sell_, _Buy_
-orderUUID    | false | UUID
-after    | false | Instant
-before    | false | Instant
-page | false | Int            | Page number
-size    | false | Int         | Number of data per page
-sort    | false | String      | Variable to sort,sorting type(e.g. `id,asc`)
+baseAssetId | no | Long
+quoteAssetId | no | Long
+operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
+orderUUID    | no | UUID
+after    | no | Instant
+before    | no | Instant
+page | no | Int            | Page number
+size    | no | Int         | Number of data per page
+sort    | no | String      | Variable to sort,sorting type(e.g. `id,asc`)
 
 
 ### Required Scope
@@ -1543,12 +1519,12 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | false | Long
-quoteAssetId | false | Long
-operationDirection    | false | **OperationDirection** | _Sell_, _Buy_
-orderUUID    | false | UUID
-after    | false | Instant
-before    | false | Instant
+baseAssetId | no | Long
+quoteAssetId | no | Long
+operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
+orderUUID    | no | UUID
+after    | no | Instant
+before    | no | Instant
 
 ### Required Scope
 
@@ -1586,8 +1562,8 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-after    | false | Instant
-before    | false | Instant
+after    | no | Instant
+before    | no | Instant
 
 ### Required Scope
 
@@ -1640,14 +1616,13 @@ userId    |
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-after    | false | Instant
-before    | false | Instant
+after    | no | Instant
+before    | no | Instant
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-# Wallet Endpoints
 
 ## Get or Create address for wallet
 
@@ -1918,8 +1893,6 @@ ex: [ 'LINK', 'TRY', 357.94, 363.54, 323.39, 103109.12208, 5.91, 19.96 ]
 
 # Errors
 
-[Error codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
-
 ## Client Errors
 
 | HTTP Status Code | Error Code                         | Error Message                                              | Reason and Actions to fix
@@ -1944,3 +1917,6 @@ ex: [ 'LINK', 'TRY', 357.94, 363.54, 323.39, 103109.12208, 5.91, 19.96 ]
 | 404              |                         | Version not found (baseAssetId,quoteAssetId,scale)                    | This error message is thrown while trying to retrieve order group data with wrong parameters. Please control baseAssetId, quoteAssetId and scale parameters.                                                                                                                            |  
 | 404              | PAIR_NOT_FOUND          | Trading pair not found.                                               | This error is thrown while trying to retrieve trading pair by wrong assetId. Please check assetIds in your request.                                                                                                                                                                     |
 | 404              | WALLET_NOT_FOUND        | Wallet not found                                                      | This error is thrown when wallet is not found. Please check walletId in your request.                                                                                                                                                                                                   |
+
+
+[HTTP Status Code Descriptions](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
