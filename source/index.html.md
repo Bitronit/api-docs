@@ -18,6 +18,12 @@ meta:
 
 # Introduction
 
+## Get Your API Key and Secret Key
+
+- Create your API Key and Secret Key from [Bitronit API Management](https://bitronit.com/en/publicApi) page in Bitronit dashboard.
+- You can manage scope restrictions for your API Key afterwards.
+- You can bind an IP for your API Key to increase your account security.
+
 ## API Key Setup
 
 - Endpoints will require an API Key.
@@ -81,9 +87,9 @@ meta:
 
 ## Authentication
 
-- For `SIGNED` requests, the following headers should be sent with the request:
+- For `SIGNED` requests, the following headers must be sent with the request:
 
-  - `Authentication`: Your API key as bearer token
+  - `Authorization`: Your API key as bearer token
   - `Signature`: SHA256 HMAC of the query string concatenated with the request body, using your `API secret`, as a `Base64` string
 
 - All endpoints are `SIGNED` endpoints.
@@ -105,44 +111,43 @@ secretKey | c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d
 > **HMAC SHA256 signature:**
 
 ```shell
-$ echo -n "baseAssetId=5&quoteAssetId=6&scale=3" | openssl dgst -sha256 -hmac "c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d" -binary | base64
-    (stdin)= yDyq8EkvBoOm+GKKxch4TwD6K0L0q5KaTNLVQv8F0rg=
+$ echo -n "asset=ETH&type=Withdraw" | openssl dgst -sha256 -hmac "c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d" -binary | base64
+    (stdin)= 4+NG7pPYMfs51VmIlZZNPe69Bamo/PsG6aMix0q6iSs=
 ```
 > **curl command:**
 
 ```shell
 (HMAC SHA256)
-$ curl -H "Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf" -H "Signature: yDyq8EkvBoOm+GKKxch4TwD6K0L0q5KaTNLVQv8F0rg=" -X GET 'https://bitronit.com/api/orders/group?baseAssetId=5&quoteAssetId=6&scale=3'
+$ curl -H "Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf" -H "Signature: yDyq8EkvBoOm+GKKxch4TwD6K0L0q5KaTNLVQv8F0rg=" -X GET 'https://bitronit.com/api//users/restrictions?asset=ETH&type=Withdraw'
 
 ```
 
-**GET /orders/group**
+**GET /users/restrictions**
 
 Parameter     | Value
 ---------     | -----
-baseAssetId   | 2
-quoteAssetId  | 7
-scale         | 2
+asset	   | ETH
+type  | Withdraw
 
 
 - queryString:
 
-  baseAssetId=5&quoteAssetId=6&scale=3
+asset=ETH&type=Withdraw
 
 
-**POST /users/{userId}/orders/cancel**
+**POST /users/orders/cancel**
 
 > **HMAC SHA256 signature:**
 
 ```shell
-$ echo -n '{"priceBelow": 12.5, "priceAbove": 7.8, "operationDirection": "Buy", "baseAssetId": 3, "quoteAssetId": 7}' | openssl dgst -sha256 -hmac "c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d" -binary | base64
-    (stdin)= xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ=
+$ echo -n '{"priceBelow": 12.5, "priceAbove": 7.8, "operationDirection": "Buy", "baseAsset": "ETH", "quoteAsset": "TRY"}' | openssl dgst -sha256 -hmac "c0bad7a7eb95876bcd646bcf7f42e39ff1dd75311edb4f4df84de3e41f3b3c5d" -binary | base64
+    (stdin)= zEakMgO8mSn+L3DIN9mEMOdoBvHuzucjdDuTvpL1xCQ=
 ```
 > **curl command:**
 
 ```shell
 (HMAC SHA256)
-$ curl -H "Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf" -H "Signature: xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ=" -X POST 'https://bitronit.com/api/users/5/orders/cancel' -d '{"priceBelow":12.5,"priceAbove":7.8,"operationDirection":"Buy","baseAssetId":3,"quoteAssetId":7}'
+$ curl -H "Authorization: Bearer 966304e1-9be0-4d79-a1b0-95d069a7bfaf" -H "Signature: xfxO7ec5WyzUleFLNjqFyUmsKOvLnTxYCvYXb7SNkfQ=" -X POST 'https://bitronit.com/api/users/orders/cancel' -d '{"priceBelow":12.5,"priceAbove":7.8,"operationDirection":"Buy","baseAsset":"ETH","quoteAsset":"TRY"}'
 
 ```
 
@@ -152,13 +157,13 @@ Parameter           | Value
 priceBelow          | 12.5
 priceAbove          | 7.8
 operationDirection  | Buy
-baseAssetId         | 3
-quoteAssetId        | 7
+baseAsset         | "ETH"
+quoteAsset        | "TRY"
 
 - requestBody:
 
-{"priceBelow": 12.5, "priceAbove": 7.8, "operationDirection": "Buy", "baseAssetId": 3, 
-"quoteAssetId": 7}
+{"priceBelow": 12.5, "priceAbove": 7.8, "operationDirection": "Buy", "baseAsset": "ETH", 
+"quoteAsset": "TRY"}
 
 
 # Public HTTP API
@@ -175,14 +180,12 @@ GET /assets
 ```json
 [
   {
-    "id": 0,
-    "ticker": "string",
-    "fullName": "string",
-    "circulatingSupply": 0,
-    "circulatingSupplyUpdateDate": "2021-12-13T12:54:04.030Z",
-    "displayOrder": 0,
-    "fiat": true,
-    "precision": 0
+    "id": 2,
+    "ticker": "ETH",
+    "fullName": "Ethereum",
+    "circulatingSupply": 121822787.43650000,
+    "circulatingSupplyUpdateDate": "2022-08-04T09:00:05.881614Z",
+    "fiat": false
   }
 ]
 ```
@@ -194,21 +197,19 @@ Returns all assets.
 > Request:
 
 ```http
-GET /assets/{ticker}
+GET /assets/{asset}
 ```
 
 > Response:
 
 ```json
 {
-  "id": 0,
-  "ticker": "string",
-  "fullName": "string",
-  "circulatingSupply": 0,
-  "circulatingSupplyUpdateDate": "2021-12-13T12:54:04.030Z",
-  "displayOrder": 0,
-  "fiat": true,
-  "precision": 0
+  "id": 2,
+  "ticker": "ETH",
+  "fullName": "Ethereum",
+  "circulatingSupply": 121822787.43650000,
+  "circulatingSupplyUpdateDate": "2022-08-04T09:00:05.881614Z",
+  "fiat": false
 }
 ```
 
@@ -218,7 +219,7 @@ Returns the assets detail.
 
 Parameter | Description
 --------- | -----------
-ticker    | Symbol of asset
+asset    | Symbol(ticker) of the asset
 
 
 
@@ -236,22 +237,21 @@ GET /crypto-network
 ```json
 [
   {
-    "id": 0,
-    "network": "BTC",
-    "assetId": 0,
-    "minConfirmations": 0,
+    "id": 17,
+    "network": "ETH",
+    "asset": "USDT",
+    "minConfirmations": 1,
     "depositEnabled": true,
     "withdrawEnabled": true,
-    "minAddressLength": 0,
-    "maxAddressLength": 0,
-    "addressValidationRegex": "string",
-    "explorerAddressUrl": "string",
-    "explorerTransactionUrl": "string",
-    "displayOrder": 0,
-    "withdrawFee": 0,
-    "minWithdrawMultiplier": 0,
-    "name": "BTC"
-  }
+    "minAddressLength": 12,
+    "maxAddressLength": 100,
+    "addressValidationRegex": "^0x[a-fA-F0-9]{40}$",
+    "explorerAddressUrl": "https://ropsten.etherscan.io/address/",
+    "explorerTransactionUrl": "https://ropsten.etherscan.io/tx/",
+    "withdrawFee": 0.00020000,
+    "minWithdrawMultiplier": 2,
+    "name": "Ethereum (ERC20)"
+  },
 ]
 ```
 
@@ -261,7 +261,7 @@ Returns the crypto network detail(s).
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | no | Long |
+asset | no | String | Symbol(ticker) of the asset
 
 
 
@@ -271,7 +271,7 @@ assetId | no | Long |
 > Request:
 
 ```http
-GET /assets/{assetId}/network/{network}/crypto-withdraw-config
+GET /assets/{asset}/network/{network}/crypto-withdraw-config
 ```
 
 > Response:
@@ -279,8 +279,8 @@ GET /assets/{assetId}/network/{network}/crypto-withdraw-config
 ```json
 {
   "withdrawEnabled": true,
-  "withdrawFee": 0,
-  "minWithdrawMultiplier": 0
+  "withdrawFee": 0.00020000,
+  "minWithdrawMultiplier": 2
 }
 ```
 
@@ -290,7 +290,7 @@ Returns the crypto withdraw config for the asset with given network.
 
 Parameter | Description
 --------- | -----------
-assetId    | 
+asset    | Symbol(ticker) of the asset
 network    | Crypto Network
 
 Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
@@ -302,7 +302,7 @@ Available networks can be retrieved from [Get network configuration endpoint](ht
 > Request:
 
 ```http
-GET /assets/{assetId}/network/{network}/fiat-withdraw-config
+GET /assets/{asset}/fiat-withdraw-config
 ```
 
 > Response:
@@ -310,8 +310,8 @@ GET /assets/{assetId}/network/{network}/fiat-withdraw-config
 ```json
 {
   "withdrawEnabled": true,
-  "withdrawFee": 0,
-  "minWithdrawMultiplier": 0
+  "withdrawFee": 5.00000000,
+  "minWithdrawMultiplier": 2
 }
 ```
 
@@ -321,7 +321,7 @@ Returns the fiat withdraw config for the asset.
 
 Parameter | Description
 --------- | -----------
-assetId    |
+asset    | Symbol(ticker) of the asset
 
 
 ## Get candlesticks
@@ -335,7 +335,7 @@ Limit, period calculation:
   limit = 42
   42*4 = 168(1 week)
   
-GET /candlesticks?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&period={period}&startTime={startTime}&endTime={endTime}&limit={limit}
+GET /candlesticks?baseAsset={baseAsset}&quoteAsset={quoteAsset}&period={period}&startTime={startTime}&endTime={endTime}&limit={limit}
 ```
 
 > Response:
@@ -355,12 +355,12 @@ Filter or limit the candlesticks with query parameters.
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | yes | Long     | 
-quoteAssetId | yes | Long    | 
+baseAsset | yes | String     | Symbol(ticker) of the asset
+quoteAsset | yes | String    | Symbol(ticker) of the asset
 period    | yes | Int        | Period of the candlestick in minutes.
 startTime    | no | Timestamp   | Epoch milliseconds
 endTime    | no | Timestamp     | Epoch milliseconds
-limit    | no | Int        | Maximum data number for candlestick.
+limit    | no | Int        | Maximum data number for candlestick. [1-500] Default: 500
 
 
 ## Get market info
@@ -376,55 +376,57 @@ GET /markets
 ```json
 [
   {
-    "currentPrice": 0,
-    "dailyVolume": 0,
-    "dailyChange": 0,
-    "baseAssetId": 0,
-    "quoteAssetId": 0,
-    "highestPrice": 0,
-    "lowestPrice": 0,
-    "dailyNominalChange": 0
+    "currentPrice": 29332.00,
+    "dailyVolume": 17287.229462800000000,
+    "dailyChange": -1.39,
+    "baseAsset": "ETH",
+    "quoteAsset": "TRY",
+    "highestPrice": 30237.000000000000000,
+    "lowestPrice": 29032.000000000000000,
+    "dailyNominalChange": -414.000000000000000
   }
 ]
 ```
 
 Returns market info for all pairs.
 
-## Get scaled order data
+## Get orderbook data
 
 > Request
 
 ```http
-GET /orders/group?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&scale={scale}
+GET /orders/group?baseAsset={baseAsset}&quoteAsset={quoteAsset}&scale={scale}
 ```
 
 > Response: 
 
 ```json
 {
-  "timestamp": "2021-12-13T19:12:49.957Z",
+  "timestamp": "2022-08-04T10:50:30.829108Z",
   "version": 0,
   "sell": {
-    "additionalProp1": 0,
-    "additionalProp2": 0,
-    "additionalProp3": 0
+    "1621.15": 0.003210000000000,
+    "1621.28": 0.003300000000000,
+    "1621.43": 0.003170000000000,
+    "1621.68": 0.006500000000000
   },
   "buy": {
-    "additionalProp1": 0,
-    "additionalProp2": 0,
-    "additionalProp3": 0
+    "1610.43": 0.004220000000000,
+    "1610.40": 0.008120000000000,
+    "1610.39": 0.004840000000000,
+    "1610.33": 0.007150000000000
   }
 }
 ```
 
-Filter scaled order data
+Get orderbook data for the given trading pair and scale
 
 ### Query Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | yes | Long
-quoteAssetId | yes | Long
+baseAsset | yes | String | Symbol(ticker) of the asset
+quoteAsset | yes | String | Symbol(ticker) of the asset
 scale | yes | int
 
 ## Get transactions
@@ -432,22 +434,23 @@ scale | yes | int
 > Request:
 
 ```http
-GET /transactions?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&page={page}&size={size}&sort={sort}
+GET /transactions?baseAsset={baseAsset}&quoteAsset={quoteAsset}&page={page}&size={size}
 ```
 
 > Response:
 
 ```json
-{
-  "transactions": [
-    {
-      "transactionDate": "2021-12-13T19:52:16.289Z",
-      "matchedQuantity": 0,
-      "matchedPrice": 0,
-      "buyerTaker": true
-    }
-  ]
-}
+[
+  {
+    "baseAsset": "ETH",
+    "quoteAsset": "TRY",
+    "transactionDate": "2021-08-31T11:56:31.245652Z",
+    "matchedQuantity": 0.00390000,
+    "matchedPrice": 28408.20300000,
+    "buyerTaker": true
+  }
+]
+
 ```
 
 Filter transactions with query parameters.
@@ -456,23 +459,118 @@ Filter transactions with query parameters.
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | no | Long
-quoteAssetId | no | Long
+baseAsset | no | String | Symbol(ticker) of the asset
+quoteAsset | no | String | Symbol(ticker) of the asset
 page | no | Int            | Page number
-size    | no | Int         | Number of data per page
-sort    | no | String      | Variable to sort,sorting type(e.g. `id,asc`)
+size    | no | Int         | Number of items per page
 
 
-# Private HTTP API
-
-## API Key Endpoint
-
-### Get API Key Info
+## Get trading pairs
 
 > Request:
 
 ```http
-GET /api-key/info
+GET /trading-pairs
+```
+
+> Response:
+
+```json
+[
+  {
+    "baseAsset": "ETH",
+    "quoteAsset": "USDT",
+    "symbol": "ETHUSDT",
+    "status": "Trading",
+    "maxNumOrders": 100000,
+    "minPrice": 0.01,
+    "maxPrice": 1000000.1324123412,
+    "tickScale": 2,
+    "productScale": 2,
+    "multiplierUp": 5,
+    "multiplierDown": 0.2,
+    "averagePriceCount": 1,
+    "minQuantity": 0.00001,
+    "maxQuantity": 0.5,
+    "stepScale": 5,
+    "minNotional": 10,
+    "applyMinNotionalToMarket": false,
+    "marketMinQuantity": 0.00001,
+    "marketMaxQuantity": 0.5,
+    "makerFeePercentageValue": 0.25,
+    "takerFeePercentageValue": 0.35,
+    "isMarketEnabled": false,
+    "isLimitEnabled": false,
+    "isStopEnabled": false,
+    "applyToMarket": false,
+    "marketStepSize": 0.00001
+  }
+]
+```
+
+Retrieve all trading pair details.
+
+
+
+## Get trading pair detail
+
+> Request:
+
+```http
+GET /trading-pairs/base-asset/{baseAsset}/quote-asset/{quoteAsset}
+```
+
+> Response:
+
+```json
+{
+  "baseAsset": "ETH",
+  "quoteAsset": "USDT",
+  "symbol": "ETHUSDT",
+  "status": "Trading",
+  "maxNumOrders": 100000,
+  "minPrice": 0.01,
+  "maxPrice": 1000000.1324123412,
+  "tickScale": 2,
+  "productScale": 2,
+  "multiplierUp": 5,
+  "multiplierDown": 0.2,
+  "averagePriceCount": 1,
+  "minQuantity": 0.00001,
+  "maxQuantity": 0.5,
+  "stepScale": 5,
+  "minNotional": 10,
+  "applyMinNotionalToMarket": false,
+  "marketMinQuantity": 0.00001,
+  "marketMaxQuantity": 0.5,
+  "makerFeePercentageValue": 0.25,
+  "takerFeePercentageValue": 0.35,
+  "isMarketEnabled": false,
+  "isLimitEnabled": false,
+  "isStopEnabled": false,
+  "applyToMarket": false,
+  "marketStepSize": 0.00001
+}
+```
+
+Retrieve trading pair detail by asset s
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+baseAsset    | Symbol(ticker) of the asset
+quoteAsset   | Symbol(ticker) of the asset
+
+
+# Private HTTP API
+
+## Get API Key Info
+
+> Request:
+
+```http
+GET /users/api-key/info
 ```
 > Response:
 
@@ -489,222 +587,212 @@ GET /api-key/info
 ]
 ```
 
-Returns userId and permissions info for API Key
+Returns user id and permissions info for API Key
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
 
-## Get users deposit history
+## Get crypto deposit history
 
 > Request:
 
 ```http
-GET /users/{userId}/deposits?assetId={assetId}&fiat={fiat}&page={page}&size={size}&sort={sort}
+GET /users/deposits/crypto?asset={asset}&page={page}&size={size}
 ```
 
 > Response:
 
 ```json
-{
-  "externalTransactions": [
-    {
-      "id": 0,
-      "type": "string",
-      "transactionHash": "string",
-      "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "address": "string",
-      "asset": "string",
-      "assetId": 0,
-      "amount": 0,
-      "fee": 0,
-      "userId": 0,
-      "status": "Waiting",
-      "confirmedBlockCount": 0,
-      "statusUpdateDate": "2021-12-13T14:01:37.047Z",
-      "completeDate": "2021-12-13T14:01:37.047Z",
-      "typicalPrice": 0,
-      "fiat": true,
-      "senderIban": "string",
-      "senderBankName": "string",
-      "receiverIban": "string",
-      "receiverBankName": "string",
-      "statusMessage": "string"
-    }
-  ]
-}
+[
+  {
+    "id": 0,
+    "type": "Deposit",
+    "transactionHash": "0xd6c595d3a51bd90f3a9d13737c410bd29129115b0778dfb5d046652ee61940ad",
+    "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "address": "0x4a9e4491c60ff88bb4253bd7f1c0d25b51138e97",
+    "asset": "ETH",
+    "amount": 1000,
+    "fee": 0,
+    "status": "WaitingForConfirmation",
+    "confirmedBlockCount": 5,
+    "statusUpdateDate": "2021-12-13T14:01:37.047Z",
+    "completeDate": "2021-12-13T14:01:37.047Z",
+    "typicalPrice": 0,
+    "network": "ETH"
+  }
+]
+
 ```
 
-Filter users deposit history with query parameters.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    | 
+Filter users crypto deposit history with query parameters.
 
 ### Query Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | no | Long        |
-fiat    | no | Boolean     |
+asset | no | String | Symbol(ticker) of the asset
 page | no | Int            | Page number
-size    | no | Int         | Number of data per page
-sort    | no | String      | Variable to sort,sorting type(e.g. `id,asc`)
+size    | no | Int         | Number of items per page
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-## Get users deposit history count
+## Get fiat deposit history
 
 > Request:
 
 ```http
-GET /users/{userId}/deposits/count?assetId={assetId}&fiat={fiat}
+GET /users/deposits/fiat?asset={asset}&page={page}&size={size}
 ```
 
 > Response:
 
 ```json
-{
-  "count": 0
-}
+[
+  {
+    "id": 0,
+    "type": "Deposit",
+    "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "address": "0x4a9e4491c60ff88bb4253bd7f1c0d25b51138e97",
+    "asset": "ETH",
+    "amount": 1000,
+    "fee": 0,
+    "status": "WaitingForConfirmation",
+    "statusUpdateDate": "2021-12-13T14:01:37.047Z",
+    "completeDate": "2021-12-13T14:01:37.047Z",
+    "typicalPrice": 0,
+    "senderIban": "TR050202000000000001091100",
+    "senderBankName": "Test Bankası",
+    "receiverIban": "TR400006201493719805071327",
+    "receiverBankName": "Test Bankası"
+  }
+]
+
 ```
 
-Count of filtered users deposit history with query parameters.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
+Filter users fiat deposit history with query parameters.
 
 ### Query Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | no | Long |
-fiat    | no | Boolean |
+asset | no | String | Symbol(ticker) of the asset
+page | no | Int            | Page number
+size    | no | Int         | Number of items per page
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-## Get users withdraw history
+## Get crypto withdraw history
 
 > Request:
 
 ```http
-GET /users/{userId}/withdrawals?assetId={assetId}&fiat={fiat}&page={page}&size={size}&sort={sort}
+GET /users/withdrawals/crypto?asset={asset}&page={page}&size={size}
 ```
 
 > Response:
 
 ```json
-{
-  "externalTransactions": [
-    {
-      "id": 0,
-      "type": "string",
-      "transactionHash": "string",
-      "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "address": "string",
-      "asset": "string",
-      "assetId": 0,
-      "amount": 0,
-      "fee": 0,
-      "userId": 0,
-      "status": "Waiting",
-      "confirmedBlockCount": 0,
-      "statusUpdateDate": "2021-12-13T14:09:53.609Z",
-      "completeDate": "2021-12-13T14:09:53.609Z",
-      "typicalPrice": 0,
-      "fiat": true,
-      "senderIban": "string",
-      "senderBankName": "string",
-      "receiverIban": "string",
-      "receiverBankName": "string",
-      "statusMessage": "string"
-    }
-  ]
-}
+[
+  {
+    "id": 0,
+    "type": "Withdraw",
+    "transactionHash": "0xd6c595d3a51bd90f3a9d13737c410bd29129115b0778dfb5d046652ee61940ad",
+    "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "address": "0x4a9e4491c60ff88bb4253bd7f1c0d25b51138e96",
+    "asset": "ETH",
+    "amount": 1000,
+    "fee": 0.001,
+    "status": "Pending",
+    "confirmedBlockCount": 0,
+    "statusUpdateDate": "2021-12-13T14:01:37.047Z",
+    "completeDate": "2021-12-13T14:01:37.047Z",
+    "typicalPrice": 0,
+    "network": "ETH"
+  }
+]
+
 ```
 
 Filter users withdraw history with query parameters.
 
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
-
 ### Query Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | no | Long |
-fiat    | no | Boolean |
+asset | no | String | Symbol(ticker) of the asset
 page | no | Int            | Page number
-size    | no | Int         | Number of data per page
-sort    | no | String      | Variable to sort,sorting type(e.g. `id,asc`)
+size    | no | Int         | Number of items per page
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-## Get users withdraw history count
+## Get fiat withdraw history
 
 > Request:
 
 ```http
-GET /users/{userId}/withdrawals/count?assetId={assetId}&fiat={fiat}
+GET /users/withdrawals/fiat?asset={asset}&page={page}&size={size}
 ```
 
 > Response:
 
 ```json
-{
-  "count": 0
-}
+[
+  {
+    "id": 0,
+    "type": "Withdraw",
+    "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "asset": "TRY",
+    "amount": 1000,
+    "fee": 0.001,
+    "status": "Pending",
+    "statusUpdateDate": "2021-12-13T14:01:37.047Z",
+    "completeDate": "2021-12-13T14:01:37.047Z",
+    "typicalPrice": 0,
+    "senderIban": "TR050202000000000001091100",
+    "senderBankName": "Test Bankası",
+    "receiverIban": "TR400006201493719805071327",
+    "receiverBankName": "Test Bankası"
+  }
+]
+
 ```
 
-Count of filtered users withdraw history with query parameters.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
+Filter users withdraw history with query parameters.
 
 ### Query Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | no | Long |
-fiat    | no | Boolean |
+asset | no | String | Symbol(ticker) of the asset
+page | no | Int            | Page number
+size    | no | Int         | Number of items per page
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
-
 ## Initiate crypto withdraw
 
 > Request:
 
 ```http
-POST /users/{userId}/withdrawals/crypto
+POST /users/withdrawals/crypto
 ```
 ```json
 {
-  "assetId": 0,
-  "amount": 0,
-  "targetAddress": "string",
+  "asset": "ETH",
+  "amount": 1,
+  "targetAddress": "0x4a9e4491c60ff88bb4253bd7f1c0d25b51138e96",
   "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "network": "string",
-  "withdrawCryptoFee": 0
+  "network": "ETH",
+  "withdrawCryptoFee": 0.0001
 }
 ```
 
@@ -713,26 +801,19 @@ POST /users/{userId}/withdrawals/crypto
 ```json
 {
   "id": 0,
-  "type": "string",
-  "transactionHash": "string",
+  "type": "Withdraw",
+  "transactionHash": "0xd6c595d3a51bd90f3a9d13737c410bd29129115b0778dfb5d046652ee61940ad",
   "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "address": "string",
-  "asset": "string",
-  "assetId": 0,
-  "amount": 0,
-  "fee": 0,
-  "userId": 0,
-  "status": "Waiting",
+  "address": "0x4a9e4491c60ff88bb4253bd7f1c0d25b51138e96",
+  "asset": "ETH",
+  "amount": 1000,
+  "fee": 0.001,
+  "status": "Pending",
   "confirmedBlockCount": 0,
-  "statusUpdateDate": "2021-12-13T14:09:53.609Z",
-  "completeDate": "2021-12-13T14:09:53.609Z",
+  "statusUpdateDate": "2021-12-13T14:01:37.047Z",
+  "completeDate": "2021-12-13T14:01:37.047Z",
   "typicalPrice": 0,
-  "fiat": true,
-  "senderIban": "string",
-  "senderBankName": "string",
-  "receiverIban": "string",
-  "receiverBankName": "string",
-  "statusMessage": "string"
+  "network": "ETH"
 }
 ```
 
@@ -741,17 +822,13 @@ Withdraw amounts scale after stripping trailing zeros should not exceed allowed 
 Precision of an asset can be reached from [Get a specific asset endpoint](https://docs.bitronit.com/#get-a-specific-asset)
 
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-userId    |
 
 ### Body Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | yes | Long |
+asset | yes | String     | Symbol(ticker) of the asset
 amount    | yes | BigDecimal |
 targetAddress    | yes | String | Address you want to withdraw
 uuid    | yes | UUID | Created from client
@@ -770,14 +847,14 @@ Available networks can be retrieved from [Get network configuration endpoint](ht
 > Request:
 
 ```http
-POST /users/{userId}/withdrawals/fiat
+POST /users/withdrawals/fiat
 ```
 ```json
 {
-  "assetId": 0,
+  "asset": "TRY",
   "amount": 0,
   "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "ibanId": 1
+  "iban": "TR400006201493719805071327"
 }
 ```
 
@@ -786,26 +863,19 @@ POST /users/{userId}/withdrawals/fiat
 ```json
 {
   "id": 0,
-  "type": "string",
-  "transactionHash": "string",
+  "type": "Withdraw",
   "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "address": "string",
-  "asset": "string",
-  "assetId": 0,
-  "amount": 0,
-  "fee": 0,
-  "userId": 0,
-  "status": "Waiting",
-  "confirmedBlockCount": 0,
-  "statusUpdateDate": "2021-12-13T14:09:53.609Z",
-  "completeDate": "2021-12-13T14:09:53.609Z",
+  "asset": "TRY",
+  "amount": 1000,
+  "fee": 0.001,
+  "status": "Pending",
+  "statusUpdateDate": "2021-12-13T14:01:37.047Z",
+  "completeDate": "2021-12-13T14:01:37.047Z",
   "typicalPrice": 0,
-  "fiat": true,
-  "senderIban": "string",
-  "senderBankName": "string",
-  "receiverIban": "string",
-  "receiverBankName": "string",
-  "statusMessage": "string"
+  "senderIban": "TR050202000000000001091100",
+  "senderBankName": "Test Bankası",
+  "receiverIban": "TR400006201493719805071327",
+  "receiverBankName": "Test Bankası"
 }
 ```
 
@@ -814,115 +884,18 @@ Withdraw amounts scale after stripping trailing zeros should not exceed allowed 
 Precision of an asset can be reached from [Get a specific asset endpoint](https://docs.bitronit.com/#get-a-specific-asset)
 
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-userId    |
 
 ### Body Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-assetId | yes | Long |
+asset | yes | String     | Symbol(ticker) of the asset
 amount    | yes | BigDecimal |
 uuid    | yes | UUID | Created from client
-ibanId    | yes | Long | IBAN you want to withdraw
+iban    | yes | String | IBAN address you want to withdraw
 
 Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
-
-### Required Scope
-
-`Withdraw`: Authorized to withdraw
-
-## Transfer between accounts
-
-> Request:
-
-```http
-POST /users/{userId}/transfer
-```
-```json
-{
-  "assetId": 0,
-  "amount": 0,
-  "targetUserId": 0,
-  "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "type": "DepositToTarget"
-}
-```
-
-> Response:
-
-```json
-{
-  "withdrawRecord": {
-    "id": 0,
-    "type": "string",
-    "transactionHash": "string",
-    "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "address": "string",
-    "asset": "string",
-    "assetId": 0,
-    "amount": 0,
-    "fee": 0,
-    "userId": 0,
-    "status": "Waiting",
-    "confirmedBlockCount": 0,
-    "statusUpdateDate": "2021-12-13T14:21:18.295Z",
-    "completeDate": "2021-12-13T14:21:18.295Z",
-    "typicalPrice": 0,
-    "fiat": true,
-    "senderIban": "string",
-    "senderBankName": "string",
-    "receiverIban": "string",
-    "receiverBankName": "string",
-    "network": "string"
-  },
-  "depositRecord": {
-    "id": 0,
-    "type": "string",
-    "transactionHash": "string",
-    "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "address": "string",
-    "asset": "string",
-    "assetId": 0,
-    "amount": 0,
-    "fee": 0,
-    "userId": 0,
-    "status": "Waiting",
-    "confirmedBlockCount": 0,
-    "statusUpdateDate": "2021-12-13T14:21:18.295Z",
-    "completeDate": "2021-12-13T14:21:18.295Z",
-    "typicalPrice": 0,
-    "fiat": true,
-    "senderIban": "string",
-    "senderBankName": "string",
-    "receiverIban": "string",
-    "receiverBankName": "string",
-    "network": "string"
-  }
-}
-```
-
-Transfer between sub-account and main accounts
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
-
-### Body Parameters
-
-Parameter | Required | Type   | Description
---------- | -------- | ------ | ------
-assetId | yes | Long
-uuid    | yes | UUID | Created from client
-amount    | yes | BigDecimal
-targetUserId    | yes | Long | User Id you want to transfer
-type    | yes | **TransferType** | _WithdrawFromTarget_, _DepositToTarget_
-
 
 ### Required Scope
 
@@ -931,7 +904,7 @@ type    | yes | **TransferType** | _WithdrawFromTarget_, _DepositToTarget_
 ## Cancel fiat withdraw
 
 ```http
-POST /users/{userId}/transactions/{transactionUuid}/cancel
+POST /users/transactions/{transactionUuid}/cancel
 ```
 
 Cancels withdraw order of the transaction uuid.
@@ -940,7 +913,6 @@ Cancels withdraw order of the transaction uuid.
 
 Parameter | Description
 --------- | -----------
-userId    |
 transactionUuid    | UUID of the transaction 
 
 ### Required Scope
@@ -952,7 +924,7 @@ transactionUuid    | UUID of the transaction
 > Request:
 
 ```http
-GET /users/{userId}/ibans
+GET /users/ibans
 ```
 
 > Response:
@@ -961,10 +933,9 @@ GET /users/{userId}/ibans
 [
   {
     "id": 0,
-    "iban": "string",
-    "bankName": "string",
-    "userId": 0,
-    "accountName": "string"
+    "iban": "TR400006201493719805071327",
+    "bankName": "Test Bank",
+    "accountName": "Account Name"
   }
 ]
 ```
@@ -982,7 +953,7 @@ Returns users ibans.
 > Request: 
 
 ```http
-GET /users/{userId}/orders?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&orderType={orderType}&orderStatus={orderStatus}&after={after}&before={before}&page={page}&size={size}&sort={sort}
+GET /users/orders?baseAsset={baseAsset}&quoteAsset={quoteAsset}&orderType={orderType}&orderStatus={orderStatus}&after={after}&before={before}&page={page}&size={size}
 ```
 
 > Response:
@@ -990,24 +961,23 @@ GET /users/{userId}/orders?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}
 ```json
 [
   {
-    "price": 0,
-    "orderType": "Market",
-    "operationDirection": "Sell",
-    "quantity": 0,
+    "id": 0,
+    "price": 28410.00000000,
+    "orderType": "Limit",
+    "operationDirection": "Buy",
+    "quantity": 1,
     "orderStatus": "Active",
     "matchStatus": "None",
     "matches": [
       "3fa85f64-5717-4562-b3fc-2c963f66afa6"
     ],
-    "executedQuantity": 0,
-    "averageMatchPrice": 0,
-    "userId": 0,
+    "executedQuantity":  0.03900000,
+    "averageMatchPrice": 28408.20300000,
     "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "baseAssetId": 0,
-    "quoteAssetId": 0,
+    "baseAsset": "ETH",
+    "quoteAsset": "TRY",
     "orderTime": "2021-12-13T18:18:52.345Z",
-    "stopPrice": 0,
-    "id": 0
+    "stopPrice": null
   }
 ]
 ```
@@ -1015,25 +985,20 @@ GET /users/{userId}/orders?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}
 Filter users orders with query parameters.
 
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-userId    |
 
 ### Query Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | no | Long |
-quoteAssetId | no | Long |
+baseAsset | no | String     | Symbol(ticker) of the asset
+quoteAsset | no | String     | Symbol(ticker) of the asset
 orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
 orderStatus    | no | [**OrderStatus**] | _Active_, _Canceled_, _WaitingValidation_, _Completed_, _Other_
 after    | no | Instant
 before    | no | Instant
 page    | no | Int
 size    | no | Int
-sort    | no | String
 
 
 ### Required Scope
@@ -1043,64 +1008,24 @@ sort    | no | String
 ### [Order Types] (https://en.wikipedia.org/wiki/Order_(exchange)#Conditional_orders)
 
 
-
-## Get users orders count
-
-> Request:
-
-```http
-GET /users/{userId}/orders/count?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&orderType={orderType}&orderStatus={orderStatus}&after={after}&before={before}
-```
-
-> Response:
-
-```json
-{
-  "count": 0
-}
-```
-
-Number of users filtered orders with query parameters.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
-
-### Query Parameters
-
-Parameter | Required | Type   | Description
---------- | -------- | ------ | ------
-baseAssetId | no | Long |
-quoteAssetId | no | Long |
-orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
-orderStatus    | no | [**OrderStatus**] | _Active_, _Canceled_, _WaitingValidation_, _Completed_, _Other_
-after    | no | Instant
-before    | no | Instant
-
-### Required Scope
-
-`PublicApi`: Basic Scope
-
 ## Create order
 
 > Request:
 
 ```http
-PUT /users/{userId}/orders
+PUT /users/orders
 ```
 
 ```json
 {
-  "baseAssetId": 0,
-  "quoteAssetId": 0,
-  "orderType": "Market",
+  "baseAsset": "ETH",
+  "quoteAsset": "TRY",
+  "orderType": "Limit",
   "operationDirection": "Buy",
-  "quantity": 0,
+  "quantity": 1,
   "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "limit": 0,
-  "stopLimit": 0
+  "limit": 28410.00000000,
+  "stopLimit": null
 }
 ```
 
@@ -1108,33 +1033,29 @@ PUT /users/{userId}/orders
 
 ```json
 {
-  "matchCount": 0,
+  "matchCount": 2,
   "quantity": 0,
   "executedQuantity": 0,
-  "averageMatchPrice": 0
+  "averageMatchPrice": null
 }
 ```
 
 Creates a new order.
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-userId    |
 
 ### Body Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | no | Long | 
-quoteAssetId | no | Long | 
-orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
-operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
-quantity    | no | BigDecimal
-uuid    | no | UUID
-limit    | no | BigDecimal
-stopLimit    | no | BigDecimal
+baseAsset | yes | String     | Symbol(ticker) of the asset
+quoteAsset | yes | String     | Symbol(ticker) of the asset
+orderType    | yes | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
+operationDirection    | yes | **OperationDirection** | _Sell_, _Buy_
+quantity    | yes | BigDecimal
+uuid    | yes | UUID | Created from client
+limit    | no | BigDecimal | Limit value for limit order
+stopLimit    | no | BigDecimal | stop limit value for StopLimit order
 
 ### Required Scope
 
@@ -1145,31 +1066,31 @@ stopLimit    | no | BigDecimal
 > Request:
 
 ```http
-GET /users/{userId}/orders/{uuid}
+GET /users/orders/{uuid}
 ```
 
 > Response:
 
 ```json
 {
-  "price": 0,
+
+  "id": 0,
+  "price": null,
   "orderType": "Market",
   "operationDirection": "Sell",
-  "quantity": 0,
-  "orderStatus": "Active",
-  "matchStatus": "None",
+  "quantity": 1,
+  "orderStatus": "Completed",
+  "matchStatus": "Full",
   "matches": [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   ],
-  "executedQuantity": 0,
-  "averageMatchPrice": 0,
-  "userId": 0,
+  "executedQuantity": 1,
+  "averageMatchPrice": 28410.45000000,
   "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "baseAssetId": 0,
-  "quoteAssetId": 0,
+  "baseAsset": "ETH",
+  "quoteAsset": "TRY",
   "orderTime": "2021-12-13T18:47:13.576Z",
-  "stopPrice": 0,
-  "id": 0
+  "stopPrice": null,
 }
 ```
 
@@ -1179,7 +1100,6 @@ Get users order detail by order UUID.
 
 Parameter | Description
 --------- | -----------
-userId    |
 uuid    | Order UUID
 
 ### Required Scope
@@ -1191,36 +1111,32 @@ uuid    | Order UUID
 > Request
 
 ```http
-POST /users/{userId}/orders/cancel
+POST /users/orders/cancel
 ```
 
 ```json
 {
-  "baseAssetId": 0,
-  "quoteAssetId": 0,
+  "baseAsset": "ETH",
+  "quoteAsset": "TRY",
   "operationDirection": "Buy",
-  "priceBelow": 0,
-  "priceAbove": 0
+  "priceBelow": 30000,
+  "priceAbove": 28000
 }
 ```
 
 Cancel filtered orders with body parameters.
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-userId    |
 
 ### Body Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | no | Long |
-quoteAssetId | no | Long |
+baseAsset | no | String     | Symbol(ticker) of the asset
+quoteAsset | no | String     | Symbol(ticker) of the asset
 operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
-priceBelow    | no | BigDecimal
-priceAbove | no | BigDecimal
+priceBelow    | no | BigDecimal | Order price below
+priceAbove | no | BigDecimal | Order price above
 
 ### Required Scope
 
@@ -1231,16 +1147,15 @@ priceAbove | no | BigDecimal
 > Request
 
 ```http
-POST /users/{userId}/orders/{uuid}/cancel
+POST /users/orders/{uuid}/cancel
 ```
 
-Update order status as Canceled and delete it from orderbook
+Cancels the order with given uuid.
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-userId    |
 uuid    | Order UUID
 
 ### Required Scope
@@ -1249,190 +1164,39 @@ uuid    | Order UUID
 
 
 
-##Get user restriction
+##Get deposit & withdraw restrictions
 
 > Request
 
 ```http
-GET /users/{userId}/restrictions
+GET /users/restrictions?asset={asset}&type={type}
 ```
 
 > Response:
 
 ```json
 {
-  "dailyTotal": 0,
-  "dailyRemaining": 0,
-  "monthlyTotal": 0,
-  "monthlyRemaining": 0
+  "dailyTotal": 1000000000,
+  "dailyRemaining": 1000000000,
+  "monthlyTotal": 1000000000,
+  "monthlyRemaining": 1000000000
 }
 ```
 
-Get users daily, monthly restrictions.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
+Get users daily, monthly external transaction restrictions.
 
 ### Query Parameters
 
-Parameter | Description
---------- | -----------
-type      | Withdraw or Deposit
-assetId   |
+Parameter | Required | Type   | Description
+--------- | -------- | ------ | ------
+asset | yes | String     | Symbol(ticker) of the asset
+type | yes | **ExternalTransactionType** | _Withdraw_, _Deposit_
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
 
-## Create socket key
-
-> Request
-
-```http
-POST /users/{userId}/socket/keys
-```
-
-> Response:
-
-```json
-{
-  "key": "string"
-}
-```
-
-Creates a key for connecting to the socket. With this key, the user listens for specific data.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
-
-### Required Scope
-
-`PublicApi`: Basic Scope
-
-## Delete socket key
-
-> Request:
-
-```http
-DELETE /users/{userId}/socket/keys
-```
-
-Deletes the socket key.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
-
-### Required Scope
-
-`PublicApi`: Basic Scope
-
-
-## Get trading pairs
-
-> Request:
-
-```http
-GET /trading-pairs
-```
-
-> Response:
-
-```json
-[
-  {
-    "id": 0,
-    "baseAssetId": 0,
-    "quoteAssetId": 0,
-    "symbol": "string",
-    "status": "Trading",
-    "maxNumOrders": 0,
-    "minPrice": 0,
-    "maxPrice": 0,
-    "tickScale": 0,
-    "productScale": 0,
-    "multiplierUp": 0,
-    "multiplierDown": 0,
-    "averagePriceCount": 0,
-    "minQuantity": 0,
-    "maxQuantity": 0,
-    "stepScale": 0,
-    "minNotional": 0,
-    "applyToMarket": true,
-    "marketMinQuantity": 0,
-    "marketMaxQuantity": 0,
-    "marketStepSize": 0,
-    "makerFeePercentageValue": 0,
-    "takerFeePercentageValue": 0,
-    "marketEnabled": true,
-    "limitEnabled": true,
-    "stopEnabled": true
-  }
-]
-```
-
-Retrieve all trading pair details.
-
-
-
-## Get trading pair detail
-
-> Request:
-
-```http
-GET /trading-pairs/base-asset/{baseAssetId}/quote-asset/{quoteAssetId}
-```
-
-> Response:
-
-```json
-{
-  "id": 0,
-  "baseAssetId": 0,
-  "quoteAssetId": 0,
-  "symbol": "string",
-  "status": "Trading",
-  "maxNumOrders": 0,
-  "minPrice": 0,
-  "maxPrice": 0,
-  "tickScale": 0,
-  "productScale": 0,
-  "multiplierUp": 0,
-  "multiplierDown": 0,
-  "averagePriceCount": 0,
-  "minQuantity": 0,
-  "maxQuantity": 0,
-  "stepScale": 0,
-  "minNotional": 0,
-  "applyToMarket": true,
-  "marketMinQuantity": 0,
-  "marketMaxQuantity": 0,
-  "marketStepSize": 0,
-  "makerFeePercentageValue": 0,
-  "takerFeePercentageValue": 0,
-  "marketEnabled": true,
-  "limitEnabled": true,
-  "stopEnabled": true
-}
-```
-
-Retrieve trading pair detail by asset ids
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-baseAssetId    | 
-quoteAssetId   |
 
 
 ## Get users transactions
@@ -1440,91 +1204,46 @@ quoteAssetId   |
 > Request:
 
 ```http
-GET /users/{userId}/transactions?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&operationDirection={operationDirection}&orderUUID={orderUUID}&after={after}&before={before}&page={page}&size={size}&sort={sort}
+GET /users/transactions?baseAsset={baseAsset}&quoteAsset={quoteAsset}&operationDirection={operationDirection}&orderUUID={orderUUID}&after={after}&before={before}&page={page}&size={size}
 ```
 
 > Response:
 
 ```json
-{
-  "transactions": [
-    {
-      "baseAssetId": 0,
-      "quoteAssetId": 0,
-      "orderUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "transactionDate": "2021-12-13T19:43:07.730Z",
-      "matchedQuantity": 0,
-      "matchedPrice": 0,
-      "userId": 0,
-      "orderType": "string",
-      "feeAmount": 0,
-      "buyer": true
-    }
-  ]
-}
+[
+  {
+    "baseAsset": "ETH",
+    "quoteAsset": "TRY",
+    "orderUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "transactionDate": "2021-12-13T19:43:07.730Z",
+    "matchedQuantity": 0.5,
+    "matchedPrice": 28410.45000000,
+    "userId": 0,
+    "orderType": "Limit",
+    "feeAmount": 0.000450000,
+    "buyer": true
+  }
+]
+
 ```
 
 Filter users transactions with query parameters.
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-userId    |
 
 ### Query Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAssetId | no | Long
-quoteAssetId | no | Long
+baseAsset | no | String     | Symbol(ticker) of the asset
+quoteAsset | no | String     | Symbol(ticker) of the asset
 operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
-orderUUID    | no | UUID
-after    | no | Instant
+orderUUID    | no | UUID 
+after    | no | Instant 
 before    | no | Instant
 page | no | Int            | Page number
-size    | no | Int         | Number of data per page
-sort    | no | String      | Variable to sort,sorting type(e.g. `id,asc`)
+size    | no | Int         | Number of items per page
 
-
-### Required Scope
-
-`PublicApi`: Basic Scope
-
-## Get users transactions count
-
-> Request:
-
-```http
-GET /users/{userId}/transactions/count?baseAssetId={baseAssetId}&quoteAssetId={quoteAssetId}&operationDirection={operationDirection}&orderUUID={orderUUID}&after={after}&before={before}
-```
-
-> Response
-
-```json
-{
-  "count": 0
-}
-```
-
-Number of users filtered transactions with query parameters.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
-
-### Query Parameters
-
-Parameter | Required | Type   | Description
---------- | -------- | ------ | ------
-baseAssetId | no | Long
-quoteAssetId | no | Long
-operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
-orderUUID    | no | UUID
-after    | no | Instant
-before    | no | Instant
 
 ### Required Scope
 
@@ -1535,7 +1254,7 @@ before    | no | Instant
 > Request:
 
 ```http
-GET /users/{userId}/daily/total-balance?after={after}&before={before}
+GET /users/daily/total-balance?after={after}&before={before}
 ```
 
 > Response:
@@ -1543,20 +1262,21 @@ GET /users/{userId}/daily/total-balance?after={after}&before={before}
 ```json
 [
   {
-    "totalAmountTry": 0,
-    "totalAmountUsd": 0,
-    "date": 0
+      "totalAmountTry": 0.00,
+      "totalAmountUsd": 0.00,
+      "date": 1658966400
+  },
+  {
+      "totalAmountTry": 130.00,
+      "totalAmountUsd": 7.28,
+      "date": 1659052800
   }
 ]
 ```
 
 Filter users daily total positions with query parameters. Returns the data showing the balance field on the dashboard.
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-userId    |
 
 ### Query Parameters
 
@@ -1574,7 +1294,7 @@ before    | no | Instant
 > Request:
 
 ```http
-GET /users/{userId}/daily/balance?after={after}&before={before}
+GET /users/daily/balance?after={after}&before={before}
 ```
 
 > Response:
@@ -1583,34 +1303,30 @@ GET /users/{userId}/daily/balance?after={after}&before={before}
 [
   {
     "assets": {
-      "additionalProp1": {
-        "amount": 0,
-        "amountTry": 0,
-        "amountUsd": 0
+      "ETH": {
+          "amount": 0.00,
+          "amountTry": 0.00,
+          "amountUsd": 0.00
       },
-      "additionalProp2": {
-        "amount": 0,
-        "amountTry": 0,
-        "amountUsd": 0
+      "BNB": {
+          "amount": 0.00,
+          "amountTry": 0.00,
+          "amountUsd": 0.00
       },
-      "additionalProp3": {
-        "amount": 0,
-        "amountTry": 0,
-        "amountUsd": 0
+      "TRY": {
+          "amount": 0.00,
+          "amountTry": 0.00,
+          "amountUsd": 0.00
       }
     },
-    "date": 0
+    "date": 1657756800
   }
 ]
 ```
 
 Filter users daily positions with query parameters. Returns data showing daily balance graph.
 
-### URL Parameters
 
-Parameter | Description
---------- | -----------
-userId    |
 
 ### Query Parameters
 
@@ -1623,57 +1339,62 @@ before    | no | Instant
 
 `PublicApi`: Basic Scope
 
-
-## Get or Create address for wallet
+## Get wallets
 
 > Request:
 
 ```http
-GET /users/{userId}/wallets/{walletId}/network/{network}/address
+GET /users/wallets
 ```
 
 > Response:
 
 ```json
-{
-  "walletId": 0,
-  "assetId": 0,
-  "asset": "string",
-  "address": "string"
-}
+[
+  {
+    "id": 239560,
+    "asset": "ETH",
+    "reservedAmount": 0E-16,
+    "availableAmount": 0E-16
+  },
+  {
+    "id": 239562,
+    "asset": "BTC",
+    "reservedAmount": 0E-16,
+    "availableAmount": 0E-16
+  },
+  {
+    "id": 239555,
+    "asset": "TRY",
+    "reservedAmount": 0E-16,
+    "availableAmount": 120.0000000000000000
+  }
+]
 ```
 
-Get cryptocurrency address for wallet with the selected network. If not exists, create address for wallet with the selected network.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userId    |
-walletId  |
-network   | **Available Networks**
-
-- **Available Networks**: Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+Get wallets of user.
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-## Get position by asset id
+
+## Get wallet by asset
 
 > Request:
 
 ```http
-GET /users/{userId}/assets/{assetId}/wallet/position
+GET /users/wallets/{asset}
 ```
 
 > Response:
 
 ```json
 {
-  "amount": 0,
-  "currentReservedAmount": 0,
-  "availableAmount": 0
+  "id": 239555,
+  "asset": "TRY",
+  "reservedAmount": 0E-16,
+  "availableAmount": 120.0000000000000000
 }
 ```
 
@@ -1683,50 +1404,78 @@ Get position of user by asset id.
 
 Parameter | Description
 --------- | -----------
-userId    |
-assetId   |
+asset   | Symbol(ticker) of the asset
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-
-## Get wallets
+## Get or Create address for wallet
 
 > Request:
 
 ```http
-GET /users/{userId}/wallets
+GET /users/wallets/{asset}/network/{network}/address
 ```
 
 > Response:
 
 ```json
 {
-  "wallets": [
-    {
-      "walletId": 0,
-      "userId": 0,
-      "assetId": 0,
-      "asset": "string",
-      "positionDetail": {
-        "positionId": 0,
-        "totalAmount": 0,
-        "reservedAmount": 0,
-        "availableAmount": 0
-      }
-    }
-  ]
+  "walletId": 239554,
+  "asset": "ETH",
+  "address": "0x4a9e4491c60ff88bb4253bd7f1c0d25b51138e96"
 }
 ```
 
-Get wallets of user.
+Get cryptocurrency address for wallet with the selected network. If not exists, create address for wallet with the selected network.
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-userId    |
+asset  | Symbol(ticker) of the asset
+network   | **Available Networks**
+
+- **Available Networks**: Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+
+### Required Scope
+
+`PublicApi`: Basic Scope
+
+## Create socket key
+
+> Request
+
+```http
+POST /users/socket/keys
+```
+
+> Response:
+
+```json
+{
+  "key": "b12f3943-a90d-4ba5-9717-test0901b316s"
+}
+```
+
+Creates a key for connecting to the socket. With this key, the user listens for specific data.
+
+
+
+### Required Scope
+
+`PublicApi`: Basic Scope
+
+## Delete socket key
+
+> Request:
+
+```http
+DELETE /users/socket/keys
+```
+
+Deletes the socket key.
 
 ### Required Scope
 
@@ -1794,7 +1543,7 @@ ${TICKER}-orderbook-8
 
 ```js
 ex: ['ETH', 2, 'TRY', 7, '2022-01-10T08:04:14.604999Z', 3, { '44295.246': 0.00216, '44292.945': 0 }, { '44382.780': 0.00341, '44395.089': 0 }, 4033464037]
-[baseAsset, baseAssetId, quoteAsset, quoteAssetId, timestamp, scale, buy, sell, checksum]
+[baseAsset, baseAsset, quoteAsset, quoteAsset, timestamp, scale, buy, sell, checksum]
 ```
 
 > Current candlesticks for all periods:
@@ -1836,7 +1585,7 @@ orderbook    |     General        | Retrieving orderbook
 trade    |     General        | Recent trades
 all-ticker    |      General       | Retrieving ticker data for all tickers
 
-**Keyed** channels are used with the key that is retrieved from POST /users/{userId}/socket/keys endpoint.
+**Keyed** channels are used with the key that is retrieved from POST /users/socket/keys endpoint.
 
 **Keyed channel:**
 
@@ -1853,7 +1602,7 @@ ex: [60948, 14183, 7, 'TRY', {positionId: 61195, totalAmount: 2209.98959511, res
 
 ```js
 ex: [2, false, 0.05209903, 51329.093, 0.00203, 'Limit', '4955ca43-7…', 7,  '2022-01-05T11:10:58.114469Z', 11704]
-[baseAssetId, buyer, feeAmount, matchedPrice, matchedQuantity, orderType, orderUUID, quoteAssetId, transactionDate, userId]
+[baseAsset, buyer, feeAmount, matchedPrice, matchedQuantity, orderType, orderUUID, quoteAsset, transactionDate, userId]
 ```
 
 > "keyed-external-transaction-update" Channel Data Model:
@@ -1867,7 +1616,7 @@ ex: ['0x9e8…', 0.0004, 'ETH', 2, '2021-11-24T17:49:58.084900Z', 0, 0, false, 1
 
 ```js
 ex: [null, 2, 0, 59191684, 1988.84447184, 'Buy', 'Market', null, 0.00405, 7, null, 14183, null, 'dbfded9c-d...']
-[activated, baseAssetId, executedQuantity, id, maxVolume, operationDirection, orderType, price, quantity, quoteAssetId, stopPrice, userId, userType, uuid]
+[activated, baseAsset, executedQuantity, id, maxVolume, operationDirection, orderType, price, quantity, quoteAsset, stopPrice, userId, userType, uuid]
 ```
 
 > "keyed-order-update" Channel Data Model:
@@ -1881,7 +1630,7 @@ ex: ['Market', 'a85c0a90-1...', 14183, 'Completed', 0.00501, 44140.74316766]
 
 ```js
 ex: ['ETH', 2, null, false, 'e9f3b404-6', 44145.291, 0.00211, 'TRY', 7, "2022-01-09T11:30:25.896044Z"]
-[baseAsset, baseAssetId, id, isBuyerTaker, matchId, matchedPrice, matchedQuantity, quoteAsset, quoteAssetId, time]
+[baseAsset, baseAsset, id, isBuyerTaker, matchId, matchedPrice, matchedQuantity, quoteAsset, quoteAsset, time]
 ```
 
 > "all-ticker" Channel Data Model:
@@ -1897,26 +1646,25 @@ ex: [ 'LINK', 'TRY', 357.94, 363.54, 323.39, 103109.12208, 5.91, 19.96 ]
 
 | HTTP Status Code | Error Code                         | Error Message                                              | Reason and Actions to fix
 |------------------|-------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 400              |                         | Not valid limit size: {$limit}, it should be in [1, 500]              | This error message is thrown when limit is bigger than 500 while getting candlesticks. In order to fix, limit should be in 1, 500 range. Please check your limits for a valid request.                                                                                                  |
+| 400              | INVALID_LIMIT       | Not valid limit size: {$limit}, it should be in [1, 500]              | This error message is thrown when limit is bigger than 500 while getting candlesticks. In order to fix, limit should be in 1, 500 range. Please check your limits for a valid request.                                                                                                  |
 | 401              | SIGNATURE UNAUTHORIZED  | Signature: {$signature} is not valid.                                 | This error message is thrown when the signature that is retrieved from the “Signature” header is not true. Please take a look at the [authentication section](https://docs.bitronit.com/#authentication) of the api documentation for the correct way to utilize Bitronit public api.   |
 | 401              | SIGNATURE NOT_FOUND     | Signature not found in the request headers                            | This error message is thrown when the signature is not found in the request headers. Please take a look at the [authentication section](https://docs.bitronit.com/#authentication) of the api documentation for the correct way to utilize Bitronit public api.                         |
 | 401              | API_KEY_NOT_FOUND       | Api-key not found.                                                    | This error message is thrown when the API Key is not found in the request headers. Please take a look at the section [authentication section](https://docs.bitronit.com/#authentication) of the api documentation for the correct way to utilize Bitronit public api.                   |
 | 401              | IP_ADDRESS NOT_ALLOWED  | IP address $ipAddress is restricted.                                  | This error message is thrown when the request is sent from an IP address that is not added to IP whitelist. Please take a look at the [limits section](https://docs.bitronit.com/#limits) of the api documentation for the correct way to utilize Bitronit public api.                  |
 | 401              | API_KEY NOT_ENABLED     | Api-key with id: $id is not enabled.                                  | This error message is thrown when API Keys status is disabled or expired. Please check the validity of your API Key.                                                                                                                                                                    |
-| 404              | ADDRESS NOT_FOUND       | Address: {$address} not found in whitelist.                           | This error message is thrown while initiating crypto withdraw. If target address is not in whitelist, exception is thrown. Please add address to your whitelist in order to withdraw to the target account.                                                                             |
-| 404              | USER_NOT_FOUND          | User with userId = ${userId} not found                                | This error message is thrown if a user with userId is not found. Check your userId in order to proceed with your request.                                                                                                                                                               |
+| 404              | ADDRESS NOT_FOUND       | Address: {$address} not found in whitelist.                           | This error message is thrown while initiating crypto withdraw. If target address is not in whitelist, exception is thrown. Please add address to your whitelist in order to withdraw to the target account.                                                                                                                                                                                                                                |
 | 404              | ASSET_NOT_FOUND         | Asset not found.                                                      | This error message is thrown when getting an asset with the wrong ticker. Please check the tickers name in your request.                                                                                                                                                                |
 | 400              | WITHDRAW_IS NOT_ALLOWED FOR_ASSET| Withdraw is not allowed for asset: $assetId                  | This error message is thrown while initiating withdraw with a network that is not supported in Bitronit. Please check asset and network in order to proceed with your request.                                                                                                          |
 | 400              | WITHDRAW_AMOUNT PRECISION_ERROR  | Amount scale: $scale exceeded allowed ${precision} for the ${ticker}| This error message is thrown while initiating withdraw, amount scale exceeds allowed precision. Please check amount and precision to proceed with your transaction.                                                                                                                     |
-| 404              | NETWORK_CONFIG NOT_FOUND| Network $network for asset $asset not found. Fiat: $fiat              | This error message is thrown while initiating withdraw. assetId is not supported with the network config. Please check assets network support in Bitronit to find available networks for your withdraw transaction.                                                                     |
+| 404              | NETWORK_CONFIG NOT_FOUND| Network $network for asset $asset not found. Fiat: $fiat              | This error message is thrown while initiating withdraw. asset is not supported with the network config. Please check assets network support in Bitronit to find available networks for your withdraw transaction.                                                                     |
 | 403              | WITHDRAW_IS NOT_ALLOWED FOR_USER | Withdraw is not allowed for userId: $userId.                 | This error message is thrown while initiating withdraw with a sub user. Please try again with parent account.                                                                                                                                                                           |
 | 403              | TRANSFER_IS NOT_ALLOWED FOR_USER | Transfer is not allowed for userId: $userI                   | This error message is thrown while trying to transfer between main user and sub user, if the target account is not configured as a sub user. Please enable sub-user type for the target user.                                                                                           |
 | 403              | TRANSFER_NOT ALLOWED    | Transfer only allowed between main user and its sub users             | This error message is thrown while trying to transfer with an account not marked as sub user. Transfers are only allowed between main user and its sub users.                                                                                                                           |
 | 400              | ALREADY CANCELED        | Order was already canceled                                            | This error message is thrown while trying to cancel an order that was already cancelled.                                                                                                                                                                                                |
 | 400              | ALREADY COMPLETED       | Order was already matched                                             | This error message is thrown while trying to cancel an order that was already matched.                                                                                                                                                                                                  |
-| 404              |                         | Version not found (baseAssetId,quoteAssetId,scale)                    | This error message is thrown while trying to retrieve order group data with wrong parameters. Please control baseAssetId, quoteAssetId and scale parameters.                                                                                                                            |  
-| 404              | PAIR_NOT_FOUND          | Trading pair not found.                                               | This error is thrown while trying to retrieve trading pair by wrong assetId. Please check assetIds in your request.                                                                                                                                                                     |
-| 404              | WALLET_NOT_FOUND        | Wallet not found                                                      | This error is thrown when wallet is not found. Please check walletId in your request.                                                                                                                                                                                                   |
-
+| 404              | NOT_FOUND               | Version not found (baseAsset,quoteAsset,scale)                        | This error message is thrown while trying to retrieve orderbook data with wrong parameters. Please control baseAsset, quoteAsset and scale parameters.                                                                                                                            |  
+| 404              | PAIR_NOT_FOUND          | Trading pair not found.                                               | This error is thrown while trying to retrieve trading pair by wrong asset. Please check assets in your request.                                                                                                                                                                     |
+| 404              | WALLET_NOT_FOUND        | Wallet not found                                                      | This error is thrown when wallet is not found for given asset                           |
+| 404              | IBAN_NOT_FOUBD        | Iban: {$iban} not found in user ibans                                   | This error is thrown when iban in the request is not found in user's ibans for the fiat withdraw process.
 
 [HTTP Status Code Descriptions](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
