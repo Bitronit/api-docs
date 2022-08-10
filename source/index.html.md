@@ -42,7 +42,11 @@ meta:
 
 ## General API Information
 
-- The base endpoint is: <b> https://bitronit.com/api </b>
+<aside class="warning">
+  This document is for v2 version of our API. To view the older v1 version, <a href="https://docs.bitronit.com">see here</a>.
+</aside>
+
+- The base endpoint is: <b> https://bitronit.com/api/v2 </b>
 - All endpoints successful requests returns either a JSON object or array.
 - There are `PUBLIC` and `SIGNED` endpoints. 
 - `PUBLIC` endpoints don't require Authentication and Signature Headers. 
@@ -53,8 +57,8 @@ meta:
 ```json
 {
   "error": "Not Found",
-  "message": "USER_NOT_FOUND",
-  "path": "/users/11704/wallets/40440/network/LTC/adress",
+  "message": "IBAN_NOT_FOUND",
+  "path": "/users/withdrawals/fiat",
   "requestId": "7ecc8c03-36054",
   "status": 404,
   "timestamp": "2021-12-15T15:35:20.603+03:00"
@@ -70,7 +74,6 @@ meta:
 - For `GET` endpoints, parameters must be sent as a query string.
 - For `POST`, `PUT`, and `DELETE` endpoints, the parameters may be sent as a query string or in the request body.
 - Parameters may be sent in any order.
-- You must send symbol parameter in `BTCTRY` format. 
 
 ## Limits
 
@@ -157,8 +160,8 @@ Parameter           | Value
 priceBelow          | 12.5
 priceAbove          | 7.8
 operationDirection  | Buy
-baseAsset         | "ETH"
-quoteAsset        | "TRY"
+baseAsset           | "ETH"
+quoteAsset          | "TRY"
 
 - requestBody:
 
@@ -192,6 +195,17 @@ GET /assets
 
 Returns all assets.
 
+### Response Format
+
+Field        | Type      | Description
+------------ | --------- | -----------
+id        | Long | Unique ID of the asset
+ticker | String | Symbol of the asset
+fullName | String |
+circulatingSupply | BigDecimal |
+circulatingSupplyUpdateDate | String | ISO8601 Date
+fiat | Boolean | True if asset is a fiat like TRY
+
 ## Get a specific asset 
 
 > Request:
@@ -222,6 +236,9 @@ Parameter | Description
 asset    | Symbol(ticker) of the asset
 
 
+### Response Format
+
+For the response format please refer to [Get trading pairs](/#get-trading-pairs)
 
 
 ## Get network configuration
@@ -243,13 +260,7 @@ GET /crypto-network
     "minConfirmations": 1,
     "depositEnabled": true,
     "withdrawEnabled": true,
-    "minAddressLength": 12,
-    "maxAddressLength": 100,
-    "addressValidationRegex": "^0x[a-fA-F0-9]{40}$",
-    "explorerAddressUrl": "https://ropsten.etherscan.io/address/",
-    "explorerTransactionUrl": "https://ropsten.etherscan.io/tx/",
-    "withdrawFee": 0.00020000,
-    "minWithdrawMultiplier": 2,
+    "withdrawFee": 0.00040000,
     "name": "Ethereum (ERC20)"
   },
 ]
@@ -263,8 +274,18 @@ Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
 asset | no | String | Symbol(ticker) of the asset
 
+### Response Format
 
-
+Field            | Type      | Description
+---------------- | --------- | -----------
+id               | Long | Unique ID of the network config
+network          | String | Symbol of the Network
+asset            | String | Asset(ticker) of the network config
+minConfirmations | Int | Minimum confirmations required after the deposit
+depositEnabled   | Boolean | True if deposits enabled for the network
+withdrawEnabled  | Boolean | True if withdrawals enabled for the network
+withdrawFee      | BigDecimal | Withdraw fee of the network
+name             | String | Long name of the network
 
 ## Get crypto withdraw config
 
@@ -279,8 +300,7 @@ GET /assets/{asset}/network/{network}/crypto-withdraw-config
 ```json
 {
   "withdrawEnabled": true,
-  "withdrawFee": 0.00020000,
-  "minWithdrawMultiplier": 2
+  "withdrawFee": 0.00020000
 }
 ```
 
@@ -293,9 +313,14 @@ Parameter | Description
 asset    | Symbol(ticker) of the asset
 network    | Crypto Network
 
-Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+Available networks can be retrieved from [Get assets](/#get-assets)
 
+### Response Format
 
+Field        | Type      | Description
+------------ | --------- | -----------
+withdrawEnabled  | Boolean | True if withdrawals enabled
+withdrawFee | BigDecimal | Current withdraw fee
 
 ## Get fiat withdraw config
 
@@ -310,8 +335,7 @@ GET /assets/{asset}/fiat-withdraw-config
 ```json
 {
   "withdrawEnabled": true,
-  "withdrawFee": 5.00000000,
-  "minWithdrawMultiplier": 2
+  "withdrawFee": 5.00000000
 }
 ```
 
@@ -323,6 +347,10 @@ Parameter | Description
 --------- | -----------
 asset    | Symbol(ticker) of the asset
 
+
+### Response Format
+
+For the response format please refer to [Get crypto withdraw config](/#get-crypto-withdraw-config)
 
 ## Get candlesticks
 
@@ -355,8 +383,8 @@ Filter or limit the candlesticks with query parameters.
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAsset | yes | String     | Symbol(ticker) of the asset
-quoteAsset | yes | String    | Symbol(ticker) of the asset
+baseAsset | yes | String     | Symbol(ticker) of the base asset
+quoteAsset | yes | String    | Symbol(ticker) of the quote asset
 period    | yes | Int        | Period of the candlestick in minutes.
 startTime    | no | Timestamp   | Epoch milliseconds
 endTime    | no | Timestamp     | Epoch milliseconds
@@ -389,6 +417,19 @@ GET /markets
 ```
 
 Returns market info for all pairs.
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+currentPrice     | BigDecimal | Current market price of the pair
+dailyVolume      | BigDecimal | Daily volume of the pair
+dailyChange      | BigDecimal | Daily percentage of change in the price
+baseAsset        | String | Symbol(ticker) of the base asset
+quoteAsset       | String | Symbol(ticker) of the quote asset
+highestPrice     | BigDecimal | Daily highest price of the pair
+lowestPrice      | BigDecimal | Daily lowest price of the pair daily
+dailyNominalChange | BigDecimal | Daily nominal change in the pair
 
 ## Get orderbook data
 
@@ -425,9 +466,18 @@ Get orderbook data for the given trading pair and scale
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAsset | yes | String | Symbol(ticker) of the asset
-quoteAsset | yes | String | Symbol(ticker) of the asset
+baseAsset | yes | String | Symbol(ticker) of the base asset
+quoteAsset | yes | String | Symbol(ticker) of the quote asset
 scale | yes | int
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+timestamp     | BigDecimal |
+version      | BigDecimal | 
+sell      | Map<BigDecimal, BigDecimal> | Sell orders key as price and the value as its amount 
+buy        | Map<BigDecimal, BigDecimal> | Buy orders key as price and the value as its amount 
 
 ## Get transactions
 
@@ -459,10 +509,21 @@ Filter transactions with query parameters.
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAsset | no | String | Symbol(ticker) of the asset
-quoteAsset | no | String | Symbol(ticker) of the asset
+baseAsset | no | String | Symbol(ticker) of the base asset
+quoteAsset | no | String | Symbol(ticker) of the quote asset
 page | no | Int            | Page number
 size    | no | Int         | Number of items per page
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+baseAsset     | String | Symbol(ticker) of the base asset
+quoteAsset      | String | Symbol(ticker) of the quote asset
+transactionDate  | String | ISO8601 Date of the transaction
+matchedQuantity     | BigDecimal | Matched quantity of transaction
+matchedPrice       | BigDecimal | Matched price of the transaction
+buyerTaker     | Boolean | 
 
 
 ## Get trading pairs
@@ -494,7 +555,6 @@ GET /trading-pairs
     "maxQuantity": 0.5,
     "stepScale": 5,
     "minNotional": 10,
-    "applyMinNotionalToMarket": false,
     "marketMinQuantity": 0.00001,
     "marketMaxQuantity": 0.5,
     "makerFeePercentageValue": 0.25,
@@ -510,7 +570,35 @@ GET /trading-pairs
 
 Retrieve all trading pair details.
 
+### Response Format
 
+Field            | Type      | Description
+---------------- | --------- | -----------
+baseAsset        | String | Symbol(ticker) of the base asset
+quoteAsset       | String | Symbol(ticker) of the quote asset
+symbol           | String | Pair symbol
+status           | TradingPairStatus | _Trading, Maintenance, ClosedForOrders, Preparing, Suspended, UnderInvestigation, PendingForApproval_
+maxNumOrders     | Int | Maximum number of orders for the pair
+minPrice         | BigDecimal | Minimum price to place order
+maxPrice         | BigDecimal | Maximum price for to place order
+tickScale        | String | 
+productScale     | String | 
+multiplierUp     | BigDecimal | 
+multiplierDown   | BigDecimal |
+averagePriceCount | Short |
+minQuantity      | BigDecimal | Minimum quantity to place order
+maxQuantity      | BigDecimal | Max quantity to place order
+stepScale        | Short | 
+minNotional      | BigDecimal |
+marketMinQuantity | BigDecimal |
+marketMaxQuantity | BigDecimal |
+makerFeePercentageValue | BigDecimal | Maker orders fee percentage
+takerFeePercentageValue | BigDecimal | Taker orders fee percentage
+isMarketEnabled  | Boolean | True when market orders enabled
+isLimitEnabled   | Boolean | True when limit orders enabled
+isStopEnabled    | Boolean | True when stop orders enabled
+applyToMarket    | Boolean |
+marketStepSize   | Boolean |
 
 ## Get trading pair detail
 
@@ -540,7 +628,6 @@ GET /trading-pairs/base-asset/{baseAsset}/quote-asset/{quoteAsset}
   "maxQuantity": 0.5,
   "stepScale": 5,
   "minNotional": 10,
-  "applyMinNotionalToMarket": false,
   "marketMinQuantity": 0.00001,
   "marketMaxQuantity": 0.5,
   "makerFeePercentageValue": 0.25,
@@ -553,15 +640,18 @@ GET /trading-pairs/base-asset/{baseAsset}/quote-asset/{quoteAsset}
 }
 ```
 
-Retrieve trading pair detail by asset s
+Retrieve trading pair detail by asset
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-baseAsset    | Symbol(ticker) of the asset
-quoteAsset   | Symbol(ticker) of the asset
+baseAsset    | Symbol(ticker) of the base asset
+quoteAsset   | Symbol(ticker) of the quote asset
 
+### Response Format
+
+For the response format please refer to [Get trading pairs](/#get-trading-pairs)
 
 # Private HTTP API
 
@@ -588,6 +678,13 @@ GET /users/api-key/info
 ```
 
 Returns user id and permissions info for API Key
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+userId     | Long | Unique user identifier
+permissions | List<String> | API Key permission scopes
 
 ### Required Scope
 
@@ -636,6 +733,25 @@ asset | no | String | Symbol(ticker) of the asset
 page | no | Int            | Page number
 size    | no | Int         | Number of items per page
 
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+id     | Long | Unique Id of the external transaction
+type      | **ExternalTransactionType** | _Withdraw, Deposit_
+transactionHash  | String | Crypto network transaction hash
+transactionUUID  | UUID | Transaction UUID of the external transaction
+address     | Int | Crypto wallet address
+asset       | String | Symbol(ticker) of the asset
+amount     | BigDecimal | Amount of the asset
+fee     | String | Fee of the external transaction
+status      | **ExternalTransactionStatus** | _Waiting, Pending, Cancelled, Success, WaitingForConfirmation, Verified, Failed_
+confirmedBlockCount  | Int | Confirmed block count of the crypto network transaction
+statusUpdateDate       | String | ISO8601 Date of the last status update
+completeDate     | String | ISO8601 Transaction completion date
+typicalPrice     | BigDecimal | 
+network      | String | _BTC, LTC, ETH, BCH, TRON, AVAX, SOL, BNB, BSC, POLYGON_
+
 ### Required Scope
 
 `PublicApi`: Basic Scope
@@ -656,8 +772,7 @@ GET /users/deposits/fiat?asset={asset}&page={page}&size={size}
     "id": 0,
     "type": "Deposit",
     "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "address": "0x4a9e4491c60ff88bb4253bd7f1c0d25b51138e97",
-    "asset": "ETH",
+    "asset": "TRY",
     "amount": 1000,
     "fee": 0,
     "status": "WaitingForConfirmation",
@@ -682,6 +797,26 @@ Parameter | Required | Type   | Description
 asset | no | String | Symbol(ticker) of the asset
 page | no | Int            | Page number
 size    | no | Int         | Number of items per page
+
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+id     | Long | Unique Id of the external transaction
+type      | **ExternalTransactionType** | _Withdraw, Deposit_
+transactionUUID  | UUID | Transaction UUID of the external transaction
+asset       | String |  Symbol(ticker) of the asset
+amount     | BigDecimal | Amount of the asset
+fee     | String | Fee of the external transaction
+status      | **ExternalTransactionStatus** | _Waiting, Pending, Cancelled, Success, WaitingForConfirmation, Verified, Failed_
+statusUpdateDate       | String | ISO8601 Date of the last status update
+completeDate     | String | ISO8601 Transaction complete date
+typicalPrice     | BigDecimal |
+senderIban      | String | Sender IBAN address
+senderBankName       | String | Sender bank name
+receiverIban     | String | Receiver IBAN address
+receiverBankName     | String | Receiver bank name
 
 ### Required Scope
 
@@ -729,6 +864,10 @@ asset | no | String | Symbol(ticker) of the asset
 page | no | Int            | Page number
 size    | no | Int         | Number of items per page
 
+### Response Format
+
+For the response format please refer to [Get Crypto Deposit History](/#get-crypto-deposit-history)
+
 ### Required Scope
 
 `PublicApi`: Basic Scope
@@ -751,7 +890,7 @@ GET /users/withdrawals/fiat?asset={asset}&page={page}&size={size}
     "transactionUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "asset": "TRY",
     "amount": 1000,
-    "fee": 0.001,
+    "fee": 5,
     "status": "Pending",
     "statusUpdateDate": "2021-12-13T14:01:37.047Z",
     "completeDate": "2021-12-13T14:01:37.047Z",
@@ -774,6 +913,10 @@ Parameter | Required | Type   | Description
 asset | no | String | Symbol(ticker) of the asset
 page | no | Int            | Page number
 size    | no | Int         | Number of items per page
+
+### Response Format
+
+For the response format please refer to [Get Fiat Deposit History](/#get-fiat-deposit-history)
 
 ### Required Scope
 
@@ -819,7 +962,7 @@ POST /users/withdrawals/crypto
 
 Initiate crypto withdraw order from the given parameters. In crypto withdraws target address must be in whitelist.
 Withdraw amounts scale after stripping trailing zeros should not exceed allowed precision for the asset.
-Precision of an asset can be reached from [Get a specific asset endpoint](https://docs.bitronit.com/#get-a-specific-asset)
+Precision of an asset can be reached from [Get a specific asset endpoint](/#get-a-specific-asset)
 
 
 
@@ -833,10 +976,13 @@ amount    | yes | BigDecimal |
 targetAddress    | yes | String | Address you want to withdraw
 uuid    | yes | UUID | Created from client
 network    | yes | String | Crypto network you want to use
-withdrawCryptoFee    | yes | BigDecimal | Required for crypto withdraws. Dynamic withdraw crypto fee retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+withdrawCryptoFee    | yes | BigDecimal | Required for crypto withdraws. Dynamic withdraw crypto fee retrieved from [Get network configuration endpoint](/#get-network-configuration)
 
-Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+Available networks can be retrieved from [Get network configuration endpoint](/#get-network-configuration)
 
+### Response Format
+
+For the response format please refer to [Get Crypto Deposit History](/#get-crypto-deposit-history)
 ### Required Scope
 
 `Withdraw`: Authorized to withdraw
@@ -881,7 +1027,7 @@ POST /users/withdrawals/fiat
 
 Initiate fiat withdraw order from the given parameters.
 Withdraw amounts scale after stripping trailing zeros should not exceed allowed precision for the asset.
-Precision of an asset can be reached from [Get a specific asset endpoint](https://docs.bitronit.com/#get-a-specific-asset)
+Precision of an asset can be reached from [Get a specific asset endpoint](/#get-a-specific-asset)
 
 
 
@@ -895,7 +1041,11 @@ amount    | yes | BigDecimal |
 uuid    | yes | UUID | Created from client
 iban    | yes | String | IBAN address you want to withdraw
 
-Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+Available networks can be retrieved from [Get network configuration endpoint](/#get-network-configuration)
+
+### Response Format
+
+For the response format please refer to [Get Fiat Deposit History](/#get-fiat-deposit-history)
 
 ### Required Scope
 
@@ -942,6 +1092,16 @@ GET /users/ibans
 
 Returns users ibans.
 
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+id     | Long |
+iban      | String | 
+bankName  | String |
+accountName | String |
+
+
 ### Required Scope
 
 `PublicApi`: Basic Scope
@@ -968,9 +1128,6 @@ GET /users/orders?baseAsset={baseAsset}&quoteAsset={quoteAsset}&orderType={order
     "quantity": 1,
     "orderStatus": "Active",
     "matchStatus": "None",
-    "matches": [
-      "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    ],
     "executedQuantity":  0.03900000,
     "averageMatchPrice": 28408.20300000,
     "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -984,21 +1141,38 @@ GET /users/orders?baseAsset={baseAsset}&quoteAsset={quoteAsset}&orderType={order
 
 Filter users orders with query parameters.
 
-
-
-
 ### Query Parameters
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAsset | no | String     | Symbol(ticker) of the asset
-quoteAsset | no | String     | Symbol(ticker) of the asset
-orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
-orderStatus    | no | [**OrderStatus**] | _Active_, _Canceled_, _WaitingValidation_, _Completed_, _Other_
+baseAsset | no | String     | Symbol(ticker) of the base asset
+quoteAsset | no | String     | Symbol(ticker) of the quote asset
+orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_
+orderStatus    | no | **OrderStatus** | _Active_, _Canceled_, _WaitingValidation_, _Completed_
 after    | no | Instant
 before    | no | Instant
 page    | no | Int
 size    | no | Int
+
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+id     | Long | 
+price      | BigDecimal | 
+orderType  | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_
+operationDirection | String | Sell, Buy
+quantity     | BigDecimal | Quantity of the asset in the order
+orderStatus      | **OrderStatus** | _Active_, _Canceled_, _WaitingValidation_, _Completed_
+matchStatus  | String | None, Partial, Full
+executedQuantity | String | Executed quantity of the asset in the order
+averageMatchPrice     | Long | Avarage matched price of the order
+uuid      | UUID | UUID of the order
+baseAsset  | String | Symbol(ticker) of the base asset
+quoteAsset | String | Symbol(ticker) of the quote asset
+orderTime     | String | ISO8601 Order creation date
+stopPrice      | BigDecimal | Stop price of the order if exist
 
 
 ### Required Scope
@@ -1007,6 +1181,51 @@ size    | no | Int
 
 ### [Order Types] (https://en.wikipedia.org/wiki/Order_(exchange)#Conditional_orders)
 
+## Get detail by order UUID
+
+> Request:
+
+```http
+GET /users/orders/{uuid}
+```
+
+> Response:
+
+```json
+{
+
+  "id": 0,
+  "price": null,
+  "orderType": "Market",
+  "operationDirection": "Sell",
+  "quantity": 1,
+  "orderStatus": "Completed",
+  "matchStatus": "Full",
+  "executedQuantity": 1,
+  "averageMatchPrice": 28410.45000000,
+  "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "baseAsset": "ETH",
+  "quoteAsset": "TRY",
+  "orderTime": "2021-12-13T18:47:13.576Z",
+  "stopPrice": null,
+}
+```
+
+Get users order detail by order UUID.
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+uuid    | Order UUID
+
+### Response Format
+
+For the response format please refer to [Get users orders](/#get-users-orders)
+
+### Required Scope
+
+`PublicApi`: Basic Scope
 
 ## Create order
 
@@ -1048,63 +1267,28 @@ Creates a new order.
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAsset | yes | String     | Symbol(ticker) of the asset
-quoteAsset | yes | String     | Symbol(ticker) of the asset
-orderType    | yes | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_, _Other_
+baseAsset | yes | String     | Symbol(ticker) of the base asset
+quoteAsset | yes | String     | Symbol(ticker) of the quote asset
+orderType    | yes | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_
 operationDirection    | yes | **OperationDirection** | _Sell_, _Buy_
 quantity    | yes | BigDecimal
 uuid    | yes | UUID | Created from client
 limit    | no | BigDecimal | Limit value for limit order
 stopLimit    | no | BigDecimal | stop limit value for StopLimit order
 
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+matchCount        | Int | 
+quantity          | BigDecimal | 
+executedQuantity  | BigDecimal |
+averageMatchPrice | BigDecimal | 
+
 ### Required Scope
 
 `Trade`: Authorized to give orders
-
-## Get order detail by order UUID
-
-> Request:
-
-```http
-GET /users/orders/{uuid}
-```
-
-> Response:
-
-```json
-{
-
-  "id": 0,
-  "price": null,
-  "orderType": "Market",
-  "operationDirection": "Sell",
-  "quantity": 1,
-  "orderStatus": "Completed",
-  "matchStatus": "Full",
-  "matches": [
-    "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-  ],
-  "executedQuantity": 1,
-  "averageMatchPrice": 28410.45000000,
-  "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "baseAsset": "ETH",
-  "quoteAsset": "TRY",
-  "orderTime": "2021-12-13T18:47:13.576Z",
-  "stopPrice": null,
-}
-```
-
-Get users order detail by order UUID.
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-uuid    | Order UUID
-
-### Required Scope
-
-`PublicApi`: Basic Scope
 
 ## Cancel orders
 
@@ -1132,8 +1316,8 @@ Cancel filtered orders with body parameters.
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAsset | no | String     | Symbol(ticker) of the asset
-quoteAsset | no | String     | Symbol(ticker) of the asset
+baseAsset | no | String     | Symbol(ticker) of the base asset
+quoteAsset | no | String     | Symbol(ticker) of the quote asset
 operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
 priceBelow    | no | BigDecimal | Order price below
 priceAbove | no | BigDecimal | Order price above
@@ -1183,7 +1367,7 @@ GET /users/restrictions?asset={asset}&type={type}
 }
 ```
 
-Get users daily, monthly external transaction restrictions.
+Get user's daily and monthly external transaction restrictions for the specified asset.
 
 ### Query Parameters
 
@@ -1191,6 +1375,15 @@ Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
 asset | yes | String     | Symbol(ticker) of the asset
 type | yes | **ExternalTransactionType** | _Withdraw_, _Deposit_
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+dailyTotal        | BigDecimal | Daily total restriction
+dailyRemaining          | BigDecimal | Daily remaining restriction
+monthlyTotal  | BigDecimal | Monthly total restriction
+monthlyRemaining | BigDecimal | Monthly remaining restriction
 
 ### Required Scope
 
@@ -1212,13 +1405,13 @@ GET /users/transactions?baseAsset={baseAsset}&quoteAsset={quoteAsset}&operationD
 ```json
 [
   {
+    "hash": 2312321,
     "baseAsset": "ETH",
     "quoteAsset": "TRY",
     "orderUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "transactionDate": "2021-12-13T19:43:07.730Z",
     "matchedQuantity": 0.5,
     "matchedPrice": 28410.45000000,
-    "userId": 0,
     "orderType": "Limit",
     "feeAmount": 0.000450000,
     "buyer": true
@@ -1235,21 +1428,35 @@ Filter users transactions with query parameters.
 
 Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
-baseAsset | no | String     | Symbol(ticker) of the asset
-quoteAsset | no | String     | Symbol(ticker) of the asset
+baseAsset | no | String     | Symbol(ticker) of the base asset
+quoteAsset | no | String     | Symbol(ticker) of the quote asset
 operationDirection    | no | **OperationDirection** | _Sell_, _Buy_
-orderUUID    | no | UUID 
+orderUUID    | no | UUID  | UUID of the order
 after    | no | Instant 
 before    | no | Instant
 page | no | Int            | Page number
 size    | no | Int         | Number of items per page
 
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+hash        | Int | Unique identifier hash for the user transaction
+baseAsset     | String | Symbol(ticker) of the base asset
+quoteAsset  | String | Symbol(ticker) of the quote asset
+orderUUID | UUID | UUID of the order
+transactionDate        | String | ISO8601 Date of the transaction
+matchedQuantity          | BigDecimal | Matched quantity of the transaction
+matchedPrice  | BigDecimal | Matched price of the transaction
+orderType    | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_
+feeAmount        | BigDecimal | Fee amount of the transaction
+buyer          | Boolean | 
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-## Get users daily total positions
+## Get users daily total balance
 
 > Request:
 
@@ -1264,12 +1471,12 @@ GET /users/daily/total-balance?after={after}&before={before}
   {
       "totalAmountTry": 0.00,
       "totalAmountUsd": 0.00,
-      "date": 1658966400
+      "date": "2022-08-08T00:00:00Z"
   },
   {
       "totalAmountTry": 130.00,
       "totalAmountUsd": 7.28,
-      "date": 1659052800
+      "date": "2022-08-09T00:00:00Z"
   }
 ]
 ```
@@ -1285,6 +1492,13 @@ Parameter | Required | Type   | Description
 after    | no | Instant
 before    | no | Instant
 
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+totalAmountTry    | BigDecimal | Total balance value in TRY
+totalAmountUsd    | BigDecimal | Total balance value in USD
+date  | String | ISO8601 date of the snapshot
 ### Required Scope
 
 `PublicApi`: Basic Scope
@@ -1319,7 +1533,7 @@ GET /users/daily/balance?after={after}&before={before}
           "amountUsd": 0.00
       }
     },
-    "date": 1657756800
+    "date": "2022-08-08T00:00:00Z"
   }
 ]
 ```
@@ -1334,6 +1548,14 @@ Parameter | Required | Type   | Description
 --------- | -------- | ------ | ------
 after    | no | Instant
 before    | no | Instant
+
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+amount        | BigDecimal | Amount of the asset
+amountTry     | BigDecimal | TRY value of the asset with the amount
+amountUsd  | BigDecimal | USD value of the asset with the amount
 
 ### Required Scope
 
@@ -1374,6 +1596,15 @@ GET /users/wallets
 
 Get wallets of user.
 
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+id        | Long | Unique identifier of the wallet
+asset     | String | Symbol(ticker) of the asset
+reservedAmount  | BigDecimal | Reserved amount of the wallet due to open order, etc.
+availableAmount  | BigDecimal | Amount available to use
+
 ### Required Scope
 
 `PublicApi`: Basic Scope
@@ -1406,6 +1637,10 @@ Parameter | Description
 --------- | -----------
 asset   | Symbol(ticker) of the asset
 
+### Response Format
+
+For the response format please refer to [Get wallets](/#get-wallets)
+
 ### Required Scope
 
 `PublicApi`: Basic Scope
@@ -1437,7 +1672,15 @@ Parameter | Description
 asset  | Symbol(ticker) of the asset
 network   | **Available Networks**
 
-- **Available Networks**: Available networks can be retrieved from [Get network configuration endpoint](https://docs.bitronit.com/#get-network-configuration)
+### Response Format
+
+Field            | Type      | Description
+---------------- | --------- | -----------
+walletId  | Long | Unique identifier of the wallet
+asset     | String | Symbol(ticker) of the asset
+address   | String | Crypto deposit address
+
+- **Available Networks**: Available networks can be retrieved from [Get network configuration endpoint](/#get-network-configuration)
 
 ### Required Scope
 
@@ -1461,7 +1704,11 @@ POST /users/socket/keys
 
 Creates a key for connecting to the socket. With this key, the user listens for specific data.
 
+### Response Format
 
+Field            | Type      | Description
+---------------- | --------- | -----------
+key  | String | Socket key
 
 ### Required Scope
 
@@ -1647,10 +1894,10 @@ ex: [ 'LINK', 'TRY', 357.94, 363.54, 323.39, 103109.12208, 5.91, 19.96 ]
 | HTTP Status Code | Error Code                         | Error Message                                              | Reason and Actions to fix
 |------------------|-------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 400              | INVALID_LIMIT       | Not valid limit size: {$limit}, it should be in [1, 500]              | This error message is thrown when limit is bigger than 500 while getting candlesticks. In order to fix, limit should be in 1, 500 range. Please check your limits for a valid request.                                                                                                  |
-| 401              | SIGNATURE UNAUTHORIZED  | Signature: {$signature} is not valid.                                 | This error message is thrown when the signature that is retrieved from the “Signature” header is not true. Please take a look at the [authentication section](https://docs.bitronit.com/#authentication) of the api documentation for the correct way to utilize Bitronit public api.   |
-| 401              | SIGNATURE NOT_FOUND     | Signature not found in the request headers                            | This error message is thrown when the signature is not found in the request headers. Please take a look at the [authentication section](https://docs.bitronit.com/#authentication) of the api documentation for the correct way to utilize Bitronit public api.                         |
-| 401              | API_KEY_NOT_FOUND       | Api-key not found.                                                    | This error message is thrown when the API Key is not found in the request headers. Please take a look at the section [authentication section](https://docs.bitronit.com/#authentication) of the api documentation for the correct way to utilize Bitronit public api.                   |
-| 401              | IP_ADDRESS NOT_ALLOWED  | IP address $ipAddress is restricted.                                  | This error message is thrown when the request is sent from an IP address that is not added to IP whitelist. Please take a look at the [limits section](https://docs.bitronit.com/#limits) of the api documentation for the correct way to utilize Bitronit public api.                  |
+| 401              | SIGNATURE UNAUTHORIZED  | Signature: {$signature} is not valid.                                 | This error message is thrown when the signature that is retrieved from the “Signature” header is not true. Please take a look at the [authentication section](#authentication) of the api documentation for the correct way to utilize Bitronit public api.   |
+| 401              | SIGNATURE NOT_FOUND     | Signature not found in the request headers                            | This error message is thrown when the signature is not found in the request headers. Please take a look at the [authentication section](/#authentication) of the api documentation for the correct way to utilize Bitronit public api.                         |
+| 401              | API_KEY_NOT_FOUND       | Api-key not found.                                                    | This error message is thrown when the API Key is not found in the request headers. Please take a look at the section [authentication section](/#authentication) of the api documentation for the correct way to utilize Bitronit public api.                   |
+| 401              | IP_ADDRESS NOT_ALLOWED  | IP address $ipAddress is restricted.                                  | This error message is thrown when the request is sent from an IP address that is not added to IP whitelist. Please take a look at the [limits section](/#limits) of the api documentation for the correct way to utilize Bitronit public api.                  |
 | 401              | API_KEY NOT_ENABLED     | Api-key with id: $id is not enabled.                                  | This error message is thrown when API Keys status is disabled or expired. Please check the validity of your API Key.                                                                                                                                                                    |
 | 404              | ADDRESS NOT_FOUND       | Address: {$address} not found in whitelist.                           | This error message is thrown while initiating crypto withdraw. If target address is not in whitelist, exception is thrown. Please add address to your whitelist in order to withdraw to the target account.                                                                                                                                                                                                                                |
 | 404              | ASSET_NOT_FOUND         | Asset not found.                                                      | This error message is thrown when getting an asset with the wrong ticker. Please check the tickers name in your request.                                                                                                                                                                |
