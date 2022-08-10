@@ -474,7 +474,7 @@ scale | yes | int
 
 Field            | Type      | Description
 ---------------- | --------- | -----------
-timestamp     | BigDecimal |
+timestamp     | BigDecimal | ISO8601 Time of the fetched data
 version      | BigDecimal | 
 sell      | Map<BigDecimal, BigDecimal> | Sell orders key as price and the value as its amount 
 buy        | Map<BigDecimal, BigDecimal> | Buy orders key as price and the value as its amount 
@@ -523,7 +523,7 @@ quoteAsset      | String | Symbol(ticker) of the quote asset
 transactionDate  | String | ISO8601 Date of the transaction
 matchedQuantity     | BigDecimal | Matched quantity of transaction
 matchedPrice       | BigDecimal | Matched price of the transaction
-buyerTaker     | Boolean | 
+buyerTaker     | Boolean | True if the buy order is a taker
 
 
 ## Get trading pairs
@@ -749,7 +749,6 @@ status      | **ExternalTransactionStatus** | _Waiting, Pending, Cancelled, Succ
 confirmedBlockCount  | Int | Confirmed block count of the crypto network transaction
 statusUpdateDate       | String | ISO8601 Date of the last status update
 completeDate     | String | ISO8601 Transaction completion date
-typicalPrice     | BigDecimal | 
 network      | String | _BTC, LTC, ETH, BCH, TRON, AVAX, SOL, BNB, BSC, POLYGON_
 
 ### Required Scope
@@ -812,7 +811,6 @@ fee     | String | Fee of the external transaction
 status      | **ExternalTransactionStatus** | _Waiting, Pending, Cancelled, Success, WaitingForConfirmation, Verified, Failed_
 statusUpdateDate       | String | ISO8601 Date of the last status update
 completeDate     | String | ISO8601 Transaction complete date
-typicalPrice     | BigDecimal |
 senderIban      | String | Sender IBAN address
 senderBankName       | String | Sender bank name
 receiverIban     | String | Receiver IBAN address
@@ -1069,7 +1067,7 @@ transactionUuid    | UUID of the transaction
 
 `Withdraw`: Authorized to withdraw
 
-## Get users ibans
+## Get IBANs
 
 > Request:
 
@@ -1090,7 +1088,7 @@ GET /users/ibans
 ]
 ```
 
-Returns users ibans.
+Returns user's available IBANs.
 
 ### Response Format
 
@@ -1108,12 +1106,12 @@ accountName | String |
 
 
 
-## Get users orders
+## Get open orders
 
 > Request: 
 
 ```http
-GET /users/orders?baseAsset={baseAsset}&quoteAsset={quoteAsset}&orderType={orderType}&orderStatus={orderStatus}&after={after}&before={before}&page={page}&size={size}
+GET /users/orders?baseAsset={baseAsset}&quoteAsset={quoteAsset}&orderType={orderType}&after={after}&before={before}&page={page}&size={size}
 ```
 
 > Response:
@@ -1126,7 +1124,6 @@ GET /users/orders?baseAsset={baseAsset}&quoteAsset={quoteAsset}&orderType={order
     "orderType": "Limit",
     "operationDirection": "Buy",
     "quantity": 1,
-    "orderStatus": "Active",
     "matchStatus": "None",
     "executedQuantity":  0.03900000,
     "averageMatchPrice": 28408.20300000,
@@ -1139,7 +1136,7 @@ GET /users/orders?baseAsset={baseAsset}&quoteAsset={quoteAsset}&orderType={order
 ]
 ```
 
-Filter users orders with query parameters.
+Get list of user's Active orders. Orders can be filtered with query parameters.
 
 ### Query Parameters
 
@@ -1148,7 +1145,6 @@ Parameter | Required | Type   | Description
 baseAsset | no | String     | Symbol(ticker) of the base asset
 quoteAsset | no | String     | Symbol(ticker) of the quote asset
 orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_
-orderStatus    | no | **OrderStatus** | _Active_, _Canceled_, _WaitingValidation_, _Completed_
 after    | no | Instant
 before    | no | Instant
 page    | no | Int
@@ -1159,12 +1155,12 @@ size    | no | Int
 
 Field            | Type      | Description
 ---------------- | --------- | -----------
-id     | Long | 
-price      | BigDecimal | 
+id     | Long | Unique identifier of the order
+price      | BigDecimal | price of the order
 orderType  | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_
 operationDirection | String | Sell, Buy
 quantity     | BigDecimal | Quantity of the asset in the order
-orderStatus      | **OrderStatus** | _Active_, _Canceled_, _WaitingValidation_, _Completed_
+orderStatus      | **OrderStatus** | _Active_, _Canceled_, _Completed_
 matchStatus  | String | None, Partial, Full
 executedQuantity | String | Executed quantity of the asset in the order
 averageMatchPrice     | Long | Avarage matched price of the order
@@ -1174,14 +1170,68 @@ quoteAsset | String | Symbol(ticker) of the quote asset
 orderTime     | String | ISO8601 Order creation date
 stopPrice      | BigDecimal | Stop price of the order if exist
 
+### [Order Types] (https://en.wikipedia.org/wiki/Order_(exchange)#Conditional_orders)
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-### [Order Types] (https://en.wikipedia.org/wiki/Order_(exchange)#Conditional_orders)
 
-## Get detail by order UUID
+
+## Get order history
+
+> Request: 
+
+```http
+GET /users/orders/history?baseAsset={baseAsset}&quoteAsset={quoteAsset}&orderType={orderType}&after={after}&before={before}&page={page}&size={size}
+```
+
+> Response:
+
+```json
+[
+  {
+    "id": 0,
+    "price": 28410.00000000,
+    "orderType": "Limit",
+    "operationDirection": "Buy",
+    "quantity": 1,
+    "matchStatus": "None",
+    "executedQuantity":  0.03900000,
+    "averageMatchPrice": 28408.20300000,
+    "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "baseAsset": "ETH",
+    "quoteAsset": "TRY",
+    "orderTime": "2021-12-13T18:18:52.345Z",
+    "stopPrice": null
+  }
+]
+```
+
+Get list of user's Completed and Cancelled orders. Orders can be filtered with query parameters.
+
+### Query Parameters
+
+Parameter | Required | Type   | Description
+--------- | -------- | ------ | ------
+baseAsset | no | String     | Symbol(ticker) of the base asset
+quoteAsset | no | String     | Symbol(ticker) of the quote asset
+orderType    | no | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_
+after    | no | Instant
+before    | no | Instant
+page    | no | Int
+size    | no | Int
+
+
+### Response Format
+
+For the response format please refer to [Get open orders](/#get-open-orders)
+
+### Required Scope
+
+`PublicApi`: Basic Scope
+
+## Get order by UUID
 
 > Request:
 
@@ -1221,7 +1271,7 @@ uuid    | Order UUID
 
 ### Response Format
 
-For the response format please refer to [Get users orders](/#get-users-orders)
+For the response format please refer to [Get open orders](/#get-open-orders)
 
 ### Required Scope
 
@@ -1392,7 +1442,7 @@ monthlyRemaining | BigDecimal | Monthly remaining restriction
 
 
 
-## Get users transactions
+## Get user transactions
 
 > Request:
 
@@ -1450,13 +1500,13 @@ matchedQuantity          | BigDecimal | Matched quantity of the transaction
 matchedPrice  | BigDecimal | Matched price of the transaction
 orderType    | **OrderType** | _Market_, _Limit_, _StopLimit_, _FillOrKill_, _ImmediateOrCancel_
 feeAmount        | BigDecimal | Fee amount of the transaction
-buyer          | Boolean | 
+buyer          | Boolean | True if it is a buy order
 
 ### Required Scope
 
 `PublicApi`: Basic Scope
 
-## Get users daily total balance
+## Get daily total balance
 
 > Request:
 
@@ -1503,7 +1553,7 @@ date  | String | ISO8601 date of the snapshot
 
 `PublicApi`: Basic Scope
 
-## Get users daily positions
+## Get daily positions
 
 > Request:
 
