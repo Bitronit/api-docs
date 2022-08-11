@@ -1052,7 +1052,7 @@ For the response format please refer to [Get Fiat Deposit History](/#get-fiat-de
 ## Cancel fiat withdraw
 
 ```http
-POST /users/transactions/{transactionUuid}/cancel
+POST /users/withdrawals/fiat/{transactionUuid}/cancel
 ```
 
 Cancels withdraw order of the transaction uuid.
