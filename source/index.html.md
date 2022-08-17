@@ -188,6 +188,7 @@ GET /assets
     "fullName": "Ethereum",
     "circulatingSupply": 121822787.43650000,
     "circulatingSupplyUpdateDate": "2022-08-04T09:00:05.881614Z",
+    "precision": 8,
     "fiat": false
   }
 ]
@@ -201,9 +202,10 @@ Field        | Type      | Description
 ------------ | --------- | -----------
 id        | Long | Unique ID of the asset
 ticker | String | Symbol of the asset
-fullName | String |
-circulatingSupply | BigDecimal |
+fullName | String | Full name of the asset
+circulatingSupply | BigDecimal | Circulating supply of the asset
 circulatingSupplyUpdateDate | String | ISO8601 Date
+precision | Short | Precision of the asset
 fiat | Boolean | True if asset is a fiat like TRY
 
 ## Get a specific asset 
