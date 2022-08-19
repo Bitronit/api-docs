@@ -1,29 +1,10 @@
-FROM ruby:2.6-slim
+FROM docker.io/slatedocs/slate:v2.13.0 as builder
 
-WORKDIR /srv/slate
+COPY source /srv/slate/source
+RUN /srv/slate/slate.sh build
 
-VOLUME /srv/slate/build
-VOLUME /srv/slate/source
+FROM docker.io/nginx:1.23.1-alpine
 
-EXPOSE 4567
-
-COPY Gemfile .
-COPY Gemfile.lock .
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        build-essential \
-        git \
-        nodejs \
-    && gem install bundler \
-    && bundle install \
-    && apt-get remove -y build-essential git \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY . /srv/slate
-
-RUN chmod +x /srv/slate/slate.sh
-
-ENTRYPOINT ["/srv/slate/slate.sh"]
-CMD ["build"]
+ENV NGINX_PORT=8080
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY --from=builder /srv/slate/build /usr/share/nginx/html
